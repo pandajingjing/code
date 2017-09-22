@@ -1,62 +1,45 @@
 <?php
-
 /**
  * bin
- * 
  * 框架入口文件,定义了自动加载函数,入口函数和简单的调试函数
- * 
- * @package global
+ * @namespace panda
  */
+namespace panda;
 
-/**
- * 自动加载函数
- *
- * 根据<var>$G_PHP_DIR</var>加载对应类
- *
- * @param string $p_sClassName            
- * @return true|false
- */
-function __autoload($p_sClassName)
-{
-    global $G_PHP_DIR;
-    $aTmp = explode('_', $p_sClassName);
-    $sSubPath = join(DIRECTORY_SEPARATOR, $aTmp);
-    foreach ($G_PHP_DIR as $sLoadDir) {
-        $sLoadFilePath = $sLoadDir . DIRECTORY_SEPARATOR . $sSubPath . '.php';
-        if (file_exists($sLoadFilePath)) {
-            include $sLoadFilePath;
-            return true;
-            break;
-        }
-    }
-    return false;
-}
+// use panda\util\pinyin;
+// use panda\lib\sys\debugger;
+use panda\lib\sys\variable;
 
 /**
  * 入口函数
- *
  * 框架引导文件会调用此函数进入框架,完成所有流程
  *
  * @return void
  */
 function bin()
 {
-    ob_start('ob_gzhandler');
+    include __DIR__ . '/lib/sys/loader.php';
+    \panda\lib\sys\loader::register();
+    
+    // ob_start('ob_gzhandler');
     error_reporting(E_ALL);
+    // $a=pinyin::getPY('唐琮林');
+    // print_r($a);
+    // $oDebugger = debugger::getInstance();
+    // $oDebugger->startDebug('Proccess');
     
-    $oDebugger = lib_sys_debugger::getInstance();
-    $oDebugger->startDebug('Proccess');
-    
-    $oVar = lib_sys_var::getInstance();
-    date_default_timezone_set($oVar->getConfig('sTimeZone', 'system'));
-    mb_internal_encoding('utf8');
-    register_shutdown_function('util_sys_handle::handleShutdown');
+    $oVar = variable::getInstance();
+    // date_default_timezone_set($oVar->getConfig('sTimeZone', 'system'));
+    // mb_internal_encoding('utf8');
+    // register_shutdown_function('util_sys_handle::handleShutdown');
     // set_exception_handler('Util_Sys_Handle::handleException');
     // set_error_handler('Util_Sys_Handle::handleError');
     
-    $oDebugger->startDebug('Parse Route');
-    $oRouter = lib_sys_router::getInstance();
-    $oRouter->parseURI($oVar->getParam('DISPATCH_PARAM', 'server'));
+    // $oDebugger->startDebug('Parse Route');
+    // $oRouter = lib_sys_router::getInstance();
+    $a = $oVar->getParam('DISPATCH_PARAM', 'server');
+    print_r($a);
+    // $oRouter->parseURI($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);
     $oVar->setRouterParam($oRouter->getRouterParam());
