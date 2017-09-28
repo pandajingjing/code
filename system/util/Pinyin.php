@@ -1,18 +1,14 @@
-﻿<?php
-
-
+<?php
+/**
+ * Pinyin
+ * 获取汉字拼音,可以被业务使用
+ * @namespace panda\util
+ * @package util
+ */
 namespace panda\util;
 
 /**
- * util_pinyin
- *
- * 获取汉字拼音,可以被业务使用
- *
- * @package util
- */
-
-/**
- * util_pinyin
+ * Pinyin
  *
  * 获取汉字拼音,可以被业务使用
  */
@@ -37,8 +33,8 @@ class Pinyin
             $iLength = mb_strlen($p_sString);
         }
         foreach ($aStrings as $sChar) {
-            if (isset(self::$aDic[$sChar])) {
-                $aPinyins[] = self::$aDic[$sChar][0];
+            if (isset(self::$_aDic[$sChar])) {
+                $aPinyins[] = self::$_aDic[$sChar][0];
             } else {
                 $aPinyins[] = $sChar;
             }
@@ -51,7 +47,7 @@ class Pinyin
      *
      * @var array
      */
-    private static $aDic = [
+    private static $_aDic = [
         '镕' => [
             'rong'
         ],

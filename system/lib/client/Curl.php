@@ -1,15 +1,19 @@
 <?php
 
 /**
- * lib_client_curl
+ * Curl
  *
  * curl客户端
- *
+ * @namespace panda\lib\client
  * @package lib_client
  */
 namespace panda\lib\client;
+
+use panda\lib\sys\Variable;
+use panda\lib\sys\Debugger;
+
 /**
- * lib_client_curl
+ * Curl
  *
  * curl客户端
  */
@@ -60,11 +64,11 @@ class Curl
         $this->setOption(CURLOPT_MAXREDIRS, $this->_iMaxRedirs);
         $this->setOption(CURLOPT_SAFE_UPLOAD, true);
         $this->setOption(CURLOPT_FOLLOWLOCATION, true);
-        $this->setConnectTimeOut(lib_sys_var::getInstance()->getConfig('iConnectionTimeout', 'client'));
-        $this->setTimeOut(lib_sys_var::getInstance()->getConfig('iExecuteTimeout', 'client'));
-        $sCookieFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookie';
-        $this->setOption(CURLOPT_COOKIEJAR, $sCookieFile);
-        $this->setOption(CURLOPT_COOKIEFILE, $sCookieFile);
+        $this->setConnectTimeOut(Variable::getInstance()->getConfig('iConnectionTimeout', 'client'));
+        $this->setTimeOut(Variable::getInstance()->getConfig('iExecuteTimeout', 'client'));
+        // $sCookieFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookie';
+        // $this->setOption(CURLOPT_COOKIEJAR, $sCookieFile);
+        // $this->setOption(CURLOPT_COOKIEFILE, $sCookieFile);
     }
 
     /**
@@ -173,7 +177,7 @@ class Curl
             return false;
         } else {
             $this->_aInfo = curl_getinfo($this->_oResource);
-            lib_sys_debugger::getInstance()->showMsg(get_class($this) . ': execution information: ' . var_export($this->_aInfo, true));
+            Debugger::getInstance()->showMsg(get_class($this) . ': execution information: ' . var_export($this->_aInfo, true));
             $this->_sContent = $mResult;
             if (200 == $this->_aInfo['http_code']) {
                 return true;
@@ -235,7 +239,7 @@ class Curl
     function getErrMsg()
     {
         $sErr = curl_error($this->_oResource);
-        lib_sys_debugger::getInstance()->showMsg(get_class($this) . ': error message: ' . $sErr);
+        Debugger::getInstance()->showMsg(get_class($this) . ': error message: ' . $sErr);
         return $sErr;
     }
 }

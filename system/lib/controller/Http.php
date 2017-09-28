@@ -1,21 +1,23 @@
 <?php
 
 /**
- * lib_controller_http
+ * Http
  *
  * http协议控制器基类
  *
  * @package lib_sys
  */
 namespace panda\lib\controller;
-use panda\lib\sys\controller;
+
+use panda\lib\sys\Controller;
+use panda\lib\sys\Logger;
 
 /**
- * lib_controller_http
+ * Http
  *
  * http协议控制器基类
  */
-abstract class Http extends controller
+abstract class Http extends Controller
 {
 
     /**
@@ -41,7 +43,7 @@ abstract class Http extends controller
         foreach ($this->_aPri['aHeaders'] as $aHeader) {
             header($aHeader[0], $aHeader[1], $aHeader[2]);
         }
-        lib_sys_logger::getInstance()->addLog('controller page data', json_encode($this->getPageData(), JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE), 'parameter');
+        Logger::getInstance()->addLog('controller page data', json_encode($this->getAllData(), JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE), 'parameter');
         parent::afterRequest();
     }
 
@@ -90,7 +92,7 @@ abstract class Http extends controller
      *
      * @return array
      */
-    function getPageData()
+    function getAllData()
     {
         return $this->_aPri['aPageData'];
     }

@@ -1,15 +1,18 @@
 <?php
 
 /**
- * lib_sys_debugger
+ * Debugger
  *
  * 系统调试器类
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
+use panda\util\sys\Cookie;
+
 /**
- * lib_sys_debugger
+ * Debugger
  *
  * 系统调试器类
  */
@@ -58,8 +61,7 @@ class Debugger
      */
     private function __construct()
     {
-        return;
-        $this->_oVari = lib_sys_var::getInstance();
+        $this->_oVari = Variable::getInstance();
         if ($this->_oVari->getConfig('bDebug', 'debugger')) { // 系统配置
             $aAllowIPs = $this->_oVari->getConfig('aAllowedIpList', 'debugger'); // ip过滤
             $sIP = $this->_oVari->getParam('CLIENTIP', 'server');
@@ -71,12 +73,12 @@ class Debugger
                 }
             }
             if ($bCanIP) {
-                $iCanCookie = $this->_oVari->getParam('debug', 'cookie', 'int'); // cookie过滤
-                $iCanGet = $this->_oVari->getParam('debug', 'get', 'int'); // get过滤
+                $iCanCookie = $this->_oVari->getParam('debug', 'cookie'); // cookie过滤
+                $iCanGet = $this->_oVari->getParam('debug', 'get'); // get过滤
                 $iExpireTime = $this->_oVari->getRealTime() + 60;
                 if (null === $iCanCookie) {
                     if (5 == $iCanGet) {
-                        util_sys_cookie::setCookie('debug', 1, $iExpireTime);
+                        Cookie::setCookie('debug', 1, $iExpireTime);
                         $this->_bolNeedDebug = true;
                     } else {
                         $this->_bolNeedDebug = false;
@@ -85,14 +87,14 @@ class Debugger
                     if (1 == $iCanCookie) {
                         if (null === $iCanGet) {
                             $this->_bolNeedDebug = true;
-                            util_sys_cookie::setCookie('debug', 1, $iExpireTime);
+                            Cookie::setCookie('debug', 1, $iExpireTime);
                         } else {
                             if (5 == $iCanGet) {
                                 $this->_bolNeedDebug = true;
-                                util_sys_cookie::setCookie('debug', 1, $iExpireTime);
+                                Cookie::setCookie('debug', 1, $iExpireTime);
                             } else {
                                 $this->_bolNeedDebug = false;
-                                util_sys_cookie::setCookie('debug', 0, $iExpireTime);
+                                Cookie::setCookie('debug', 0, $iExpireTime);
                             }
                         }
                     } else {

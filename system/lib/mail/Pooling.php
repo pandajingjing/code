@@ -1,15 +1,18 @@
 <?php
 
 /**
- * lib_mail_pooling
+ * Pooling
  *
  * 邮件连接池
- *
+ * @namespace panda\lib\mail
  * @package lib_mail
  */
 namespace panda\lib\mail;
+
+use panda\lib\sys\Variable;
+
 /**
- * lib_mail_pooling
+ * Pooling
  *
  * 邮件连接池
  */
@@ -83,10 +86,10 @@ class Pooling
      */
     private static function _loadMail($p_sMailName)
     {
-        $aConfig = lib_sys_var::getInstance()->getConfig($p_sMailName, 'mail');
+        $aConfig = Variable::getInstance()->getConfig($p_sMailName, 'mail');
         switch ($aConfig['sType']) {
             case 'php':
-                $oMail = new lib_mail_phpmail();
+                $oMail = new PhpMail();
                 break;
         }
         return $oMail;

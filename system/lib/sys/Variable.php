@@ -1,15 +1,19 @@
 <?php
 
 /**
- * lib_sys_var
+ * Variable
  *
  * 系统变量类,保存了系统所有允许被访问的变量
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
+use panda\util\Data;
+use panda\util\sys\Cookie;
+
 /**
- * lib_sys_var
+ * Variable
  *
  * 系统变量类,保存了系统所有允许被访问的变量
  */
@@ -92,14 +96,14 @@ class Variable
      */
     private function __construct()
     {
-        $this->_aGet = util_string::trimString($_GET);
-        $this->_aPost = util_string::trimString($_POST);
+        $this->_aGet = Data::trimStr($_GET);
+        $this->_aPost = Data::trimStr($_POST);
         $this->_aFile = $_FILES;
-        $this->_aGetCookie = util_string::trimString(util_sys_cookie::getCookie());
+        $this->_aGetCookie = Data::trimStr(Cookie::getCookie());
         if (PANDA_REQUEST_TYPE == PANDA_REQTYPE_CONSOLE) {
-            $this->_aServerParam = util_string::trimString($this->_getConsoleParam());
+            $this->_aServerParam = Data::trimStr($this->_getConsoleParam());
         } else {
-            $this->_aServerParam = util_string::trimString($this->_getWebServerParam());
+            $this->_aServerParam = Data::trimStr($this->_getWebServerParam());
         }
     }
 
@@ -119,7 +123,7 @@ class Variable
      */
     function setRouterParam($p_aParam)
     {
-        $this->_aRouterParam = util_string::trimString($p_aParam);
+        $this->_aRouterParam = Data::trimStr($p_aParam);
     }
 
     /**
@@ -218,14 +222,14 @@ class Variable
                 $sConfigFilePath = $sConfigDir . DIRECTORY_SEPARATOR . $p_sClass . '.php';
                 if (file_exists($sConfigFilePath)) {
                     $aConfig = include $sConfigFilePath;
-                    $this->_aConfig[$p_sClass] = array_merge($this->_aConfig[$p_sClass], $aConfig);
+                    $this->_aConfig[$p_sClass] = array_merge_recursive($this->_aConfig[$p_sClass], $aConfig);
                 }
             }
         }
         if (isset($this->_aConfig[$p_sClass][$p_sKey])) {
             return $this->_aConfig[$p_sClass][$p_sKey];
         } else {
-            throw new Exception(__CLASS__ . ': can not found config key (' . $p_sKey . ') in class (' . $p_sClass . ').');
+            throw new \Exception(__CLASS__ . ': can not found config key (' . $p_sKey . ') in class (' . $p_sClass . ').');
         }
     }
 

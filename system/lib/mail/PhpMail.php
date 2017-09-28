@@ -1,15 +1,16 @@
 <?php
 
 /**
- * lib_mail_phpmail
+ * PhpMail
  *
  * php邮件
- *
+ * @namespace panda\lib\mail
  * @package lib_mail
  */
 namespace panda\lib\mail;
+
 /**
- * lib_mail_phpmail
+ * PhpMail
  *
  * php邮件
  */
@@ -369,7 +370,7 @@ class PhpMail
             $sMultipart .= self::_buildAttach($aAttach, $p_sCharset);
         }
         $sMultipart .= '--' . $p_sBoundary . '--' . PHP_EOL;
-//         debug($sMultipart);
+        // debug($sMultipart);
         return $sMultipart;
     }
 

@@ -1,15 +1,16 @@
 <?php
 
 /**
- * lib_client_pooling
+ * Pooling
  *
  * 客户端连接池
- *
+ * @namespace panda\lib\client
  * @package lib_client
  */
 namespace panda\lib\client;
+
 /**
- * lib_client_pooling
+ * Pooling
  *
  * 客户端连接池
  */
@@ -90,7 +91,7 @@ class Pooling
         switch ($p_sClientType) {
             case 'curl':
             default:
-                $oClient = new lib_client_curl();
+                $oClient = new Curl();
                 break;
         }
         return $oClient;

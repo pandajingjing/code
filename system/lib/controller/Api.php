@@ -1,20 +1,24 @@
 <?php
 
 /**
- * lib_controller_api
+ * Api
  *
  * 外部接口控制器基类
  *
  * @package lib_controller
  */
 namespace panda\lib\controller;
+
+use panda\lib\traits\Response;
+
 /**
- * lib_controller_api
+ * Api
  *
- * a外部接口控制器基类
+ * 外部接口控制器基类
  */
-abstract class Api extends service
+abstract class Api extends Service
 {
+    use Response;
 
     /**
      * 接口字段定义,用于校验文档

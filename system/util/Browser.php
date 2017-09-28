@@ -1,15 +1,19 @@
 <?php
 
 /**
- * util_browser
+ * Browser
  *
  * 仿浏览器客户端
- *
+ * @namespace panda\util
  * @package lib_client
  */
 namespace panda\util;
+
+use panda\lib\sys\Variable;
+use panda\lib\client\Pooling;
+
 /**
- * util_browser
+ * Browser
  *
  * 仿浏览器客户端
  */
@@ -52,7 +56,7 @@ class Browser
 
     /**
      * 设置来源网页
-     * 
+     *
      * @param string $p_sReferer            
      * @return void
      */
@@ -70,7 +74,7 @@ class Browser
     static function setCookie($p_aCookie = [])
     {
         if (empty($p_aCookie)) {
-            $p_aCookie = lib_sys_var::getInstance()->getAllParam('cookie');
+            $p_aCookie = Variable::getInstance()->getAllParam('cookie');
         }
         $sTmp = http_build_query($p_aCookie);
         if (strstr($sTmp, '&')) {
@@ -115,7 +119,7 @@ class Browser
      */
     private static function _fetchData($p_sMethod, $p_sURL, $p_aData, $p_sResultType = 'json')
     {
-        $oCURL = lib_client_pooling::getInstance()->getClient('curl');
+        $oCURL = Pooling::getInstance()->getClient('curl');
         if ('post' == $p_sMethod) {
             $oCURL->setPost(true);
             $oCURL->setPostParams($p_aData);

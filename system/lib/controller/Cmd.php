@@ -1,21 +1,22 @@
 <?php
 
 /**
- * lib_controller_cmd
+ * Cmd
  *
  * 命令行控制器基类
- *
+ * @namespace panda\lib\controller
  * @package lib_sys
  */
 namespace panda\lib\controller;
-use panda\lib\sys\controller;
+
+use panda\lib\sys\Controller;
 
 /**
- * lib_controller_cmd
+ * Cmd
  *
  * 命令行控制器基类
  */
-abstract class Cmd extends controller
+abstract class Cmd extends Controller
 {
 
     /**

@@ -1,15 +1,18 @@
 <?php
 
 /**
- * lib_sys_controller
+ * Controller
  *
  * 控制器基类
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
+use panda\util\Data;
+
 /**
- * lib_sys_controller
+ * Controller
  *
  * 控制器基类
  */
@@ -35,7 +38,7 @@ abstract class Controller
     {
         // parent::beforeRequest();
         // do something
-        $this->addLog('controller parameter', json_encode(lib_sys_debugger::getInstance()->getAllParam(), JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE), 'parameter');
+        $this->addLog('controller parameter', json_encode(Debugger::getInstance()->getAllParam(), JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE), 'parameter');
     }
 
     /**
@@ -52,7 +55,7 @@ abstract class Controller
     /**
      * 控制器入口函数
      *
-     * @return string|lib_sys_controller
+     * @return string|Controller
      */
     abstract function doRequest();
 
@@ -69,11 +72,11 @@ abstract class Controller
      */
     protected function getParam($p_sKey, $p_sMethod, $p_sType = '', $p_mDefault = null)
     {
-        $mValue = lib_sys_var::getInstance()->getParam($p_sKey, $p_sMethod);
+        $mValue = Variable::getInstance()->getParam($p_sKey, $p_sMethod);
         if ('' == $p_sType) {
             return $mValue;
         } else {
-            if (util_string::chkDataType($mValue, $p_sType)) {
+            if (Data::chkDataType($mValue, $p_sType)) {
                 return $mValue;
             } else {
                 return $p_mDefault;
@@ -89,7 +92,7 @@ abstract class Controller
      */
     protected function getAllParam($p_sMethod)
     {
-        return lib_sys_var::getInstance()->getAllParam($p_sMethod);
+        return Variable::getInstance()->getAllParam($p_sMethod);
     }
 
     /**
@@ -100,7 +103,7 @@ abstract class Controller
      */
     protected function getVisitTime($p_bFloat = false)
     {
-        return lib_sys_var::getInstance()->getVisitTime($p_bFloat);
+        return Variable::getInstance()->getVisitTime($p_bFloat);
     }
 
     /**
@@ -111,7 +114,7 @@ abstract class Controller
      */
     protected function getRealTime($p_bFloat = false)
     {
-        return lib_sys_var::getInstance()->getRealTime($p_bFloat);
+        return Variable::getInstance()->getRealTime($p_bFloat);
     }
 
     /**
@@ -124,7 +127,7 @@ abstract class Controller
      */
     protected function addLog($p_sTitle, $p_sContent, $p_sClass = 'common')
     {
-        lib_sys_logger::getInstance()->addLog($p_sTitle, $p_sContent, $p_sClass);
+        Logger::getInstance()->addLog($p_sTitle, $p_sContent, $p_sClass);
     }
 
     /**
@@ -135,7 +138,7 @@ abstract class Controller
      */
     protected function startDebug($p_sModule)
     {
-        lib_sys_debugger::getInstance()->startDebug($p_sModule);
+        Debugger::getInstance()->startDebug($p_sModule);
     }
 
     /**
@@ -147,7 +150,7 @@ abstract class Controller
      */
     protected function showDebugMsg($p_sMsg, $p_bIsHTML = false)
     {
-        lib_sys_debugger::getInstance()->showMsg($p_sMsg, $p_bIsHTML);
+        Debugger::getInstance()->showMsg($p_sMsg, $p_bIsHTML);
     }
 
     /**
@@ -158,6 +161,6 @@ abstract class Controller
      */
     protected function stopDebug($p_sModule)
     {
-        lib_sys_debugger::getInstance()->stopDebug($p_sModule);
+        Debugger::getInstance()->stopDebug($p_sModule);
     }
 }

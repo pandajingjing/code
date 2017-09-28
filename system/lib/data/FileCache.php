@@ -1,16 +1,19 @@
 <?php
 
 /**
- * lib_data_filecache
+ * FileCache
  *
  * 文件缓存,与memcached有类似的函数
- *
+ * @namespace panda\lib\data
  * @package lib_data
  */
 namespace panda\lib\data;
 
+use panda\util\File;
+use panda\lib\sys\Variable;
+
 /**
- * lib_data_filecache
+ * FileCache
  *
  * 文件缓存,与memcached有类似的函数
  */
@@ -103,8 +106,8 @@ class FileCache
         $this->_iServerCnt += $p_iWeight;
         if (! in_array($p_sPath, $this->_aServerPathList)) {
             if (! is_dir($p_sPath)) {
-                if (false === util_file::tryMakeDir($p_sPath, 0755, true)) {
-                    throw new Exception(__CLASS__ . ': can not create path(' . $p_sPath . ').');
+                if (false === File::tryMakeDir($p_sPath, 0755, true)) {
+                    throw new \Exception(__CLASS__ . ': can not create path(' . $p_sPath . ').');
                 }
             }
         }
@@ -143,7 +146,7 @@ class FileCache
         if ($p_iLifeTime > 0) {
             return $this->set($p_sKey, $this->get($p_sKey), $p_iLifeTime);
         } else {
-            return util_file::tryDeleteFile($this->_dispatchCacheFile($p_sKey));
+            return File::tryDeleteFile($this->_dispatchCacheFile($p_sKey));
         }
     }
 
@@ -176,7 +179,7 @@ class FileCache
     {
         $aUniqServerPathList = array_unique($this->_aServerPathList);
         foreach ($aUniqServerPathList as $sServerPath) {
-            if (! util_file::tryDeleteDir($sServerPath)) {
+            if (! File::tryDeleteDir($sServerPath)) {
                 return false;
             }
         }
@@ -196,7 +199,7 @@ class FileCache
             if (! file_exists($sCacheFilePath)) {
                 return false;
             }
-            $mCache = util_file::tryReadFile($sCacheFilePath);
+            $mCache = File::tryReadFile($sCacheFilePath);
             if (false === $mCache) {
                 return false;
             } else {
@@ -207,8 +210,8 @@ class FileCache
                     if (0 == $mCache['iExpireTime']) {
                         return $mCache['mData'];
                     } else {
-                        if (lib_sys_var::getInstance()->getRealTime() > $mCache['iExpireTime']) {
-                            util_file::tryDeleteFile($sCacheFilePath);
+                        if (Variable::getInstance()->getRealTime() > $mCache['iExpireTime']) {
+                            File::tryDeleteFile($sCacheFilePath);
                             return false;
                         } else {
                             return $mCache['mData'];
@@ -294,11 +297,11 @@ class FileCache
         if (isset($p_sKey[0])) {
             $mCache = $this->_value2Cache($p_mValue, $this->_getExpireTime($p_iLifeTime));
             $sFileName = $this->_dispatchCacheFile($p_sKey);
-            if (false === util_file::tryWriteFile($sFileName, $mCache, LOCK_EX)) {
-                if (false === util_file::tryMakeDir(dirname($sFileName), 0755, true)) {
+            if (false === File::tryWriteFile($sFileName, $mCache, LOCK_EX)) {
+                if (false === File::tryMakeDir(dirname($sFileName), 0755, true)) {
                     return false;
                 } else {
-                    return util_file::tryWriteFile($sFileName, $mCache);
+                    return File::tryWriteFile($sFileName, $mCache);
                 }
                 return false;
             } else {
@@ -367,7 +370,7 @@ class FileCache
         if ($p_iLifeTime > 2592000) {
             return $p_iLifeTime;
         } else {
-            return 0 == $p_iLifeTime ? 0 : lib_sys_var::getInstance()->getRealTime() + $p_iLifeTime;
+            return 0 == $p_iLifeTime ? 0 : Variable::getInstance()->getRealTime() + $p_iLifeTime;
         }
     }
 

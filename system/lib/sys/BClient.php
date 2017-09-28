@@ -1,15 +1,16 @@
 <?php
 
 /**
- * lib_sys_bclient
+ * BClient
  *
  * 业务服务客户端基类
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
 /**
- * lib_sys_bclient
+ * BClient
  *
  * 业务服务客户端基类
  */
@@ -47,25 +48,25 @@ class BClient
         
         if (isset(self::$_aBllPool[$sBllName])) {
             if (isset(self::$_aFuncPool[$sFuncKey])) {} else {
-                $oRelClass = new ReflectionClass($sBllName);
+                $oRelClass = new \ReflectionClass($sBllName);
                 self::$_aFuncPool[$sFuncKey] = $oRelClass->getMethod($p_sFuncName);
             }
             return self::$_aFuncPool[$sFuncKey]->invokeArgs(self::$_aBllPool[$sBllName], $p_aFuncParams);
         } else {
             if (class_exists($sBllName)) {
-                $oRelClass = new ReflectionClass($sBllName);
+                $oRelClass = new \ReflectionClass($sBllName);
                 self::$_aBllPool[$sBllName] = $oRelClass->newInstance();
                 self::$_aFuncPool[$sFuncKey] = $oRelClass->getMethod($p_sFuncName);
                 return self::$_aFuncPool[$sFuncKey]->invokeArgs(self::$_aBllPool[$sBllName], $p_aFuncParams);
             } else {
-                throw new Exception(__CLASS__ . ': can not find bll class(' . $sBllName . ').');
+                throw new \Exception(__CLASS__ . ': can not find bll class(' . $sBllName . ').');
             }
         }
     }
 
     /**
      * 用于存放本地调用时的业务逻辑函数
-     * 
+     *
      * @var array
      */
     private static $_aFuncPool = [];

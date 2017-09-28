@@ -3,12 +3,11 @@
  * bin
  * 框架入口文件,定义了自动加载函数,入口函数和简单的调试函数
  * @namespace panda
+ * @package global
  */
-namespace panda;
-
-// use panda\util\pinyin;
-// use panda\lib\sys\debugger;
-use panda\lib\sys\variable;
+use panda\lib\sys\Debugger;
+use panda\lib\sys\Variable;
+use panda\lib\sys\Router;
 
 /**
  * 入口函数
@@ -21,25 +20,21 @@ function bin()
     include __DIR__ . '/lib/sys/loader.php';
     \panda\lib\sys\loader::register();
     
-    // ob_start('ob_gzhandler');
+    ob_start('ob_gzhandler');
     error_reporting(E_ALL);
-    // $a=pinyin::getPY('唐琮林');
-    // print_r($a);
-    // $oDebugger = debugger::getInstance();
-    // $oDebugger->startDebug('Proccess');
+    $oDebugger = Debugger::getInstance();
+    $oDebugger->startDebug('Proccess');
     
-    $oVar = variable::getInstance();
-    // date_default_timezone_set($oVar->getConfig('sTimeZone', 'system'));
-    // mb_internal_encoding('utf8');
-    // register_shutdown_function('util_sys_handle::handleShutdown');
-    // set_exception_handler('Util_Sys_Handle::handleException');
-    // set_error_handler('Util_Sys_Handle::handleError');
+    $oVar = Variable::getInstance();
+    date_default_timezone_set($oVar->getConfig('sTimeZone', 'system'));
+    mb_internal_encoding('utf8');
+    register_shutdown_function('\panda\util\sys\Handle::handleShutdown');
+    set_exception_handler('\panda\util\sys\Handle::handleException');
+    set_error_handler('\panda\util\sys\Handle::handleError');
     
-    // $oDebugger->startDebug('Parse Route');
-    // $oRouter = lib_sys_router::getInstance();
-    $a = $oVar->getParam('DISPATCH_PARAM', 'server');
-    print_r($a);
-    // $oRouter->parseURI($oVar->getParam('DISPATCH_PARAM', 'server'));
+    $oDebugger->startDebug('Parse Route');
+    $oRouter = Router::getInstance();
+    $oRouter->parseURI($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);
     $oVar->setRouterParam($oRouter->getRouterParam());
@@ -47,7 +42,7 @@ function bin()
     
     while (true) {
         $oDebugger->startDebug('Handle Controller: ' . $sControllerName);
-        $oRelClass = new ReflectionClass($sControllerName);
+        $oRelClass = new \ReflectionClass($sControllerName);
         $oRelInstance = $oRelClass->newInstance();
         $oRelMethod = $oRelClass->getMethod('beforeRequest');
         $oRelMethod->invoke($oRelInstance);

@@ -1,31 +1,72 @@
 <?php
 /**
- * lib_sys_logger
+ * Loader
  *
- * 系统日志类
- *
+ * 系统加载类
+ * 
+ * 根据规范自动加载相关文件
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
 
+/**
+ * Loader
+ *
+ * 系统加载类
+ *
+ * 根据规范自动加载相关文件
+ */
 class Loader
 {
-    // 类名映射
+
+    /**
+     * 类映射
+     *
+     * @var array
+     */
     private static $_aMap = [];
-    
-    // PSR-4
+
+    /**
+     * PSR4加载变量1
+     *
+     * @var array
+     */
     private static $_aPrefixLengthsPsr4 = [];
 
+    /**
+     * PSR4加载变量2
+     *
+     * @var array
+     */
     private static $_aPrefixDirsPsr4 = [];
 
+    /**
+     * PSR4加载变量3
+     *
+     * @var array
+     */
     private static $_aFallbackDirsPsr4 = [];
-    
-    // PSR-0
+
+    /**
+     * PSR0加载变量1
+     *
+     * @var array
+     */
     private static $_aPrefixesPsr0 = [];
 
+    /**
+     * PSR0加载变量2
+     *
+     * @var array
+     */
     private static $_aFallbackDirsPsr0 = [];
-    
-    // 自动加载的文件
+
+    /**
+     * 自动加载文件
+     *
+     * @var array
+     */
     private static $_AutoloadFiles = [];
 
     /**

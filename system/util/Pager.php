@@ -1,15 +1,18 @@
 <?php
-
 /**
- * util_pager
+ * Pager
  *
  * 获取分页数据,设置对应url,可以被业务使用
- *
+ * @namespace panda\util
  * @package util
  */
 namespace panda\util;
+
+use panda\lib\sys\Variable;
+use panda\lib\sys\Router;
+
 /**
- * util_pager
+ * Pager
  *
  * 获取分页数据,设置对应url,可以被业务使用
  */
@@ -137,7 +140,7 @@ class Pager
      */
     static function setPager($p_aPager, $p_sControllerName, $p_sColumn, $p_aParam = [])
     {
-        $sDomain = lib_sys_var::getInstance()->getConfig('sSelfSchemeDomain', 'domain');
+        $sDomain = Variable::getInstance()->getConfig('sSelfSchemeDomain', 'domain');
         $iCurrentPage = $p_aPager['aCurrentPage']['iIndex'];
         foreach ($p_aPager as $sKey => $aPage) {
             if (is_array($aPage) and isset($aPage['iIndex'])) {
@@ -146,7 +149,7 @@ class Pager
                 } else {
                     $p_aPager[$sKey]['bLink'] = true;
                 }
-                $p_aPager[$sKey]['sURL'] = $sDomain . lib_sys_router::getInstance()->createURI($p_sControllerName, array_merge($p_aParam, [
+                $p_aPager[$sKey]['sURL'] = $sDomain . Router::getInstance()->createURI($p_sControllerName, array_merge($p_aParam, [
                     $p_sColumn => $aPage['iIndex']
                 ]));
             }
@@ -157,7 +160,7 @@ class Pager
             } else {
                 $p_aPager['aNumURLs'][$iIndex]['bLink'] = true;
             }
-            $p_aPager['aNumURLs'][$iIndex]['sURL'] = $sDomain . lib_sys_router::getInstance()->createURI($p_sControllerName, array_merge($p_aParam, [
+            $p_aPager['aNumURLs'][$iIndex]['sURL'] = $sDomain . Router::getInstance()->createURI($p_sControllerName, array_merge($p_aParam, [
                 $p_sColumn => $aPage['iIndex']
             ]));
         }

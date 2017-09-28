@@ -1,15 +1,20 @@
 <?php
 
 /**
- * util_sys_handle
+ * Handle
  *
  * 框架对于异常,错误和结束时进行处理的相关方法,应避免应用直接使用
- *
+ * @namespace panda\util\sys
  * @package util_sys
  */
 namespace panda\util\sys;
+
+use panda\lib\sys\Debugger;
+use panda\lib\sys\Template;
+use panda\lib\sys\Logger;
+
 /**
- * util_sys_handle
+ * Handle
  *
  * 框架对于异常,错误和结束时进行处理的相关方法,应避免应用直接使用
  */
@@ -98,9 +103,9 @@ class Handle
      */
     static function handleShutdown()
     {
-        $oDebugger = lib_sys_debugger::getInstance();
+        $oDebugger = Debugger::getInstance();
         if ($oDebugger->canDebug()) {
-            $oTpl = lib_sys_template::getInstance();
+            $oTpl = Template::getInstance();
             $oTpl->setPageData([
                 'aMessages' => $oDebugger->getMsgs(),
                 'aDebugInfo' => $oDebugger->getDebugInfo(),
@@ -108,6 +113,6 @@ class Handle
             ]);
             $oTpl->render('component_sys_debug');
         }
-        lib_sys_logger::getInstance()->writeLog();
+        Logger::getInstance()->writeLog();
     }
 }

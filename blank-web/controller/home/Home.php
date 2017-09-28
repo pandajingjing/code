@@ -1,16 +1,20 @@
 <?php
 
 /**
- * controller_home_home
+ * Home
  * @author jxu
  * @package blank-web_controller_home
  */
+namespace app\controller\home;
+
+use panda\lib\controller\Web;
+
 /**
- * controller_home_home
+ * Home
  *
  * @author jxu
  */
-class controller_home_home extends controller_base
+class Home extends Web
 {
 
     function doRequest()

@@ -8,6 +8,9 @@
  * @package util
  */
 namespace panda\util;
+
+use panda\lib\sys\Variable;
+
 /**
  * util_image
  *
@@ -38,7 +41,7 @@ class Image
      */
     private static function resizeImage_Imagick($p_sPath, $p_iWidth, $p_iHeight, $p_sExtension, $p_aOption = [])
     {
-        $oImage = new Imagick();
+        $oImage = new \Imagick();
         $oImage->setResourceLimit(6, 1);
         $oImage->readImage($p_sPath);
         $iOWidth = $oImage->getImageWidth();
@@ -85,23 +88,23 @@ class Image
                 default:
                     switch ($p_aOption['sZoomMode']) {
                         case 'fill':
-                            $oImage->resizeImage($p_iWidth, $p_iHeight, Imagick::FILTER_CATROM, 1);
+                            $oImage->resizeImage($p_iWidth, $p_iHeight, \Imagick::FILTER_CATROM, 1);
                             break;
                         case 'scale':
                         default:
                             switch ($p_aOption['sZoomScaleMode']) {
                                 case 'width':
-                                    $oImage->resizeImage($p_iWidth, round($p_iWidth * $iOHeight / $iOWidth), Imagick::FILTER_CATROM, 1, true);
+                                    $oImage->resizeImage($p_iWidth, round($p_iWidth * $iOHeight / $iOWidth), \Imagick::FILTER_CATROM, 1, true);
                                     break;
                                 case 'height':
-                                    $oImage->resizeImage(round($p_iHeight * $iOWidth / $iOHeight), $p_iHeight, Imagick::FILTER_CATROM, 1, true);
+                                    $oImage->resizeImage(round($p_iHeight * $iOWidth / $iOHeight), $p_iHeight, \Imagick::FILTER_CATROM, 1, true);
                                     break;
                                 case 'mix':
                                 default:
                                     if (($iOWidth / $iOHeight) > ($p_iWidth / $p_iHeight)) {
-                                        $oImage->resizeImage($p_iWidth, round($p_iWidth * $iOHeight / $iOWidth), Imagick::FILTER_CATROM, 1, false);
+                                        $oImage->resizeImage($p_iWidth, round($p_iWidth * $iOHeight / $iOWidth), \Imagick::FILTER_CATROM, 1, false);
                                     } else {
-                                        $oImage->resizeImage(round($p_iHeight * $iOWidth / $iOHeight), $p_iHeight, Imagick::FILTER_CATROM, 1, false);
+                                        $oImage->resizeImage(round($p_iHeight * $iOWidth / $iOHeight), $p_iHeight, \Imagick::FILTER_CATROM, 1, false);
                                     }
                                     break;
                             }
@@ -113,7 +116,7 @@ class Image
         if (false !== $p_aOption['mWatermark']) { // 水印
             $aWatermark = $p_aOption['mWatermark'];
             if (file_exists($aWatermark['sFilePath'])) {
-                $oWaterMark = new Imagick();
+                $oWaterMark = new \Imagick();
                 $oWaterMark->readImage($aWatermark['sFilePath']);
                 $aEdge = $aWatermark['aEdge'];
                 $iWatermarkWidth = $oWaterMark->getImageWidth();
@@ -127,7 +130,7 @@ class Image
                 } elseif (isset($aEdge['bMiddle']) || isset($aEdge['bWidthMiddle'])) {
                     $iPosX = max(0, floor(($iImageWidth - $iWatermarkWidth) / 2));
                 } else {
-                    throw new Exception(__CLASS__ . ': can not found configuration(resize_watermark_edge).');
+                    throw new \Exception(__CLASS__ . ': can not found configuration(resize_watermark_edge).');
                 }
                 if (isset($aEdge['iUp'])) {
                     $iPosY = $aEdge['iUp'];
@@ -136,18 +139,18 @@ class Image
                 } elseif (isset($aEdge['bMiddle']) || isset($aEdge['bHeightMiddle'])) {
                     $iPosY = max(0, floor(($iImageHeight - $iWatermarkHeight) / 2));
                 } else {
-                    throw new Exception(__CLASS__ . ': can not found configuration(resize_watermark_edge)');
+                    throw new \Exception(__CLASS__ . ': can not found configuration(resize_watermark_edge)');
                 }
-                $oImage->compositeImage($oWaterMark, Imagick::COMPOSITE_DEFAULT, $iPosX, $iPosY);
+                $oImage->compositeImage($oWaterMark, \Imagick::COMPOSITE_DEFAULT, $iPosX, $iPosY);
                 $oWaterMark->clear();
                 $oWaterMark->destroy();
             } else {
-                throw new Exception(__CLASS__ . ': can not found resize_watermark_path(' . $aWatermark['sFilePath'] . ')');
+                throw new \Exception(__CLASS__ . ': can not found resize_watermark_path(' . $aWatermark['sFilePath'] . ')');
             }
         }
         
         $oImage->setImageFormat($p_sExtension);
-        $oImage->setImageCompression(Imagick::COMPRESSION_JPEG);
+        $oImage->setImageCompression(\Imagick::COMPRESSION_JPEG);
         $oImage->stripImage();
         $blImage = $oImage->getImageBlob();
         $oImage->clear();
@@ -192,7 +195,7 @@ class Image
     static function cropImage($p_sPath, $p_iCutPointX, $p_iCutPointY, $p_iWidth, $p_iHeight, $p_sExtension)
     {
         // print_r(func_get_args());exit;
-        $oImage = new Imagick();
+        $oImage = new \Imagick();
         $oImage->readImage($p_sPath);
         $iOWidth = $oImage->getImageWidth();
         $iOHeight = $oImage->getImageHeight();
@@ -212,7 +215,7 @@ class Image
         $oImage->cropImage($p_iWidth, $p_iHeight, $p_iCutPointX, $p_iCutPointY);
         
         $oImage->setImageFormat($p_sExtension);
-        $oImage->setImageCompression(Imagick::COMPRESSION_JPEG);
+        $oImage->setImageCompression(\Imagick::COMPRESSION_JPEG);
         $oImage->stripImage();
         $blImage = $oImage->getImageBlob();
         $oImage->clear();
@@ -248,7 +251,7 @@ class Image
     static function createIdentifyCodeImage($p_iWidth, $p_iHeight, $p_sStr, $p_iFontSize = 0, $p_iPointDensity = 0, $p_iCircleDensity = 0, $p_iFontAngle = 0)
     {
         // 获取各种默认值
-        $sTextFont = lib_sys_var::getInstance()->getConfig('sImgFont', 'image');
+        $sTextFont = Variable::getInstance()->getConfig('sImgFont', 'image');
         if (0 == $p_iFontSize) {
             $p_iFontSize = round($p_iHeight * 3 / 5);
         }

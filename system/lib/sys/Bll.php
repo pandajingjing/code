@@ -1,20 +1,24 @@
 <?php
 
 /**
- * lib_sys_bll
+ * Bll
  *
  * 业务服务基类
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
+use panda\lib\traits\Response;
+
 /**
- * lib_sys_bll
+ * Bll
  *
  * 业务服务基类
  */
 class Bll
 {
+    use Response;
 
     /**
      * 构造函数
@@ -23,62 +27,6 @@ class Bll
      */
     function __construct()
     {}
-
-    /**
-     * 返回一行数据
-     *
-     * @param array $p_aRow            
-     * @return array
-     */
-    protected function returnRow($p_aRow)
-    {
-        return util_sys_response::returnRow($p_aRow);
-    }
-
-    /**
-     * 返回一个值
-     *
-     * @param mix $p_mOne            
-     * @return array
-     */
-    protected function returnOne($p_mOne)
-    {
-        return util_sys_response::returnOne($p_mOne);
-    }
-
-    /**
-     * 返回主键值
-     *
-     * @param mix $p_mPrimary            
-     * @return array
-     */
-    protected function returnPrimary($p_mPrimary)
-    {
-        return util_sys_response::returnPrimary($p_mPrimary);
-    }
-
-    /**
-     * 返回错误数据
-     *
-     * @param array $p_aErrors            
-     * @return array
-     */
-    protected function returnErrors($p_aErrors)
-    {
-        return util_sys_response::returnErrors($p_aErrors);
-    }
-
-    /**
-     * 返回列表数据
-     *
-     * @param array $p_aList            
-     * @param int $p_iTotal            
-     * @return array
-     */
-    protected function returnList($p_aList, $p_iTotal)
-    {
-        return util_sys_response::returnList($p_aList, $p_iTotal);
-    }
 
     /**
      * 添加日志
@@ -90,7 +38,7 @@ class Bll
      */
     protected function addLog($p_sTitle, $p_sContent, $p_sClass = 'common')
     {
-        lib_sys_logger::getInstance()->addLog($p_sTitle, $p_sContent, $p_sClass);
+        Logger::getInstance()->addLog($p_sTitle, $p_sContent, $p_sClass);
     }
 
     /**
@@ -123,7 +71,7 @@ class Bll
      */
     protected function getConfig($p_sKey, $p_sClass = 'common')
     {
-        return lib_sys_var::getInstance()->getConfig($p_sKey, $p_sClass);
+        return Variable::getInstance()->getConfig($p_sKey, $p_sClass);
     }
 
     /**
@@ -134,7 +82,7 @@ class Bll
      */
     protected function startDebug($p_sModule)
     {
-        lib_sys_debugger::getInstance()->startDebug($p_sModule);
+        Debugger::getInstance()->startDebug($p_sModule);
     }
 
     /**
@@ -146,7 +94,7 @@ class Bll
      */
     protected function showDebugMsg($p_sMsg, $p_bIsHTML = false)
     {
-        lib_sys_debugger::getInstance()->showMsg($p_sMsg, $p_bIsHTML);
+        Debugger::getInstance()->showMsg($p_sMsg, $p_bIsHTML);
     }
 
     /**
@@ -157,6 +105,6 @@ class Bll
      */
     protected function stopDebug($p_sModule)
     {
-        lib_sys_debugger::getInstance()->stopDebug($p_sModule);
+        Debugger::getInstance()->stopDebug($p_sModule);
     }
 }

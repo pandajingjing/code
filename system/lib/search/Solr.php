@@ -1,10 +1,9 @@
 <?php
+
 /**
  * util solr
  * @package system_common_lib_util
  */
-load_lib('/vendor/autoload');
-
 class util_solr
 {
 

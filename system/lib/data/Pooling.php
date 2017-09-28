@@ -1,15 +1,19 @@
 <?php
 
 /**
- * lib_data_pooling
+ * Pooling
  *
  * 数据连接池
- *
+ * @namespace panda\lib\data
  * @package lib_data
  */
 namespace panda\lib\data;
+
+use panda\lib\sys\Variable;
+use panda\util\Crypt;
+
 /**
- * lib_data_pooling
+ * Pooling
  *
  * 数据连接池
  */
@@ -28,8 +32,9 @@ class Pooling
      *
      * @var string
      */
-    private $_sDeCrypt = '0fc613bdc6';//substr(md5('jxu'),-10)
-
+    private $_sDeCrypt = '0fc613bdc6';
+    // substr(md5('jxu'),-10)
+    
     /**
      * 数据连接池
      *
@@ -97,32 +102,32 @@ class Pooling
      */
     private function _loadConnect($p_sConnectName)
     {
-        $aConfig = lib_sys_var::getInstance()->getConfig($p_sConnectName, 'data');
+        $aConfig = Variable::getInstance()->getConfig($p_sConnectName, 'data');
         $oConnect = null;
         switch ($aConfig['sType']) {
             case 'mysql':
-                $oConnect = new lib_data_pdo($aConfig['sDSN'], $aConfig['sUserName'], util_crypt::deCrypt($aConfig['sUserPassword'], $this->_sDeCrypt));
+                $oConnect = new PandaPDO($aConfig['sDSN'], $aConfig['sUserName'], Crypt::deCrypt($aConfig['sUserPassword'], $this->_sDeCrypt));
                 foreach ($aConfig['aInitSQL'] as $sSQL) {
                     $oConnect->exec($sSQL);
                 }
                 break;
             case 'filecache':
-                $oConnect = new lib_data_filecache();
+                $oConnect = new FileCache();
                 $oConnect->addDirs($aConfig['aDirList']);
                 $oConnect->setCompress($aConfig['bCompress']);
                 break;
             case 'memcached':
-                $oConnect = new lib_data_memcached();
+                $oConnect = new \Memcached();
                 $oConnect->addServers($aConfig['aServerList']);
                 break;
             case 'redis':
-                $oConnect = new Redis();
+                $oConnect = new \Redis();
                 $oConnect->connect($aConfig['aServer'][0], $aConfig['aServer'][1]);
                 $oConnect->auth($aConfig['sUserPassword']);
                 $oConnect->select($aConfig['iIndex']);
                 break;
             default:
-                throw new Exception(get_class($this) . ': unknown connect type(' . $aConfig['sType'] . ')');
+                throw new \Exception(get_class($this) . ': unknown connect type(' . $aConfig['sType'] . ')');
                 break;
         }
         return $oConnect;

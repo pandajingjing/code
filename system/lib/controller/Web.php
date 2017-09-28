@@ -1,19 +1,24 @@
 <?php
 
 /**
- * lib_controller_web
+ * Web
  *
  * 网页控制器基类
- *
+ * @namespace panda\lib\controller
  * @package lib_sys
  */
 namespace panda\lib\controller;
+
+use panda\util\sys\Cookie;
+use panda\lib\sys\Variable;
+use panda\lib\sys\Router;
+
 /**
- * 网页lib_controller_web
+ * Web
  *
  * 控制器基类
  */
-abstract class Web extends http
+abstract class Web extends Http
 {
 
     /**
@@ -23,7 +28,7 @@ abstract class Web extends http
      */
     function afterRequest()
     {
-        util_sys_cookie::sendCookies();
+        Cookie::sendCookies();
         parent::afterRequest();
     }
 
@@ -50,7 +55,7 @@ abstract class Web extends http
      */
     protected function createInURL($p_sControllerName, $p_aRouterParam = [])
     {
-        return lib_sys_var::getInstance()->getConfig('sSelfSchemeDomain', 'domain') . lib_sys_router::getInstance()->createURI($p_sControllerName, $p_aRouterParam);
+        return Variable::getInstance()->getConfig('sSelfSchemeDomain', 'domain') . Router::getInstance()->createURI($p_sControllerName, $p_aRouterParam);
     }
 
     /**
@@ -63,7 +68,7 @@ abstract class Web extends http
      */
     protected function createOutURL($p_sDomainKey, $p_sAlias, $p_aRouterParam = [])
     {
-        return lib_sys_var::getInstance()->getConfig($p_sDomainKey, 'domain') . lib_sys_router::getInstance()->createOutURI($p_sDomainKey, $p_sAlias, $p_aRouterParam);
+        return Variable::getInstance()->getConfig($p_sDomainKey, 'domain') . Router::getInstance()->createOutURI($p_sDomainKey, $p_sAlias, $p_aRouterParam);
     }
 
     /**
@@ -78,7 +83,7 @@ abstract class Web extends http
     protected function setCookie($p_sName, $p_sValue, $p_iLifeTime, $p_sPath = '/')
     {
         $iExpireTime = 0 == $p_iLifeTime ? 0 : $this->getVisitTime() + $p_iLifeTime;
-        $sDomain = lib_sys_var::getInstance()->getConfig('sCookieDomain', 'domain');
-        util_sys_cookie::setCookie($p_sName, $p_sValue, $iExpireTime, $p_sPath, $sDomain);
+        $sDomain = Variable::getInstance()->getConfig('sCookieDomain', 'domain');
+        Cookie::setCookie($p_sName, $p_sValue, $iExpireTime, $p_sPath, $sDomain);
     }
 }

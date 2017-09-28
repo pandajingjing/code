@@ -1,15 +1,16 @@
 <?php
 
 /**
- * lib_sys_router
+ * Router
  *
  * 系统路由类
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
 /**
- * lib_sys_router
+ * Router
  *
  * 系统路由类
  */
@@ -97,7 +98,7 @@ class Router
         $aRouteParam = $this->_parseParam($sParam);
         
         if (class_exists($sControllerName)) { // 默认路由规则
-            $oRelClass = new ReflectionClass($sControllerName);
+            $oRelClass = new \ReflectionClass($sControllerName);
             if ($oRelClass->isInstantiable()) {
                 $this->_sControllerName = $sControllerName;
                 $this->_aRouterParam = $aRouteParam;
@@ -124,7 +125,9 @@ class Router
         $sControllerName = '';
         $aRouteParam = [];
         // 自定义路由规则
-        $aRoutes = lib_sys_var::getInstance()->getConfig('aRouteList', 'router');
+        $aRoutes = Variable::getInstance()->getConfig('aRouteList', 'router');
+        debug($aDispatchParams);
+        debug($aRoutes);
         $aTmpParams = [];
         $bFound = false;
         foreach ($aRoutes as $sCtrlName => $aConfig) {
@@ -144,18 +147,22 @@ class Router
                 $aRouteParam = $aParam;
             }
         } else {
+            debug($aDispatchParams);
             $aTmp = explode('/', $sPath);
             $sParam = array_pop($aTmp);
             if (1 == count($aTmp)) {
-                $sControllerName = 'controller_home_home';
+                $sControllerName = '\\app\\controller\\home\\Home';
             } else {
                 $aTmp[0] = 'controller';
-                $sControllerName = join('_', $aTmp);
+                $iTmp=count($aTmp);
+                $aTmp[$iTmp-1]=ucfirst($aTmp[$iTmp-1]);
+                $sControllerName = '\\app\\' . join('\\', $aTmp);
             }
+            debug($sControllerName);
             $aRouteParam = $this->_parseParam($sParam);
         }
         if (class_exists($sControllerName)) { // 默认路由规则
-            $oRelClass = new ReflectionClass($sControllerName);
+            $oRelClass = new \ReflectionClass($sControllerName);
             if ($oRelClass->isInstantiable()) {
                 $this->_sControllerName = $sControllerName;
                 $this->_aRouterParam = $aRouteParam;
@@ -181,7 +188,7 @@ class Router
     {
         $sURL = '';
         // 自定义路由规则
-        $aRoutes = lib_sys_var::getInstance()->getConfig('aRouteList', 'router');
+        $aRoutes = Variable::getInstance()->getConfig('aRouteList', 'router');
         if (isset($aRoutes[$p_sControllerName])) {
             $aSearchKeyss = $aReplaceValss = [];
             $aNormalParam = $p_aRouterParam;
@@ -209,7 +216,7 @@ class Router
                 $aURLParam[] = $sParam;
                 $sURL = join('/', $aURLParam);
             } else {
-                throw new Exception(__CLASS__ . ': can not found controller(' . $p_sControllerName . ').');
+                throw new \Exception(__CLASS__ . ': can not found controller(' . $p_sControllerName . ').');
             }
         }
         return $sURL;
@@ -226,7 +233,7 @@ class Router
      */
     function createOutURI($p_sDomainKey, $p_sAlias, $p_aRouterParam = [])
     {
-        $aDomainURIList = lib_sys_var::getInstance()->getConfig($p_sDomainKey, 'uri');
+        $aDomainURIList = Varible::getInstance()->getConfig($p_sDomainKey, 'uri');
         if (isset($aDomainURIList[$p_sAlias])) {
             $aSearchKeys = $aReplaceVals = [];
             $aNormalParam = $p_aRouterParam;
@@ -241,7 +248,7 @@ class Router
                 $sURL = str_replace($aSearchKeys, $aReplaceVals, $aDomainURIList[$p_sAlias][0]) . '?' . http_build_query($aNormalParam);
             }
         } else {
-            throw new Exception(__CLASS__ . ': can not found alias(' . $p_sAlias . ') in domain(' . $p_sDomainKey . ').');
+            throw new \Exception(__CLASS__ . ': can not found alias(' . $p_sAlias . ') in domain(' . $p_sDomainKey . ').');
         }
         return $sURL;
     }

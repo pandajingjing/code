@@ -1,15 +1,16 @@
 <?php
 
 /**
- * lib_sys_template
+ * Template
  *
  * 系统模板类,根据页面数据调用页面模板,并且输出数据
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
 /**
- * lib_sys_template
+ * Template
  *
  * 系统模板类,根据页面数据调用页面模板,并且输出数据
  */
@@ -127,7 +128,7 @@ class Template
              */
             function pandaRes($p_sPath, $p_sDomainKey = 'sCDNSchemeDomain')
             {
-                $sStaticDomain = lib_sys_var::getInstance()->getConfig($p_sDomainKey, 'domain');
+                $sStaticDomain = Variable::getInstance()->getConfig($p_sDomainKey, 'domain');
                 return $sStaticDomain . $p_sPath;
             }
         }
@@ -158,6 +159,6 @@ class Template
                 return true;
             }
         }
-        throw new Exception(__CLASS__ . ': can not found template(' . $p_sPageName . ').');
+        throw new \Exception(__CLASS__ . ': can not found template(' . $p_sPageName . ').');
     }
 }

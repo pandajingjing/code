@@ -1,15 +1,16 @@
 <?php
 
 /**
- * lib_sys_orm
+ * Orm
  *
  * 系统数据关系映射类
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
 /**
- * lib_sys_orm
+ * Orm
  *
  * 系统数据关系映射类
  * 不允许跨表查询,每个表均有且仅有一个主键

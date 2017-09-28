@@ -1,15 +1,16 @@
 <?php
 
 /**
- * util_crypt
+ * Crypt
  *
  * 提供框架加密和解密的功能,可以被业务使用
- *
+ * @namespace panda\util
  * @package util
  */
 namespace panda\util;
+
 /**
- * util_crypt
+ * Crypt
  *
  * 提供框架加密和解密的功能,可以被业务使用
  */

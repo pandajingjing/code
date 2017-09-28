@@ -4,10 +4,11 @@
  * util_file
  *
  * 文件类型,大小及相关操作,可以被业务使用
- *
+ * @namespace panda\util
  * @package util
  */
 namespace panda\util;
+
 /**
  * util_file
  *

@@ -1,15 +1,16 @@
 <?php
 
 /**
- * util_error
+ * Error
  *
  * 错误的定义,收集和返回,可以被业务使用
- *
+ * @namespace panda\util
  * @package util
  */
 namespace panda\util;
+
 /**
- * util_error
+ * Error
  *
  * 错误的定义,收集和返回,可以被业务使用
  */
@@ -87,57 +88,52 @@ class Error
     private static $_aErrs = [];
 
     /**
-     * 添加业务错误
-     *
-     * 业务错误主要发生在bll层或者controller层,当数据不符合业务逻辑时触发该错误
-     *
-     * @param string $p_sErrField            
-     * @param string $p_sErrType            
-     * @param mix $p_mErrValue            
-     * @return void
-     */
-    static function addBizError($p_sErrField, $p_sErrType, $p_mErrValue = '')
-    {
-        self::$_aErrs[$p_sErrField] = [
-            'sTag' => 'Biz_' . $p_sErrType,
-            'mVal' => $p_mErrValue
-        ];
-    }
-
-    /**
      * 添加字段检验错误
      *
      * 字段校验错误主要发生在bll层或者controller层,当数据不符合业务需要的数据类型或者格式时触发该错误
      *
      * @param string $p_sErrField            
      * @param string $p_sErrType            
+     * @param string $p_sRule            
      * @param mix $p_mErrValue            
      * @return void
      */
-    static function addFieldError($p_sErrField, $p_sErrType, $p_mErrValue = '')
+    static function addFieldError($p_sErrField, $p_sErrType, $p_sRule, $p_mErrValue)
     {
         self::$_aErrs[$p_sErrField] = [
-            'sTag' => 'Field_' . $p_sErrType,
-            'mVal' => $p_mErrValue
+            'iCode' => self::getErrCode($p_sErrType),
+            'sType' => $p_sErrType,
+            'sRule' => $p_sRule,
+            'mValue' => $p_mErrValue
         ];
     }
 
     /**
-     * 添加系统错误
+     * 错误编码
      *
-     * 系统错误主要发生在lib层,当系统出现网络,硬件或系统错误时触发该错误
-     *
-     * @param string $p_sErrField            
-     * @param string $p_sErrType            
-     * @param mix $p_mErrValue            
-     * @return void
+     * @var array
      */
-    static function addSysError($p_sErrField, $p_sErrType, $p_mErrValue = '')
+    const ERROR_CODE = [
+        self::TYPE_EMPTY => 400,
+        self::TYPE_INVALID => 403,
+        self::TYPE_NOT_FOUND => 404,
+        self::TYPE_FORMAT_ERROR => 406,
+        self::TYPE_UNKNOWN_ERROR => 503,
+        self::TYPE_LENGTH_LONG => 1001,
+        self::TYPE_LENGTH_SHORT => 1002,
+        self::TYPE_VALUE_BIG => 1003,
+        self::TYPE_VALUE_SMALL => 1004
+    ];
+
+    /**
+     * 根据错误类型返回错误编码
+     *
+     * @param string $p_sErrType            
+     * @return int
+     */
+    static function getErrCode($p_sErrType)
     {
-        self::$_aErrs[$p_sErrField] = [
-            'sTag' => 'Sys_' . $p_sErrType,
-            'mVal' => $p_mErrValue
-        ];
+        return self::ERROR_CODE[$p_sErrType] ?: 0;
     }
 
     /**

@@ -20,6 +20,9 @@ return [
         'controller_home_404' => [
             '/^\/favicon\.ico$/i'
         ],
+//         '\app\controller\home\home' => [
+//             '/^\/$/i'
+//         ],
         'controller_app_test' => [
             '/^\/(\w+)-(\w+)-(\w+)/i',
             [

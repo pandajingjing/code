@@ -1,15 +1,18 @@
 <?php
 
 /**
- * lib_sys_logger
+ * Logger
  *
  * 系统日志类
- *
+ * @namespace panda\lib\sys
  * @package lib_sys
  */
 namespace panda\lib\sys;
+
+use panda\util\File;
+
 /**
- * lib_sys_logger
+ * Logger
  *
  * 系统日志类
  */
@@ -44,7 +47,7 @@ class Logger
      */
     private function __construct()
     {
-        $this->_sBaseDir = lib_sys_var::getInstance()->getConfig('sBaseDir', 'logger');
+        $this->_sBaseDir = Variable::getInstance()->getConfig('sBaseDir', 'logger');
     }
 
     /**
@@ -102,14 +105,14 @@ class Logger
      */
     function writeLog()
     {
+        $sDir = $this->_sBaseDir . DIRECTORY_SEPARATOR . PANDA_LOADER . '_' . PANDA_REQUEST_TYPE;
+        if (! is_dir($sDir)) {
+            File::tryMakeDir($sDir, 0755, true);
+        }
         foreach ($this->_aLog as $sClass => $aLogs) {
-            $sDir = $this->_sBaseDir . DIRECTORY_SEPARATOR . PANDA_LOADER . '_' . PANDA_REQUEST_TYPE;
-            if (! is_dir($sDir)) {
-                util_file::tryMakeDir($sDir, 0755, true);
-            }
             $sFileName = $sDir . DIRECTORY_SEPARATOR . $sClass . '.log';
             foreach ($aLogs as $aLog) {
-                util_file::tryWriteFile($sFileName, $aLog[0] . "\t" . $aLog[1] . ': ' . $aLog[2] . PHP_EOL);
+                File::tryWriteFile($sFileName, $aLog[0] . "\t" . $aLog[1] . ': ' . $aLog[2] . PHP_EOL);
             }
         }
     }
