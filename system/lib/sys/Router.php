@@ -90,10 +90,12 @@ class Router
         $aTmp = explode('/', $sPath);
         $sParam = array_pop($aTmp);
         if (1 == count($aTmp)) {
-            $sControllerName = 'cmd_home_home';
+            $sControllerName = '\\app\\controller\\home\\Home';
         } else {
             $aTmp[0] = 'cmd';
-            $sControllerName = join('_', $aTmp);
+            $iTmp = count($aTmp);
+            $aTmp[$iTmp - 1] = ucfirst($aTmp[$iTmp - 1]);
+            $sControllerName = '\\app\\' . join('\\', $aTmp);
         }
         $aRouteParam = $this->_parseParam($sParam);
         
@@ -103,11 +105,11 @@ class Router
                 $this->_sControllerName = $sControllerName;
                 $this->_aRouterParam = $aRouteParam;
             } else {
-                $this->_sControllerName = 'cmd_home_404';
+                $this->_sControllerName = '\\app\\cmd\\home\\NotFound';
                 $this->_aRouterParam['sURL'] = $sPath;
             }
         } else {
-            $this->_sControllerName = 'cmd_home_404';
+            $this->_sControllerName = '\\app\\cmd\\home\\NotFound';
             $this->_aRouterParam['sURL'] = $sPath;
         }
     }
@@ -126,10 +128,10 @@ class Router
         $aRouteParam = [];
         // 自定义路由规则
         $aRoutes = Variable::getInstance()->getConfig('aRouteList', 'router');
-        debug($aDispatchParams);
-        debug($aRoutes);
         $aTmpParams = [];
         $bFound = false;
+        // debug($aRoutes);
+        // debug($aDispatchParams);
         foreach ($aRoutes as $sCtrlName => $aConfig) {
             if (preg_match($aConfig[0], $sPath, $aTmpParams)) {
                 $bFound = true;
@@ -137,6 +139,7 @@ class Router
                 break;
             }
         }
+        // debug($bFound);
         if ($bFound) {
             if (isset($aConfig[1])) {
                 $aParam = [];
@@ -147,31 +150,30 @@ class Router
                 $aRouteParam = $aParam;
             }
         } else {
-            debug($aDispatchParams);
             $aTmp = explode('/', $sPath);
             $sParam = array_pop($aTmp);
             if (1 == count($aTmp)) {
                 $sControllerName = '\\app\\controller\\home\\Home';
             } else {
                 $aTmp[0] = 'controller';
-                $iTmp=count($aTmp);
-                $aTmp[$iTmp-1]=ucfirst($aTmp[$iTmp-1]);
+                $iTmp = count($aTmp);
+                $aTmp[$iTmp - 1] = ucfirst($aTmp[$iTmp - 1]);
                 $sControllerName = '\\app\\' . join('\\', $aTmp);
             }
-            debug($sControllerName);
             $aRouteParam = $this->_parseParam($sParam);
         }
+        // debug($sControllerName);
         if (class_exists($sControllerName)) { // 默认路由规则
             $oRelClass = new \ReflectionClass($sControllerName);
             if ($oRelClass->isInstantiable()) {
                 $this->_sControllerName = $sControllerName;
                 $this->_aRouterParam = $aRouteParam;
             } else {
-                $this->_sControllerName = 'controller_home_404';
+                $this->_sControllerName = '\\app\\controller\\home\\NotFound';
                 $this->_aRouterParam['sURL'] = $sPath;
             }
         } else {
-            $this->_sControllerName = 'controller_home_404';
+            $this->_sControllerName = '\\app\\controller\\home\\NotFound';
             $this->_aRouterParam['sURL'] = $sPath;
         }
     }

@@ -9,8 +9,6 @@
  */
 namespace panda\util;
 
-use panda\lib\sys\Variable;
-
 /**
  * util_image
  *
@@ -242,16 +240,16 @@ class Image
      * @param int $p_iWidth            
      * @param int $p_iHeight            
      * @param string $p_sStr            
+     * @param string $p_sFontPath            
      * @param int $p_iFontSize            
      * @param int $p_iPointDensity            
      * @param int $p_iCircleDensity            
      * @param int $p_iFontAngle            
      * @return blob
      */
-    static function createIdentifyCodeImage($p_iWidth, $p_iHeight, $p_sStr, $p_iFontSize = 0, $p_iPointDensity = 0, $p_iCircleDensity = 0, $p_iFontAngle = 0)
+    static function createIdentifyCodeImage($p_iWidth, $p_iHeight, $p_sStr, $p_sFontPath, $p_iFontSize = 0, $p_iPointDensity = 0, $p_iCircleDensity = 0, $p_iFontAngle = 0)
     {
         // 获取各种默认值
-        $sTextFont = Variable::getInstance()->getConfig('sImgFont', 'image');
         if (0 == $p_iFontSize) {
             $p_iFontSize = round($p_iHeight * 3 / 5);
         }
@@ -269,7 +267,7 @@ class Image
         imagefill($oImg, 0, 0, $bgc);
         
         // 获取字体范围大小
-        $aTextSize = imagettfbbox($p_iFontSize, $p_iFontAngle, $sTextFont, $p_sStr);
+        $aTextSize = imagettfbbox($p_iFontSize, $p_iFontAngle, $p_sFontPath, $p_sStr);
         $iTextHeight = (max($aTextSize[1], $aTextSize[3]) - min($aTextSize[5], $aTextSize[7]));
         $iTextWidth = (max($aTextSize[4], $aTextSize[2]) - min($aTextSize[0], $aTextSize[6]));
         // 字体起始位置
@@ -304,7 +302,7 @@ class Image
         
         for ($i = 0; $i < $len; $i ++) {
             $iTextStartLeft = $_x * $i + mt_rand(20, 25);
-            imagettftext($oImg, $p_iFontSize, mt_rand(- 10, 10), $iTextStartLeft, $iTextStartHeight, $oTextColor, $sTextFont, $p_sStr[$i]);
+            imagettftext($oImg, $p_iFontSize, mt_rand(- 10, 10), $iTextStartLeft, $iTextStartHeight, $oTextColor, $p_sFontPath, $p_sStr[$i]);
         }
         
         for ($i = 0; $i < 100; $i ++) {

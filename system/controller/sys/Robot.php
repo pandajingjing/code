@@ -1,19 +1,22 @@
 <?php
 
 /**
- * controller_sys_robot
+ * Robot
  *
  * robot controller
  *
  * @package controller_sys
  */
-namespace panda\controller;
+namespace panda\controller\sys;
+
+use panda\lib\controller\Web;
+
 /**
- * controller_sys_robot
+ * Robot
  *
  * robot controller
  */
-class Robot extends lib_controller_web
+class Robot extends Web
 {
 
     /**

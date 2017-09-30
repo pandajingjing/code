@@ -28,18 +28,21 @@ class Browser
     private static $_aOpt = [];
 
     /**
+     * 默认的用户头信息
+     * 
+     * @var string
+     */
+    const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0';
+
+    /**
      * 设置浏览器头部信息
      *
      * @param string $p_sUserAgent            
      * @return void
      */
-    static function setUserAgent($p_sUserAgent = '')
+    static function setUserAgent($p_sUserAgent = self::USER_AGENT)
     {
-        if ('' == $p_sUserAgent) {
-            self::$_aOpt[CURLOPT_USERAGENT] = lib_sys_var::getInstance()->getConfig('sUserAgent', 'client');
-        } else {
             self::$_aOpt[CURLOPT_USERAGENT] = $p_sUserAgent;
-        }
     }
 
     /**

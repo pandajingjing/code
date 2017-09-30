@@ -8,6 +8,7 @@
 use panda\lib\sys\Debugger;
 use panda\lib\sys\Variable;
 use panda\lib\sys\Router;
+use panda\lib\sys\Template;
 
 /**
  * 入口函数
@@ -17,8 +18,8 @@ use panda\lib\sys\Router;
  */
 function bin()
 {
-    include __DIR__ . '/lib/sys/loader.php';
-    \panda\lib\sys\loader::register();
+    include __DIR__ . '/lib/sys/Loader.php';
+    \panda\lib\sys\Loader::register();
     
     ob_start('ob_gzhandler');
     error_reporting(E_ALL);
@@ -61,10 +62,10 @@ function bin()
     }
     
     $oDebugger->startDebug('Render Page: ' . $mReturn);
-    $oRelMethod = $oRelClass->getMethod('getPageData');
+    $oRelMethod = $oRelClass->getMethod('getAllData');
     $aPageData = $oRelMethod->invoke($oRelInstance);
     
-    $oTpl = lib_sys_template::getInstance();
+    $oTpl = Template::getInstance();
     $oTpl->setPageData($aPageData);
     $oTpl->render($sPagePath);
     $oDebugger->stopDebug('Render Page: ' . $mReturn);
@@ -83,7 +84,7 @@ function bin_cmd()
 {
     error_reporting(E_ALL);
     
-    $oDebugger = lib_sys_debugger::getInstance();
+    $oDebugger = Debugger::getInstance();
     $oDebugger->startDebug('Proccess');
     
     $oVar = lib_sys_var::getInstance();
@@ -94,7 +95,7 @@ function bin_cmd()
     // set_error_handler('Util_Sys_Handle::handleError');
     
     $oDebugger->startDebug('Parse Route');
-    $oRouter = lib_sys_router::getInstance();
+    $oRouter = Router::getInstance();
     $oRouter->parseURI($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);

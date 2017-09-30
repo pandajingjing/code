@@ -1,16 +1,20 @@
 <?php
 
 /**
- * controller_home_404
- * @author jxu
+ * NotFound
+ * @namespace app\controller\home\NotFound
  * @package blank-web_controller_home
  */
+namespace app\controller\home;
+
+use panda\lib\controller\Web;
+
 /**
- * controller_home_404
+ * NotFound
  *
  * @author jxu
  */
-class controller_home_404 extends lib_controller_web
+class NotFound extends Web
 {
 
     function doRequest()

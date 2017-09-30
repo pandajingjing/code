@@ -9,7 +9,6 @@
  */
 namespace panda\lib\client;
 
-use panda\lib\sys\Variable;
 use panda\lib\sys\Debugger;
 
 /**
@@ -49,6 +48,20 @@ class Curl
     private $_iMaxRedirs = 5;
 
     /**
+     * 尝试连接超时时间
+     *
+     * @var int
+     */
+    const CONNECT_TIME_OUT = 1000;
+
+    /**
+     * 执行超时时间
+     *
+     * @var int
+     */
+    const TIME_OUT = 1000;
+
+    /**
      * 构造函数
      *
      * 设置客户端请求的url,捕获返回内容,建立连接和返回内容的超时时间
@@ -64,8 +77,8 @@ class Curl
         $this->setOption(CURLOPT_MAXREDIRS, $this->_iMaxRedirs);
         $this->setOption(CURLOPT_SAFE_UPLOAD, true);
         $this->setOption(CURLOPT_FOLLOWLOCATION, true);
-        $this->setConnectTimeOut(Variable::getInstance()->getConfig('iConnectionTimeout', 'client'));
-        $this->setTimeOut(Variable::getInstance()->getConfig('iExecuteTimeout', 'client'));
+        $this->setConnectTimeOut();
+        $this->setTimeOut();
         // $sCookieFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookie';
         // $this->setOption(CURLOPT_COOKIEJAR, $sCookieFile);
         // $this->setOption(CURLOPT_COOKIEFILE, $sCookieFile);
@@ -112,7 +125,7 @@ class Curl
      * @param int $p_iTime            
      * @return true|false
      */
-    function setConnectTimeOut($p_iTime)
+    function setConnectTimeOut($p_iTime = self::CONNECT_TIME_OUT)
     {
         return $this->setOption(CURLOPT_CONNECTTIMEOUT_MS, $p_iTime);
     }
@@ -123,7 +136,7 @@ class Curl
      * @param int $p_iTime            
      * @return true|false
      */
-    function setTimeOut($p_iTime)
+    function setTimeOut($p_iTime = self::TIME_OUT)
     {
         return $this->setOption(CURLOPT_TIMEOUT_MS, $p_iTime);
     }

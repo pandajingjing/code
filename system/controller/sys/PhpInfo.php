@@ -7,25 +7,28 @@
  *
  * @package controller_sys
  */
-namespace panda\controller;
+namespace panda\controller\sys;
+
+use panda\lib\controller\Web;
+
 /**
  * controller_sys_phpinfo
  *
  * phpinfo controller
  */
-class PhpInfo extends lib_controller_web
+class PhpInfo extends Web
 {
 
     /**
      * 控制器入口函数
      *
-     * @return string|lib_sys_controller
+     * @return string
      */
     function doRequest()
     {
         $this->addHeader('Content-Type:text/html; charset=utf-8');
         if (PANDA_ENV_NAME == PANDA_ENV_RELEASE) {
-            return 'controller_home_404';
+            return '\\app\\controller\\home\\NotFound';
         } else {
             return 'app_phpinfo';
         }

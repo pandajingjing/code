@@ -8,22 +8,16 @@
  */
 return [
     'aRouteList' => [
-        'controller_sys_crossdomain' => [
-            '/^\/crossdomain\.xml$/i'
-        ],
-        'controller_sys_robot' => [
+        '\\panda\\controller\\sys\\Robot' => [
             '/^\/robot\.txt$/i'
         ],
-        'controller_sys_phpinfo' => [
+        '\\panda\\controller\\sys\\PhpInfo' => [
             '/^\/phpinfo\/$/i'
         ],
-        'controller_home_404' => [
-            '/^\/favicon\.ico$/i'
+        '\\panda\\controller\\sys\\Rpc' => [
+            '/^\/rpc\/$/i'
         ],
-//         '\app\controller\home\home' => [
-//             '/^\/$/i'
-//         ],
-        'controller_app_test' => [
+        '\\app\\controller\\test' => [
             '/^\/(\w+)-(\w+)-(\w+)/i',
             [
                 's1',

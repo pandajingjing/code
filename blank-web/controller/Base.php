@@ -1,16 +1,21 @@
 <?php
 
 /**
- * controller_base
+ * Base
+ * 
  * @author jxu
  * @package blank-web_controller
  */
+namespace panda\lib\controller;
+
+use panda\lib\controller\Web;
+
 /**
- * controller_base
+ * Base
  *
  * @author jxu
  */
-abstract class controller_base extends lib_controller_web
+abstract class Base extends Web
 {
 
     /**

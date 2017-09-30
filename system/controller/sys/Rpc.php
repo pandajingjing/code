@@ -1,19 +1,22 @@
 <?php
 
 /**
- * controller_sys_rpc
+ * Rpc
  *
  * rpc controller
  *
  * @package controller_sys
  */
-namespace panda\controller;
+namespace panda\controller\sys;
+
+use panda\lib\controller\Http;
+
 /**
- * controller_sys_rpc
+ * Rpc
  *
  * rpc controller
  */
-class Rpc extends lib_controller_http
+class Rpc extends Http
 {
 
     /**
@@ -23,11 +26,6 @@ class Rpc extends lib_controller_http
      */
     function doRequest()
     {
-        if (util_error::isError()) {
-            $this->setData('mJData', util_sys_response::returnErrors(util_error::getErrors()));
-        } else {
-            $this->setData('mJData', util_sys_response::returnOne('this is a rpc request.'));
-        }
         return 'service_json';
     }
 
