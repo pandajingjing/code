@@ -148,7 +148,7 @@ class Pager
                 } else {
                     $p_aPager[$sKey]['bLink'] = true;
                 }
-                $p_aPager[$sKey]['sURL'] = $p_sSchemaDomain . Router::getInstance()->createURI($p_sControllerName, array_merge($p_aParam, [
+                $p_aPager[$sKey]['sURL'] = $p_sSchemaDomain . Router::getInstance()->createUri($p_sControllerName, array_merge($p_aParam, [
                     $p_sColumn => $aPage['iIndex']
                 ]));
             }
@@ -159,7 +159,7 @@ class Pager
             } else {
                 $p_aPager['aNumURLs'][$iIndex]['bLink'] = true;
             }
-            $p_aPager['aNumURLs'][$iIndex]['sURL'] = $p_sSchemaDomain . Router::getInstance()->createURI($p_sControllerName, array_merge($p_aParam, [
+            $p_aPager['aNumURLs'][$iIndex]['sURL'] = $p_sSchemaDomain . Router::getInstance()->createUri($p_sControllerName, array_merge($p_aParam, [
                 $p_sColumn => $aPage['iIndex']
             ]));
         }

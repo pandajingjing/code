@@ -5,12 +5,14 @@
  * @author jxu
  * @package blank-web_controller
  */
+namespace app\controller;
+
 /**
  * controller_doc
  *
  * @author jxu
  */
-class controller_doc extends controller_base
+class Doc extends Base
 {
 
     function doRequest()

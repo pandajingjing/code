@@ -35,7 +35,7 @@ function bin()
     
     $oDebugger->startDebug('Parse Route');
     $oRouter = Router::getInstance();
-    $oRouter->parseURI($oVar->getParam('DISPATCH_PARAM', 'server'));
+    $oRouter->parseUri($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);
     $oVar->setRouterParam($oRouter->getRouterParam());
@@ -96,7 +96,7 @@ function bin_cmd()
     
     $oDebugger->startDebug('Parse Route');
     $oRouter = Router::getInstance();
-    $oRouter->parseURI($oVar->getParam('DISPATCH_PARAM', 'server'));
+    $oRouter->parseUri($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);
     $oVar->setRouterParam($oRouter->getRouterParam());

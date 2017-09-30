@@ -6,9 +6,10 @@
  * @author jxu
  * @package blank-web_controller
  */
-namespace panda\lib\controller;
+namespace app\controller;
 
 use panda\lib\controller\Web;
+use panda\util\Guid;
 
 /**
  * Base
@@ -29,13 +30,13 @@ abstract class Base extends Web
         $this->setData('sRemoteIP', $this->getParam('CLIENTIP', 'server'));
         $sGUID = $this->getParam('guid', 'cookie');
         if ('' == $sGUID) {
-            $sGUID = util_guid::getGuid();
+            $sGUID = Guid::getGuid();
         }
         $this->setCookie('guid', $sGUID, 31536000);
         $this->setData('iVisitTime', $this->getVisitTime());
         
         $aTopURLs = [
-            'sDefault' => $this->createInURL('controller_home_home'),
+            'sDefault' => $this->createInURL('\\app\\controller\\home\\Home'),
             'aDocList' => []
         ];
         $this->setData('aTopURLs', $aTopURLs);

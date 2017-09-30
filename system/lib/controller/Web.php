@@ -55,7 +55,7 @@ abstract class Web extends Http
      */
     protected function createInURL($p_sControllerName, $p_aRouterParam = [])
     {
-        return Variable::getInstance()->getConfig('sSelfSchemeDomain', 'domain') . Router::getInstance()->createURI($p_sControllerName, $p_aRouterParam);
+        return Variable::getInstance()->getConfig('sSelfSchemeDomain', 'domain') . Router::getInstance()->createUri($p_sControllerName, $p_aRouterParam);
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class Web extends Http
      */
     protected function createOutURL($p_sDomainKey, $p_sAlias, $p_aRouterParam = [])
     {
-        return Variable::getInstance()->getConfig($p_sDomainKey, 'domain') . Router::getInstance()->createOutURI($p_sDomainKey, $p_sAlias, $p_aRouterParam);
+        return Variable::getInstance()->getConfig($p_sDomainKey, 'domain') . Router::getInstance()->createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam);
     }
 
     /**

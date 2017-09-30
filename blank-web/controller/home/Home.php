@@ -7,7 +7,7 @@
  */
 namespace app\controller\home;
 
-use panda\lib\controller\Base;
+use app\controller\Base;
 
 /**
  * Home

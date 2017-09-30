@@ -120,7 +120,7 @@ class Router
      * @param string $p_sDispatchParam            
      * @return void
      */
-    function parseURI($p_sDispatchParam)
+    function parseUri($p_sDispatchParam)
     {
         $aDispatchParams = parse_url($p_sDispatchParam);
         $sPath = $aDispatchParams['path'];
@@ -179,16 +179,16 @@ class Router
     }
 
     /**
-     * 生成URI
+     * 生成Uri
      *
      * @param string $p_sControllerName            
      * @param array $p_aRouterParam            
      * @throws Exception
      * @return string
      */
-    function createURI($p_sControllerName, $p_aRouterParam = [])
+    function createUri($p_sControllerName, $p_aRouterParam = [])
     {
-        $sURL = '';
+        $sUrl = '';
         // 自定义路由规则
         $aRoutes = Variable::getInstance()->getConfig('aRouteList', 'router');
         if (isset($aRoutes[$p_sControllerName])) {
@@ -200,13 +200,13 @@ class Router
                 unset($aNormalParam[$sKey]);
             }
             if (empty($aNormalParam)) {
-                $sURL = str_replace($aSearchKeys, $aReplaceVals, $aRoutes[$p_sControllerName][2]);
+                $sUrl = str_replace($aSearchKeys, $aReplaceVals, $aRoutes[$p_sControllerName][2]);
             } else {
-                $sURL = str_replace($aSearchKeys, $aReplaceVals, $aRoutes[$p_sControllerName][2]) . '?' . http_build_query($aNormalParam);
+                $sUrl = str_replace($aSearchKeys, $aReplaceVals, $aRoutes[$p_sControllerName][2]) . '?' . http_build_query($aNormalParam);
             }
         } else {
             if (class_exists($p_sControllerName)) { // 默认路由规则
-                if ('controller_home_home' == $p_sControllerName) {
+                if ('\\app\\controller\\home\\Home' == $p_sControllerName) {
                     $aURLParam = [
                         ''
                     ];
@@ -216,12 +216,12 @@ class Router
                 }
                 $sParam = $this->_createParam($p_aRouterParam);
                 $aURLParam[] = $sParam;
-                $sURL = join('/', $aURLParam);
+                $sUrl = join('/', $aURLParam);
             } else {
                 throw new \Exception(__CLASS__ . ': can not found controller(' . $p_sControllerName . ').');
             }
         }
-        return $sURL;
+        return $sUrl;
     }
 
     /**
@@ -233,26 +233,26 @@ class Router
      * @throws Exception
      * @return string
      */
-    function createOutURI($p_sDomainKey, $p_sAlias, $p_aRouterParam = [])
+    function createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam = [])
     {
-        $aDomainURIList = Varible::getInstance()->getConfig($p_sDomainKey, 'uri');
-        if (isset($aDomainURIList[$p_sAlias])) {
+        $aDomainUriList = Variable::getInstance()->getConfig($p_sDomainKey, 'uri');
+        if (isset($aDomainUriList[$p_sAlias])) {
             $aSearchKeys = $aReplaceVals = [];
             $aNormalParam = $p_aRouterParam;
-            foreach ($aDomainURIList[$p_sAlias][1] as $sKey) {
+            foreach ($aDomainUriList[$p_sAlias][1] as $sKey) {
                 $aSearchKeys[] = '{' . $sKey . '}';
                 $aReplaceVals[] = $p_aRouterParam[$sKey];
                 unset($aNormalParam[$sKey]);
             }
             if (empty($aNormalParam)) {
-                $sURL = str_replace($aSearchKeys, $aReplaceVals, $aDomainURIList[$p_sAlias][0]);
+                $sUrl = str_replace($aSearchKeys, $aReplaceVals, $aDomainUriList[$p_sAlias][0]);
             } else {
-                $sURL = str_replace($aSearchKeys, $aReplaceVals, $aDomainURIList[$p_sAlias][0]) . '?' . http_build_query($aNormalParam);
+                $sUrl = str_replace($aSearchKeys, $aReplaceVals, $aDomainUriList[$p_sAlias][0]) . '?' . http_build_query($aNormalParam);
             }
         } else {
             throw new \Exception(__CLASS__ . ': can not found alias(' . $p_sAlias . ') in domain(' . $p_sDomainKey . ').');
         }
-        return $sURL;
+        return $sUrl;
     }
 
     /**
