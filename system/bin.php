@@ -82,17 +82,20 @@ function bin()
  */
 function bin_cmd()
 {
+    include __DIR__ . '/lib/sys/Loader.php';
+    \panda\lib\sys\Loader::register();
+    
     error_reporting(E_ALL);
     
     $oDebugger = Debugger::getInstance();
     $oDebugger->startDebug('Proccess');
     
-    $oVar = lib_sys_var::getInstance();
+    $oVar = Variable::getInstance();
     date_default_timezone_set($oVar->getConfig('sTimeZone', 'system'));
     mb_internal_encoding('utf8');
-    register_shutdown_function('util_sys_handle::handleShutdown');
-    // set_exception_handler('Util_Sys_Handle::handleException');
-    // set_error_handler('Util_Sys_Handle::handleError');
+    register_shutdown_function('\panda\util\sys\Handle::handleShutdown');
+    set_exception_handler('\panda\util\sys\Handle::handleException');
+    set_error_handler('\panda\util\sys\Handle::handleError');
     
     $oDebugger->startDebug('Parse Route');
     $oRouter = Router::getInstance();

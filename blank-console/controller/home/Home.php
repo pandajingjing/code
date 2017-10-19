@@ -1,7 +1,7 @@
 <?php
 namespace app\controller\home;
 
-use panda\lib\controller\Service;
+use panda\lib\controller\Cmd;
 
 /**
  * controller_home_home
@@ -14,11 +14,11 @@ use panda\lib\controller\Service;
  *
  * @author jxu
  */
-class Home extends Service
+class Home extends Cmd
 {
 
     function doRequest()
     {
-        return $this->returnInfo('this is home page');
+        $this->stdOut('This is Home Cmd');
     }
 }
