@@ -1,7 +1,11 @@
 <?php
+namespace app\controller\home;
+
+use panda\lib\controller\Service;
 
 /**
  * controller_home_404
+ *
  * @author jxu
  * @package blank-service_controller_home
  */
@@ -10,14 +14,12 @@
  *
  * @author jxu
  */
-class controller_home_404 extends lib_controller_service
+class Miss extends Service
 {
 
     function doRequest()
     {
         $this->addHeader('HTTP/1.1 404 Not Found');
-        return $this->returnErrors([
-            'service is not found'
-        ]);
+        return $this->returnError('service is not found');
     }
 }

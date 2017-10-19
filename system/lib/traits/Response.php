@@ -83,6 +83,34 @@ trait Response {
     }
 
     /**
+     * 返回消息
+     *
+     * @param string $p_sInfo            
+     * @return array
+     */
+    static function returnInfo($p_sInfo)
+    {
+        return [
+            'iStatus' => 1,
+            'sData' => $p_sInfo
+        ];
+    }
+
+    /**
+     * 返回错误消息
+     *
+     * @param string $p_sError            
+     * @return array
+     */
+    static function returnError($p_sError)
+    {
+        return [
+            'iStatus' => 0,
+            'sError' => $p_sError
+        ];
+    }
+
+    /**
      * 返回验证错误
      *
      * @param array $p_aErrors            

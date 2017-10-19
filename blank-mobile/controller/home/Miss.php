@@ -1,7 +1,11 @@
 <?php
+namespace app\controller\home;
+
+use panda\lib\controller\Web;
 
 /**
  * controller_home_404
+ *
  * @author jxu
  * @package blank-mobile_controller_home
  */
@@ -10,7 +14,7 @@
  *
  * @author jxu
  */
-class controller_home_404 extends lib_controller_web
+class Miss extends Web
 {
 
     function doRequest()

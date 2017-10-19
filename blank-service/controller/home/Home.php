@@ -1,7 +1,11 @@
 <?php
+namespace app\controller\home;
+
+use panda\lib\controller\Service;
 
 /**
  * controller_home_home
+ *
  * @author jxu
  * @package blank-service_controller_home
  */
@@ -10,13 +14,11 @@
  *
  * @author jxu
  */
-class controller_home_home extends lib_controller_service
+class Home extends Service
 {
 
     function doRequest()
     {
-        return $this->returnSuccess([
-            'this is home page'
-        ]);
+        return $this->returnInfo('this is home page');
     }
 }
