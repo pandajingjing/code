@@ -6,3 +6,5 @@
 .DS_Store
 #*nux
 *.swp
+#code
+/config

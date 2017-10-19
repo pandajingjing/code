@@ -51,11 +51,12 @@ abstract class Web extends Http
      *
      * @param string $p_sControllerName            
      * @param array $p_aRouterParam            
+     * @param string $p_sAnchor            
      * @return string
      */
-    protected function createInURL($p_sControllerName, $p_aRouterParam = [])
+    protected function createInURL($p_sControllerName, $p_aRouterParam = [], $p_sAnchor = '')
     {
-        return Variable::getInstance()->getConfig('sSelfSchemeDomain', 'domain') . Router::getInstance()->createUri($p_sControllerName, $p_aRouterParam);
+        return Variable::getInstance()->getConfig('sSelfSchemeDomain', 'domain') . Router::getInstance()->createUri($p_sControllerName, $p_aRouterParam, $p_sAnchor);
     }
 
     /**
@@ -64,11 +65,12 @@ abstract class Web extends Http
      * @param string $p_sDomainKey            
      * @param string $p_sAlias            
      * @param array $p_aRouterParam            
+     * @param string $p_sAnchor            
      * @return string
      */
-    protected function createOutURL($p_sDomainKey, $p_sAlias, $p_aRouterParam = [])
+    protected function createOutURL($p_sDomainKey, $p_sAlias, $p_aRouterParam = [], $p_sAnchor = '')
     {
-        return Variable::getInstance()->getConfig($p_sDomainKey, 'domain') . Router::getInstance()->createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam);
+        return Variable::getInstance()->getConfig($p_sDomainKey, 'domain') . Router::getInstance()->createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam, $p_sAnchor);
     }
 
     /**

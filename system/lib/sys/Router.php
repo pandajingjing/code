@@ -105,11 +105,11 @@ class Router
                 $this->_sControllerName = $sControllerName;
                 $this->_aRouterParam = $aRouteParam;
             } else {
-                $this->_sControllerName = '\\app\\cmd\\home\\NotFound';
+                $this->_sControllerName = '\\app\\cmd\\home\\Miss';
                 $this->_aRouterParam['sURL'] = $sPath;
             }
         } else {
-            $this->_sControllerName = '\\app\\cmd\\home\\NotFound';
+            $this->_sControllerName = '\\app\\cmd\\home\\Miss';
             $this->_aRouterParam['sURL'] = $sPath;
         }
     }
@@ -169,11 +169,11 @@ class Router
                 $this->_sControllerName = $sControllerName;
                 $this->_aRouterParam = $aRouteParam;
             } else {
-                $this->_sControllerName = '\\app\\controller\\home\\NotFound';
+                $this->_sControllerName = '\\app\\controller\\home\\Miss';
                 $this->_aRouterParam['sURL'] = $sPath;
             }
         } else {
-            $this->_sControllerName = '\\app\\controller\\home\\NotFound';
+            $this->_sControllerName = '\\app\\controller\\home\\Miss';
             $this->_aRouterParam['sURL'] = $sPath;
         }
     }
@@ -183,10 +183,11 @@ class Router
      *
      * @param string $p_sControllerName            
      * @param array $p_aRouterParam            
+     * @param string $p_sAnchor            
      * @throws Exception
      * @return string
      */
-    function createUri($p_sControllerName, $p_aRouterParam = [])
+    function createUri($p_sControllerName, $p_aRouterParam = [], $p_sAnchor = '')
     {
         $sUrl = '';
         // 自定义路由规则
@@ -208,18 +209,29 @@ class Router
             if (class_exists($p_sControllerName)) { // 默认路由规则
                 if ('\\app\\controller\\home\\Home' == $p_sControllerName) {
                     $aURLParam = [
+                        '',
                         ''
                     ];
                 } else {
-                    $aURLParam = explode('_', $p_sControllerName);
-                    $aURLParam[0] = '';
+                    $aURLParam = explode('\\', $p_sControllerName);
                 }
                 $sParam = $this->_createParam($p_aRouterParam);
                 $aURLParam[] = $sParam;
-                $sUrl = join('/', $aURLParam);
+                array_shift($aURLParam);
+                array_shift($aURLParam);
+                $aURLParam[0] = '';
+                // debug($aURLParam);
+                $sUrl = strtolower(join('/', $aURLParam));
+                if ('' == $sUrl) {
+                    $sUrl = '/';
+                }
+                // debug($sUrl);
             } else {
                 throw new \Exception(__CLASS__ . ': can not found controller(' . $p_sControllerName . ').');
             }
+        }
+        if ('' != $p_sAnchor) {
+            $sUrl .= '#' . $p_sAnchor;
         }
         return $sUrl;
     }
@@ -230,10 +242,11 @@ class Router
      * @param string $p_sDomainKey            
      * @param string $p_sAlias            
      * @param array $p_aRouterParam            
+     * @param string $p_sAnchor            
      * @throws Exception
      * @return string
      */
-    function createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam = [])
+    function createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam = [], $p_sAnchor = '')
     {
         $aDomainUriList = Variable::getInstance()->getConfig($p_sDomainKey, 'uri');
         if (isset($aDomainUriList[$p_sAlias])) {

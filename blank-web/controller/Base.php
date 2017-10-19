@@ -37,7 +37,16 @@ abstract class Base extends Web
         
         $aTopURLs = [
             'sDefault' => $this->createInURL('\\app\\controller\\home\\Home'),
-            'aDocList' => []
+            'aDocList' => [
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_1'),
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_2'),
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_3'),
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_4'),
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_5'),
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_6'),
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_7'),
+                $this->createInURL('\\app\\controller\\Doc', [], '_doc_8')
+            ]
         ];
         $this->setData('aTopURLs', $aTopURLs);
     }
