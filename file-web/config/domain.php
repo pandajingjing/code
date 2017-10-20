@@ -6,6 +6,4 @@
  *
  * @package config
  */
-return [
-    'sCDNSchemeDomain' => 'http://static.dr.dev.jxulife.com'
-];
+return [];

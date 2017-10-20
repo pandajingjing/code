@@ -1,7 +1,11 @@
 <?php
+namespace app\controller\home;
+
+use app\controller\Base;
 
 /**
  * controller_home_home
+ *
  * @author jxu
  * @package duorou-web_controller_home
  */
@@ -10,7 +14,7 @@
  *
  * @author jxu
  */
-class controller_home_home extends lib_controller_web
+class Home extends Base
 {
 
     function doRequest()
