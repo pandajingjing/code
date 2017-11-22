@@ -8,13 +8,13 @@
  */
 return [
     'aRouteList' => [
-        '\\panda\\controller\\sys\\Robot' => [
+        '\\panda\\controller\\sys\\robot' => [
             '/^\/robot\.txt$/i'
         ],
-        '\\panda\\controller\\sys\\PhpInfo' => [
+        '\\panda\\controller\\sys\\phpinfo' => [
             '/^\/phpinfo\/$/i'
         ],
-        '\\panda\\controller\\sys\\Rpc' => [
+        '\\panda\\controller\\sys\\rpc' => [
             '/^\/rpc\/$/i'
         ],
         '\\app\\controller\\test' => [

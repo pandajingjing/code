@@ -14,7 +14,7 @@ use app\controller\Base;
  *
  * @author jxu
  */
-class Home extends Base
+class Images extends Base
 {
 
     function doRequest()
@@ -24,9 +24,10 @@ class Home extends Base
         foreach ($aOriImgs as $sOriImg) {
             $iPosA = strpos($sOriImg, 'http');
             $iPosB = strpos($sOriImg, 'jpg');
-            //$aImgs[] = trim(substr($sOriImg, $iPosA, ($iPosB - $iPosA + 3)));
+            $aImgs[] = trim(substr($sOriImg, $iPosA, ($iPosB - $iPosA + 3)));
         }
+        $aImgs = array_slice($aImgs, rand(0, count($aImgs)), 20);
         $this->setData('aImgs', $aImgs);
-        return 'home_home';
+        return 'home_images';
     }
 }

@@ -7,5 +7,11 @@
  * @package config
  */
 return [
-    'sTimeZone' => 'Asia/Shanghai'
+    'sTimeZone' => 'Asia/Shanghai',
+    'sErrorHandle' => '\panda\util\sys\handle::handleError',
+    'sExceptionHandle' => '\panda\util\sys\handle::handleException',
+    'sShutdownHandle' => '\panda\util\sys\handle::handleShutdown',
+    'sDefaultControllerName' => '\\app\\controller\\home\\home',
+    's404ControllerName' => '\\app\\controller\\home\\miss',
+    'sDefaultAppNamespace' => 'app'
 ];

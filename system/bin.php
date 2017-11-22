@@ -5,10 +5,10 @@
  * @namespace panda
  * @package global
  */
-use panda\lib\sys\Debugger;
-use panda\lib\sys\Variable;
-use panda\lib\sys\Router;
-use panda\lib\sys\Template;
+use panda\lib\sys\debugger;
+use panda\lib\sys\variable;
+use panda\lib\sys\router;
+use panda\lib\sys\template;
 
 /**
  * 入口函数
@@ -18,23 +18,23 @@ use panda\lib\sys\Template;
  */
 function bin()
 {
-    include __DIR__ . '/lib/sys/Loader.php';
-    \panda\lib\sys\Loader::register();
+    include __DIR__ . '/lib/sys/loader.php';
+    \panda\lib\sys\loader::register();
     
     ob_start('ob_gzhandler');
     error_reporting(E_ALL);
-    $oDebugger = Debugger::getInstance();
+    $oDebugger = debugger::getInstance();
     $oDebugger->startDebug('Proccess');
     
-    $oVar = Variable::getInstance();
+    $oVar = variable::getInstance();
     date_default_timezone_set($oVar->getConfig('sTimeZone', 'system'));
     mb_internal_encoding('utf8');
-    register_shutdown_function('\panda\util\sys\Handle::handleShutdown');
-    set_exception_handler('\panda\util\sys\Handle::handleException');
-    set_error_handler('\panda\util\sys\Handle::handleError');
+    register_shutdown_function($oVar->getConfig('sShutdownHandle', 'system'));
+    set_exception_handler($oVar->getConfig('sExceptionHandle', 'system'));
+    set_error_handler($oVar->getConfig('sErrorHandle', 'system'));
     
     $oDebugger->startDebug('Parse Route');
-    $oRouter = Router::getInstance();
+    $oRouter = router::getInstance();
     $oRouter->parseUri($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);
@@ -65,7 +65,7 @@ function bin()
     $oRelMethod = $oRelClass->getMethod('getAllData');
     $aPageData = $oRelMethod->invoke($oRelInstance);
     
-    $oTpl = Template::getInstance();
+    $oTpl = template::getInstance();
     $oTpl->setPageData($aPageData);
     $oTpl->render($sPagePath);
     $oDebugger->stopDebug('Render Page: ' . $mReturn);
@@ -83,23 +83,23 @@ function bin()
 function bin_cmd()
 {
     include __DIR__ . '/lib/sys/Loader.php';
-    \panda\lib\sys\Loader::register();
+    \panda\lib\sys\loader::register();
     
     error_reporting(E_ALL);
     
-    $oDebugger = Debugger::getInstance();
+    $oDebugger = debugger::getInstance();
     $oDebugger->startDebug('Proccess');
     
-    $oVar = Variable::getInstance();
+    $oVar = variable::getInstance();
     date_default_timezone_set($oVar->getConfig('sTimeZone', 'system'));
     mb_internal_encoding('utf8');
-    register_shutdown_function('\panda\util\sys\Handle::handleShutdown');
-    set_exception_handler('\panda\util\sys\Handle::handleException');
-    set_error_handler('\panda\util\sys\Handle::handleError');
+    register_shutdown_function($oVar->getConfig('sShutdownHandle', 'system'));
+    set_exception_handler($oVar->getConfig('sExceptionHandle', 'system'));
+    set_error_handler($oVar->getConfig('sErrorHandle', 'system'));
     
     $oDebugger->startDebug('Parse Route');
-    $oRouter = Router::getInstance();
-    $oRouter->parseUri($oVar->getParam('DISPATCH_PARAM', 'server'));
+    $oRouter = router::getInstance();
+    $oRouter->parseCMD($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);
     $oVar->setRouterParam($oRouter->getRouterParam());
