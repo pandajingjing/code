@@ -24,7 +24,7 @@ class pinyin
      * @param string $p_sString            
      * @return array
      */
-    static function getPY($p_sString)
+    static function getPy($p_sString)
     {
         $aStrings = $aPinyins = [];
         $iLength = mb_strlen($p_sString);

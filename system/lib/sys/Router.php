@@ -140,11 +140,11 @@ class router
                 $this->_aRouterParam = $aRouteParam;
             } else {
                 $this->_sControllerName = $this->_s404ControllerName;
-                $this->_aRouterParam['sURL'] = $sPath;
+                $this->_aRouterParam['sUrl'] = $sPath;
             }
         } else {
             $this->_sControllerName = $this->_s404ControllerName;
-            $this->_aRouterParam['sURL'] = $sPath;
+            $this->_aRouterParam['sUrl'] = $sPath;
         }
     }
 
@@ -203,11 +203,11 @@ class router
                 $this->_aRouterParam = $aRouteParam;
             } else {
                 $this->_sControllerName = $this->_s404ControllerName;
-                $this->_aRouterParam['sURL'] = $sPath;
+                $this->_aRouterParam['sUrl'] = $sPath;
             }
         } else {
             $this->_sControllerName = $this->_s404ControllerName;
-            $this->_aRouterParam['sURL'] = $sPath;
+            $this->_aRouterParam['sUrl'] = $sPath;
         }
     }
 
@@ -241,20 +241,20 @@ class router
         } else {
             if (class_exists($p_sControllerName)) { // 默认路由规则
                 if ($this->_sDefaultControllerName == $p_sControllerName) {
-                    $aURLParam = [
+                    $aUrlParam = [
                         '',
                         ''
                     ];
                 } else {
-                    $aURLParam = explode('\\', $p_sControllerName);
+                    $aUrlParam = explode('\\', $p_sControllerName);
                 }
                 $sParam = $this->_createParam($p_aRouterParam);
-                $aURLParam[] = $sParam;
-                array_shift($aURLParam);
-                array_shift($aURLParam);
-                $aURLParam[0] = '';
-                // debug($aURLParam);
-                $sUrl = join('/', $aURLParam);
+                $aUrlParam[] = $sParam;
+                array_shift($aUrlParam);
+                array_shift($aUrlParam);
+                $aUrlParam[0] = '';
+                // debug($aUrlParam);
+                $sUrl = join('/', $aUrlParam);
                 if ('' == $sUrl) {
                     $sUrl = '/';
                 }
@@ -279,7 +279,7 @@ class router
      * @throws Exception
      * @return string
      */
-    function createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam = [], $p_sAnchor = '')
+    function createOutUrl($p_sDomainKey, $p_sAlias, $p_aRouterParam = [], $p_sAnchor = '')
     {
         $aDomainUriList = variable::getInstance()->getConfig($p_sDomainKey, 'uri');
         if (isset($aDomainUriList[$p_sAlias])) {
@@ -304,7 +304,7 @@ class router
     /**
      * 根据URL获取参数
      *
-     * @param string $p_sURL            
+     * @param string $p_sParam            
      * @return array
      */
     protected function _parseParam($p_sParam)

@@ -88,53 +88,53 @@ class browser
     /**
      * Get获取数据
      *
-     * @param string $p_sURL            
+     * @param string $p_sUrl            
      * @param string $p_sResultType            
      * @return mix
      */
-    static function getData($p_sURL, $p_sResultType = 'json')
+    static function getData($p_sUrl, $p_sResultType = 'json')
     {
-        return self::_fetchData('get', $p_sURL, null, $p_sResultType);
+        return self::_fetchData('get', $p_sUrl, null, $p_sResultType);
     }
 
     /**
      * Post获取数据
      *
-     * @param string $p_sURL            
+     * @param string $p_sUrl            
      * @param array $p_aData            
      * @param string $p_sResultType            
      * @return mix
      */
-    static function postData($p_sURL, $p_aData, $p_sResultType = 'json')
+    static function postData($p_sUrl, $p_aData, $p_sResultType = 'json')
     {
-        return self::_fetchData('post', $p_sURL, $p_aData, $p_sResultType);
+        return self::_fetchData('post', $p_sUrl, $p_aData, $p_sResultType);
     }
 
     /**
      * 获取数据
      *
      * @param string $p_sMethod            
-     * @param string $p_sURL            
+     * @param string $p_sUrl            
      * @param array $p_aData            
      * @param string $p_sResultType            
      * @return array|string
      */
-    private static function _fetchData($p_sMethod, $p_sURL, $p_aData, $p_sResultType = 'json')
+    private static function _fetchData($p_sMethod, $p_sUrl, $p_aData, $p_sResultType = 'json')
     {
-        $oCURL = pooling::getInstance()->getClient('curl');
+        $oCurl = pooling::getInstance()->getClient('curl');
         if ('post' == $p_sMethod) {
-            $oCURL->setPost(true);
-            $oCURL->setPostParams($p_aData);
+            $oCurl->setPost(true);
+            $oCurl->setPostParams($p_aData);
         } else {
-            $oCURL->setPost(false);
+            $oCurl->setPost(false);
         }
-        $oCURL->setURL($p_sURL);
+        $oCurl->setURL($p_sUrl);
         foreach (self::$_aOpt as $iKey => $mVal) {
-            $oCURL->setOption($iKey, $mVal);
+            $oCurl->setOption($iKey, $mVal);
         }
-        $bResult = $oCURL->executeURL();
+        $bResult = $oCurl->executeURL();
         if ($bResult) {
-            $sResource = $oCURL->getContent();
+            $sResource = $oCurl->getContent();
             switch ($p_sResultType) {
                 case 'json':
                     $mData = json_decode($sResource, true);

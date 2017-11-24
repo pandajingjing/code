@@ -34,13 +34,13 @@ abstract class web extends http
     /**
      * 服务器页面跳转
      *
-     * @param string $p_sURL            
+     * @param string $p_sUrl            
      * @param boolean $p_bIsTemp            
      * @return void
      */
-    protected function redirectURL($p_sURL, $p_bIsTemp = true)
+    protected function redirectUrl($p_sUrl, $p_bIsTemp = true)
     {
-        $this->addHeader('Location:' . $p_sURL, true, $p_bIsTemp ? 302 : 301);
+        $this->addHeader('Location:' . $p_sUrl, true, $p_bIsTemp ? 302 : 301);
         $this->afterRequest();
         exit();
     }
@@ -53,7 +53,7 @@ abstract class web extends http
      * @param string $p_sAnchor            
      * @return string
      */
-    protected function createInURL($p_sControllerName, $p_aRouterParam = [], $p_sAnchor = '')
+    protected function createInUrl($p_sControllerName, $p_aRouterParam = [], $p_sAnchor = '')
     {
         return variable::getInstance()->getConfig('sSelfSchemeDomain', 'domain') . router::getInstance()->createUri($p_sControllerName, $p_aRouterParam, $p_sAnchor);
     }
@@ -67,7 +67,7 @@ abstract class web extends http
      * @param string $p_sAnchor            
      * @return string
      */
-    protected function createOutURL($p_sDomainKey, $p_sAlias, $p_aRouterParam = [], $p_sAnchor = '')
+    protected function createOutUrl($p_sDomainKey, $p_sAlias, $p_aRouterParam = [], $p_sAnchor = '')
     {
         return variable::getInstance()->getConfig($p_sDomainKey, 'domain') . router::getInstance()->createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam, $p_sAnchor);
     }

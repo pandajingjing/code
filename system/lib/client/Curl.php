@@ -65,12 +65,12 @@ class curl
      *
      * 设置客户端请求的url,捕获返回内容,建立连接和返回内容的超时时间
      *
-     * @param string $p_sURL            
+     * @param string $p_sUrl            
      * @return void
      */
-    function __construct($p_sURL = '')
+    function __construct($p_sUrl = '')
     {
-        $this->_oResource = curl_init($p_sURL);
+        $this->_oResource = curl_init($p_sUrl);
         $this->setOption(CURLOPT_RETURNTRANSFER, true);
         $this->setOption(CURLOPT_FILETIME, true);
         $this->setOption(CURLOPT_MAXREDIRS, $this->_iMaxRedirs);
@@ -110,12 +110,12 @@ class curl
     /**
      * 设置要访问的URL
      *
-     * @param string $p_sURL            
+     * @param string $p_sUrl            
      * @return true|false
      */
-    function setURL($p_sURL)
+    function setUrl($p_sUrl)
     {
-        return $this->setOption(CURLOPT_URL, $p_sURL);
+        return $this->setOption(CURLOPT_URL, $p_sUrl);
     }
 
     /**
@@ -182,7 +182,7 @@ class curl
      *
      * @return true|false
      */
-    function executeURL()
+    function executeUrl()
     {
         $mResult = curl_exec($this->_oResource);
         if (false === $mResult) {

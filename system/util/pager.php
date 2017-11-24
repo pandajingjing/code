@@ -46,11 +46,11 @@ class pager
         $aPager = [
             'aFirstPage' => [
                 'iIndex' => 1,
-                'sURL' => ''
+                'sUrl' => ''
             ],
             'aCurrentPage' => [
                 'iIndex' => $p_iPageNum,
-                'sURL' => ''
+                'sUrl' => ''
             ],
             'iPageSize' => $p_iPageSize
         ];
@@ -73,12 +73,12 @@ class pager
             if (0 == $aPager['iTotalNum'] % $aPager['iPageSize']) {
                 $aPager['iTotalPage'] = [
                     'iIndex' => $aPager['iTotalNum'] / $aPager['iPageSize'],
-                    'sURL' => ''
+                    'sUrl' => ''
                 ];
             } else {
                 $aPager['iTotalPage'] = [
                     'iIndex' => floor($aPager['iTotalNum'] / $aPager['iPageSize']) + 1,
-                    'sURL' => ''
+                    'sUrl' => ''
                 ];
             }
             if (0 == $aPager['iTotalPage']['iIndex']) {
@@ -89,14 +89,14 @@ class pager
             }
             $aPager['aPrePage'] = [
                 'iIndex' => $aPager['aCurrentPage']['iIndex'] - 1,
-                'sURL' => ''
+                'sUrl' => ''
             ];
             if ($aPager['aPrePage']['iIndex'] < 1) {
                 $aPager['aPrePage']['iIndex'] = 1;
             }
             $aPager['aNextPage'] = [
                 'iIndex' => $aPager['aCurrentPage']['iIndex'] + 1,
-                'sURL' => ''
+                'sUrl' => ''
             ];
             if ($aPager['aNextPage']['iIndex'] > $aPager['iTotalPage']['iIndex']) {
                 $aPager['aNextPage']['iIndex'] = $aPager['iTotalPage']['iIndex'];
@@ -111,19 +111,19 @@ class pager
             $aPager['iGroupSize'] = $p_iDefaultGroupSize;
             $aPager['aPreGPage'] = [
                 'iIndex' => $aPager['aCurrentPage']['iIndex'] - $p_iDefaultGroupSize,
-                'sURL' => ''
+                'sUrl' => ''
             ];
             if ($aPager['aPreGPage']['iIndex'] < 1) {
                 $aPager['aPreGPage']['iIndex'] = 1;
             }
             $aPager['aNextGPage'] = [
                 'iIndex' => $aPager['aCurrentPage']['iIndex'] + $p_iDefaultGroupSize,
-                'sURL' => ''
+                'sUrl' => ''
             ];
             if ($aPager['aNextGPage']['iIndex'] > $aPager['iTotalPage']['iIndex']) {
                 $aPager['aNextGPage']['iIndex'] = $aPager['iTotalPage']['iIndex'];
             }
-            $aPager['aNumURLs'] = self::_makeNumURL($aPager['aCurrentPage']['iIndex'], $aPager['iTotalPage']['iIndex'], $aPager['iGroupSize']);
+            $aPager['aNumUrls'] = self::_makeNumUrl($aPager['aCurrentPage']['iIndex'], $aPager['iTotalPage']['iIndex'], $aPager['iGroupSize']);
         }
         return $aPager;
     }
@@ -148,18 +148,18 @@ class pager
                 } else {
                     $p_aPager[$sKey]['bLink'] = true;
                 }
-                $p_aPager[$sKey]['sURL'] = $p_sSchemaDomain . router::getInstance()->createUri($p_sControllerName, array_merge($p_aParam, [
+                $p_aPager[$sKey]['sUrl'] = $p_sSchemaDomain . router::getInstance()->createUri($p_sControllerName, array_merge($p_aParam, [
                     $p_sColumn => $aPage['iIndex']
                 ]));
             }
         }
-        foreach ($p_aPager['aNumURLs'] as $iIndex => $aPage) {
+        foreach ($p_aPager['aNumUrls'] as $iIndex => $aPage) {
             if ($iCurrentPage == $aPage['iIndex']) {
-                $p_aPager['aNumURLs'][$iIndex]['bLink'] = false;
+                $p_aPager['aNumUrls'][$iIndex]['bLink'] = false;
             } else {
-                $p_aPager['aNumURLs'][$iIndex]['bLink'] = true;
+                $p_aPager['aNumUrls'][$iIndex]['bLink'] = true;
             }
-            $p_aPager['aNumURLs'][$iIndex]['sURL'] = $p_sSchemaDomain . router::getInstance()->createUri($p_sControllerName, array_merge($p_aParam, [
+            $p_aPager['aNumUrls'][$iIndex]['sUrl'] = $p_sSchemaDomain . router::getInstance()->createUri($p_sControllerName, array_merge($p_aParam, [
                 $p_sColumn => $aPage['iIndex']
             ]));
         }
@@ -174,7 +174,7 @@ class pager
      * @param int $p_iGroupSize            
      * @return array
      */
-    private static function _makeNumURL($p_iCurrentPage, $p_iTotalPage, $p_iGroupSize)
+    private static function _makeNumUrl($p_iCurrentPage, $p_iTotalPage, $p_iGroupSize)
     {
         $iTmp = $p_iGroupSize / 2;
         if ($p_iGroupSize & 1) { // 奇数
@@ -199,13 +199,13 @@ class pager
             $iPageEnd = $p_iTotalPage;
         }
         $iPageEnd = $iPageEnd + 1;
-        $aURLs = [];
+        $aUrls = [];
         for ($iIndex = $iPageStart; $iIndex < $iPageEnd; ++ $iIndex) {
-            $aURLs[] = [
+            $aUrls[] = [
                 'iIndex' => $iIndex,
-                'sURL' => ''
+                'sUrl' => ''
             ];
         }
-        return $aURLs;
+        return $aUrls;
     }
 }

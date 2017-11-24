@@ -172,7 +172,7 @@ trait response {
      * @param array $p_aData            
      * @return array
      */
-    static function keyMap($p_aData)
+    static function mapKey($p_aData)
     {
         return $p_aData;
     }
