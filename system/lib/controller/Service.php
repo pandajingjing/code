@@ -4,7 +4,6 @@
  *
  * 内部服务控制器基类
  * @namespace panda\lib\controller
- * @package lib_controller
  */
 namespace panda\lib\controller;
 

@@ -4,7 +4,6 @@
  *
  * 文件类型,大小及相关操作
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

@@ -4,7 +4,6 @@
  *
  * 提供框架加密和解密的功能
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

@@ -4,7 +4,6 @@
  *
  * 错误的定义,收集和返回
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

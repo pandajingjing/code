@@ -4,7 +4,6 @@
  *
  * 各类接口的返回规范
  * @namespace panda\lib\traits
- * @package lib_sys
  */
 namespace panda\lib\traits;
 

@@ -4,7 +4,6 @@
  *
  * 文件缓存,与memcached有类似的函数
  * @namespace panda\lib\data
- * @package lib_data
  */
 namespace panda\lib\data;
 

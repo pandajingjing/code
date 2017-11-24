@@ -6,7 +6,6 @@
  * 
  * 根据规范自动加载相关文件
  * @namespace panda\lib\sys
- * @package lib_sys
  */
 namespace panda\lib\sys;
 

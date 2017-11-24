@@ -4,7 +4,6 @@
  *
  * 系统模板类,根据页面数据调用页面模板,并且输出数据
  * @namespace panda\lib\sys
- * @package lib_sys
  */
 namespace panda\lib\sys;
 

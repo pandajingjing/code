@@ -4,7 +4,6 @@
  *
  * 系统调试器类
  * @namespace panda\lib\sys
- * @package lib_sys
  */
 namespace panda\lib\sys;
 

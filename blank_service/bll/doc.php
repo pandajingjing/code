@@ -3,7 +3,6 @@
  * doc
  *
  * @namespace blank_service\bll
- * @package blank_service_bll
  */
 namespace blank_service\bll;
 

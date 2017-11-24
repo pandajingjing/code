@@ -4,7 +4,6 @@
  *
  * 获取和发送cookie的工具,应避免应用直接使用.如有需要可以在这里对读写cookie进行封装
  * @namespace panda\util\sys
- * @package util_sys
  */
 namespace panda\util\sys;
 

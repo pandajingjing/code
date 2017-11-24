@@ -3,7 +3,6 @@
  * bin
  * 框架入口文件,定义了自动加载函数,入口函数和简单的调试函数
  * @namespace panda
- * @package global
  */
 use panda\lib\sys\debugger;
 use panda\lib\sys\variable;
@@ -82,7 +81,7 @@ function bin()
  */
 function bin_cmd()
 {
-    include __DIR__ . '/lib/sys/Loader.php';
+    include __DIR__ . '/lib/sys/loader.php';
     \panda\lib\sys\loader::register();
     
     error_reporting(E_ALL);

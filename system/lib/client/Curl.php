@@ -4,7 +4,6 @@
  *
  * curl客户端
  * @namespace panda\lib\client
- * @package lib_client
  */
 namespace panda\lib\client;
 

@@ -4,7 +4,6 @@
  *
  * 业务服务客户端基类
  * @namespace panda\lib\sys
- * @package lib_sys
  */
 namespace panda\lib\sys;
 

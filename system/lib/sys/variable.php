@@ -4,7 +4,6 @@
  *
  * 系统变量类,保存了系统所有允许被访问的变量
  * @namespace panda\lib\sys
- * @package lib_sys
  */
 namespace panda\lib\sys;
 

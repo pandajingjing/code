@@ -1,20 +1,17 @@
 <?php
+/**
+ * miss
+ * 
+ * @namespace app\controller\home
+ */
 namespace app\controller\home;
 
-use panda\lib\controller\Cmd;
+use panda\lib\controller\cmd;
 
 /**
- * controller_home_404
- *
- * @author jxu
- * @package blank_service_controller_home
+ * miss
  */
-/**
- * controller_home_404
- *
- * @author jxu
- */
-class Miss extends Cmd
+class miss extends cmd
 {
 
     function doRequest()

@@ -4,7 +4,6 @@
  *
  * 数据连接池
  * @namespace panda\lib\data
- * @package lib_data
  */
 namespace panda\lib\data;
 

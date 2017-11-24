@@ -1,11 +1,9 @@
 <?php
-
 /**
  * pandamail
  *
  * php邮件
  * @namespace panda\lib\mail
- * @package lib_mail
  */
 namespace panda\lib\mail;
 

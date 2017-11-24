@@ -4,7 +4,6 @@
  *
  * 全球 IPv4地址归属地数据库(17MON.CN 版)
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

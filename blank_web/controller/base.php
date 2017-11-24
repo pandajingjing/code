@@ -3,12 +3,12 @@
  * base
  * 
  * @namespace app\controller
- * @package blank_web_controller
  */
 namespace app\controller;
 
 use panda\lib\controller\web;
 use panda\util\guid;
+use blank_service\bll\doc;
 
 /**
  * base
@@ -32,18 +32,21 @@ abstract class base extends web
         $this->setCookie('guid', $sGuid, 31536000);
         $this->setData('iVisitTime', $this->getVisitTime());
         
+        $oBllDoc = new doc();
+        $aChapters = $oBllDoc->getChapters();
+        $aChapterList = [];
+        foreach ($aChapters as $aChapter) {
+            $sAnchor = 'doc_' . $aChapter['iIndex'];
+            $aChapterList[] = [
+                'sAnchor' => $sAnchor,
+                'sTitle' => $aChapter['sTitle'],
+                'sUrl' => $this->createInUrl('\\app\\controller\\doc', [], $sAnchor)
+            ];
+        }
+        
         $aTopURLs = [
             'sDefault' => $this->createInUrl('\\app\\controller\\home\\home'),
-            'aDocList' => [
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_1'),
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_2'),
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_3'),
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_4'),
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_5'),
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_6'),
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_7'),
-                $this->createInUrl('\\app\\controller\\doc', [], '_doc_8')
-            ]
+            'aChapterList' => $aChapterList
         ];
         $this->setData('aTopURLs', $aTopURLs);
     }

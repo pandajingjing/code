@@ -4,7 +4,6 @@
  * 
  * 数据处理工具
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

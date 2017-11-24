@@ -4,7 +4,6 @@
  *
  * 获取分页数据,设置对应url
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

@@ -1,20 +1,17 @@
 <?php
+/**
+ * home
+ *
+ * @namespace app\controller\home
+ */
 namespace app\controller\home;
 
-use panda\lib\controller\Cmd;
+use panda\lib\controller\cmd;
 
 /**
- * controller_home_home
- *
- * @author jxu
- * @package blank_service_controller_home
+ * home
  */
-/**
- * controller_home_home
- *
- * @author jxu
- */
-class Home extends Cmd
+class home extends cmd
 {
 
     function doRequest()

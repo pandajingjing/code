@@ -1,23 +1,34 @@
 <?php
 /**
- * controller_home_home
- * @author jxu
- * @package blank_mobile_controller_home
+ * home
+ * 
+ * @namespace app\controller\home
  */
 namespace app\controller\home;
 
-use panda\lib\controller\Web;
+use app\controller\base;
+use blank_service\bll\doc;
 
 /**
- * controller_home_home
- *
- * @author jxu
+ * home
  */
-class Home extends Web
+class home extends base
 {
 
     function doRequest()
     {
-        return 'mobile_home';
+        $oBllDoc = new doc();
+        $aChapters = $oBllDoc->getChapters();
+        $aChapterList = [];
+        foreach ($aChapters as $aChapter) {
+            $sAnchor = 'doc_' . $aChapter['iIndex'];
+            $aChapterList[] = [
+                'sAnchor' => $sAnchor,
+                'sTitle' => $aChapter['sTitle'],
+                'sUrl' => $this->createInUrl('\\app\\controller\\doc', [], $sAnchor)
+            ];
+        }
+        $this->setData('aChapterList', $aChapterList);
+        return 'home_home';
     }
 }

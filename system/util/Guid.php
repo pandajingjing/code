@@ -4,7 +4,6 @@
  *
  * guid工具,用于生成guid
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

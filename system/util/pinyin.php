@@ -4,7 +4,6 @@
  * 
  * 获取汉字拼音
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

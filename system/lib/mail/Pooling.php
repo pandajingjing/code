@@ -4,7 +4,6 @@
  *
  * 邮件连接池
  * @namespace panda\lib\mail
- * @package lib_mail
  */
 namespace panda\lib\mail;
 

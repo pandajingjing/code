@@ -1,25 +1,22 @@
 <?php
+/**
+ * miss
+ * 
+ * @namespace app\controller\home
+ */
 namespace app\controller\home;
 
-use panda\lib\controller\Web;
+use app\controller\base;
 
 /**
- * controller_home_404
- *
- * @author jxu
- * @package blank_mobile_controller_home
+ * miss
  */
-/**
- * controller_home_404
- *
- * @author jxu
- */
-class Miss extends Web
+class miss extends base
 {
 
     function doRequest()
     {
         $this->addHeader('HTTP/1.1 404 Not Found');
-        return 'mobile_404';
+        return 'home_404';
     }
 }

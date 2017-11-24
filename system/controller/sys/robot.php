@@ -2,10 +2,7 @@
 /**
  * robot
  *
- * robot controller
- *
  * @namespace panda\controller\sys
- * @package controller_sys
  */
 namespace panda\controller\sys;
 
@@ -13,8 +10,6 @@ use panda\lib\controller\web;
 
 /**
  * robot
- *
- * robot controller
  */
 class robot extends web
 {

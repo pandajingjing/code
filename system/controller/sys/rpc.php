@@ -2,10 +2,7 @@
 /**
  * rpc
  *
- * rpc controller
- *
  * @namespace panda\controller\sys
- * @package controller_sys
  */
 namespace panda\controller\sys;
 
@@ -13,8 +10,6 @@ use panda\lib\controller\http;
 
 /**
  * rpc
- *
- * rpc controller
  */
 class rpc extends http
 {

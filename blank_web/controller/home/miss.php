@@ -3,7 +3,6 @@
  * miss
  * 
  * @namespace app\controller\home
- * @package blank_web_controller_home
  */
 namespace app\controller\home;
 

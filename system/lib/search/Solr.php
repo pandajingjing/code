@@ -4,7 +4,6 @@
  *
  * 搜索
  * @namespace panda\lib\search
- * @package lib_search
  */
 namespace panda\lib\search;
 

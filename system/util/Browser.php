@@ -4,7 +4,6 @@
  *
  * 仿浏览器客户端
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

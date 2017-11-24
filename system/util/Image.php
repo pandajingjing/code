@@ -4,7 +4,6 @@
  *
  * 缩放和裁剪图片
  * @namespace panda\util
- * @package util
  */
 namespace panda\util;
 

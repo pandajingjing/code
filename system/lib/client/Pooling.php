@@ -4,7 +4,6 @@
  *
  * 客户端连接池
  * @namespace panda\lib\client
- * @package lib_client
  */
 namespace panda\lib\client;
 

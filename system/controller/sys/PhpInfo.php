@@ -2,10 +2,7 @@
 /**
  * phpinfo
  *
- * phpinfo controller
- *
  * @namespace panda\controller\sys
- * @package controller_sys
  */
 namespace panda\controller\sys;
 
@@ -13,8 +10,6 @@ use panda\lib\controller\web;
 
 /**
  * phpinfo
- *
- * phpinfo controller
  */
 class phpinfo extends web
 {

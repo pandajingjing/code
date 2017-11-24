@@ -1,15 +1,14 @@
 <?php
 /**
- * PandaPDO
+ * pandapdo
  *
  * 扩展PDO
  * @namespace panda\lib\data
- * @package lib_data
  */
 namespace panda\lib\data;
 
 /**
- * PandaPDO
+ * pandapdo
  *
  * 扩展PDO
  */
