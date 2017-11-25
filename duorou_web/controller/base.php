@@ -16,7 +16,7 @@ use panda\util\Guid;
  *
  * @author jxu
  */
-abstract class Base extends Web
+abstract class base extends Web
 {
 
     /**

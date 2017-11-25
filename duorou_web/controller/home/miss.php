@@ -3,7 +3,7 @@ namespace app\controller\home;
 
 use panda\lib\controller\Web;
 
-class Miss extends Web
+class miss extends Web
 {
 
     function doRequest()
