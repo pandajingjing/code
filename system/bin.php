@@ -61,7 +61,7 @@ function bin()
     }
     
     $oDebugger->startDebug('Render Page: ' . $mReturn);
-    $oRelMethod = $oRelClass->getMethod('getAllData');
+    $oRelMethod = $oRelClass->getMethod('getAllPageData');
     $aPageData = $oRelMethod->invoke($oRelInstance);
     
     $oTpl = template::getInstance();

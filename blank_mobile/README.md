@@ -1,4 +1,4 @@
-# code-blank-mobile
+# code-blank_mobile
 
 H5端业务频道逻辑
 

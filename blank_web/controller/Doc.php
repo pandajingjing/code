@@ -27,7 +27,7 @@ class doc extends base
                 'sUrl' => $this->createInUrl('\\app\\controller\\doc', [], $sAnchor)
             ];
         }
-        $this->setData('aChapterList', $aChapterList);
+        $this->setPageData('aChapterList', $aChapterList);
         return 'doc';
     }
 }

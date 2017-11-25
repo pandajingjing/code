@@ -47,7 +47,7 @@ class template
      *
      * @return void
      */
-    protected function __construct()
+    private function __construct()
     {}
 
     /**
@@ -55,7 +55,7 @@ class template
      *
      * @return void
      */
-    protected function __clone()
+    private function __clone()
     {}
 
     /**

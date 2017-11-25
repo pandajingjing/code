@@ -26,7 +26,7 @@ class Home extends Base
             $iPosB = strpos($sOriImg, 'jpg');
             //$aImgs[] = trim(substr($sOriImg, $iPosA, ($iPosB - $iPosA + 3)));
         }
-        $this->setData('aImgs', $aImgs);
+        $this->setPageData('aImgs', $aImgs);
         return 'home_home';
     }
 }

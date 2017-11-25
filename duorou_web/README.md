@@ -1,6 +1,6 @@
-# code-duorou-web
+# code-duorou_web
 
-业务频道逻辑
+Web端业务频道逻辑
 
 ## 关于作者
 

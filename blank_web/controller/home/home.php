@@ -28,7 +28,7 @@ class home extends base
                 'sUrl' => $this->createInUrl('\\app\\controller\\doc', [], $sAnchor)
             ];
         }
-        $this->setData('aChapterList', $aChapterList);
+        $this->setPageData('aChapterList', $aChapterList);
         return 'home_home';
     }
 }

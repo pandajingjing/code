@@ -25,9 +25,9 @@ class controller_crossdomain extends lib_controller_web
     {
         $aResult = bclient_file_save::getCrossDomain(false);
         if ($aResult['iStatus'] == 1) {
-            $this->setData('aCrossDomainList', $aResult['aList']);
+            $this->setPageData('aCrossDomainList', $aResult['aList']);
         } else {
-            $this->setData('aCrossDomainList', []);
+            $this->setPageData('aCrossDomainList', []);
         }
         $this->addHeader('Content-Type:text/xml');
         return 'app_crossdomain';

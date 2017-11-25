@@ -1,6 +1,6 @@
-# code-message-console
+# code-message_console
 
-业务频道逻辑
+命令行业务频道逻辑
 
 ## 关于作者
 

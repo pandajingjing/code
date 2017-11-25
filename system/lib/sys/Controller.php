@@ -18,6 +18,19 @@ abstract class controller
 {
 
     /**
+     * 内部变量
+     *
+     * 存放控制器数据,页面数据和响应头数据
+     *
+     * @var array
+     */
+    protected $_aPri = [
+        'aControllerData' => [],
+        'aPageData' => [],
+        'aHeaders' => []
+    ];
+
+    /**
      * 构造函数
      *
      * @return void
@@ -56,6 +69,28 @@ abstract class controller
      * @return string|controller
      */
     abstract function doRequest();
+
+    /**
+     * 设置控制器数据
+     *
+     * @param string $p_sKey            
+     * @param mix $p_mValue            
+     */
+    protected function setControllerData($p_sKey, $p_mValue)
+    {
+        $this->_aPri['aControllerData'][$p_sKey] = $p_mValue;
+    }
+
+    /**
+     * 获取控制器数据
+     *
+     * @param string $p_sKey            
+     * @return mixed
+     */
+    protected function getControllerData($p_sKey)
+    {
+        return $this->_aPri['aControllerData'][$p_sKey];
+    }
 
     /**
      * 获取参数

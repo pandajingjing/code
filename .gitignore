@@ -7,4 +7,4 @@
 #*nux
 *.swp
 #code
-/config/*
+/config/

@@ -15,7 +15,7 @@ class controller_duorou_list extends lib_controller_web
 
     function doRequest()
     {
-        $this->setData('test', 111);
+        $this->setPageData('test', 111);
         return 'duorou_list';
     }
 }

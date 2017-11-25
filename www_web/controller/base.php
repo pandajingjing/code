@@ -20,14 +20,14 @@ abstract class controller_base extends lib_controller_web
     {
         parent::beforeRequest();
         // do something
-        $this->setData('fScriptStartTime', $this->getRealTime(true));
-        $this->setData('sRemoteIP', $this->getParam('CLIENTIP', 'server'));
+        $this->setPageData('fScriptStartTime', $this->getRealTime(true));
+        $this->setPageData('sRemoteIP', $this->getParam('CLIENTIP', 'server'));
         $sGUID = $this->getParam('guid', 'cookie');
         if ('' == $sGUID) {
             $sGUID = util_guid::getGuid();
         }
         $this->setCookie('guid', $sGUID, 31536000);
-        $this->setData('iVisitTime', $this->getVisitTime());
+        $this->setPageData('iVisitTime', $this->getVisitTime());
         
         $aTopURLs = [
             'sDefault' => $this->createInURL('controller_home_home'),
@@ -47,7 +47,7 @@ abstract class controller_base extends lib_controller_web
         }
         unset($aTopArticleKeyList);
         $aTopURLs['aQZoneTopList']['sOther'] = $this->createInURL('controller_qzone_list');
-        $this->setData('aTopURLs', $aTopURLs);
+        $this->setPageData('aTopURLs', $aTopURLs);
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class controller_base extends lib_controller_web
     function afterRequest()
     {
         // do something
-        $this->setData('fScriptEndTime', $this->getRealTime(true));
+        $this->setPageData('fScriptEndTime', $this->getRealTime(true));
         parent::afterRequest();
     }
 }

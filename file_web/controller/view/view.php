@@ -97,8 +97,8 @@ class viewcontroller extends filecontroller
             $this->addHeader('HTTP/1.0 404 Not Found');
             $this->addLog(array($mResult,$_SERVER),'unknown_404');
         }
-        $this->setData('bErrFnd', $bErrFnd);
-        $this->setData('oFile', $mResult);
+        $this->setPageData('bErrFnd', $bErrFnd);
+        $this->setPageData('oFile', $mResult);
         return '/view';
     }
 }

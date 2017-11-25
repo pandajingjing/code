@@ -68,7 +68,7 @@ abstract class web extends http
      */
     protected function createOutUrl($p_sDomainKey, $p_sAlias, $p_aRouterParam = [], $p_sAnchor = '')
     {
-        return variable::getInstance()->getConfig($p_sDomainKey, 'domain') . router::getInstance()->createOutUri($p_sDomainKey, $p_sAlias, $p_aRouterParam, $p_sAnchor);
+        return variable::getInstance()->getConfig($p_sDomainKey, 'domain') . router::getInstance()->createOutUrl($p_sDomainKey, $p_sAlias, $p_aRouterParam, $p_sAnchor);
     }
 
     /**

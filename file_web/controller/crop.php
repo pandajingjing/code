@@ -37,10 +37,10 @@ class cropcontroller extends filecontroller{
 					$mResult 
 			);
 		}
-		$this->setData('sCrossDomain', $oBll->getCrossDomain($this->getParam('needjs', 'get')));
-		$this->setData('jsonErrMsg', json_encode($aErrMsg));
-		$this->setData('bErrFnd', $bErrFnd);
-		$this->setData('jsonCropFiles', json_encode($aCropFiles));
+		$this->setPageData('sCrossDomain', $oBll->getCrossDomain($this->getParam('needjs', 'get')));
+		$this->setPageData('jsonErrMsg', json_encode($aErrMsg));
+		$this->setPageData('bErrFnd', $bErrFnd);
+		$this->setPageData('jsonCropFiles', json_encode($aCropFiles));
 		return '/crop';
 	}
 }

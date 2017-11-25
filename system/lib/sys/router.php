@@ -306,7 +306,7 @@ class router
      * @param string $p_sParam            
      * @return array
      */
-    protected function _parseParam($p_sParam)
+    private function _parseParam($p_sParam)
     {
         $aParam = [];
         $aTmp = explode($this->_sParamSeperator, $p_sParam);
@@ -327,7 +327,7 @@ class router
      * @param array $p_aParam            
      * @return string
      */
-    protected function _createParam($p_aParam)
+    private function _createParam($p_aParam)
     {
         ksort($p_aParam);
         $sParam = '';

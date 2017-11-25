@@ -13,7 +13,7 @@ use panda\lib\sys\controller;
  * cmd
  *
  * 命令行控制器基类
- * 
+ *
  * @todo 实现异步命令行
  */
 abstract class cmd extends controller
@@ -22,16 +22,9 @@ abstract class cmd extends controller
     /**
      * 命令行开始时间
      *
-     * @var float
+     * @var string
      */
-    private $_fStartTime = '';
-
-    /**
-     * 命令行结束时间
-     *
-     * @var float
-     */
-    private $_fEndTime = '';
+    const DKEY_STARTTIME = 'fStartTime';
 
     /**
      * 在控制器开始时执行（调度使用）
@@ -42,7 +35,7 @@ abstract class cmd extends controller
     {
         set_time_limit(300);
         parent::beforeRequest();
-        $this->_fStartTime = $this->getRealTime(true);
+        $this->setControllerData(self::DKEY_STARTTIME, $this->getRealTime(true));
         $this->stdOut('PHP Console Type Start: ' . get_class($this));
     }
 
@@ -54,8 +47,9 @@ abstract class cmd extends controller
     function afterRequest()
     {
         $this->stdOut('PHP Console Type End');
-        $this->_fEndTime = $this->getRealTime(true);
-        $iResult = ($this->_fEndTime - $this->_fStartTime); // 1秒=1000毫秒=1000000微秒
+        $fStartTime = $this->getControllerData(self::DKEY_STARTTIME);
+        $fEndTime = $this->getRealTime(true);
+        $iResult = ($fEndTime - $fStartTime); // 1秒=1000毫秒=1000000微秒
         if ($iResult > 1) {
             $sUnit = 's';
         } else {

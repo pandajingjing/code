@@ -27,7 +27,7 @@ class Images extends Base
             $aImgs[] = trim(substr($sOriImg, $iPosA, ($iPosB - $iPosA + 3)));
         }
         $aImgs = array_slice($aImgs, rand(0, count($aImgs)), 20);
-        $this->setData('aImgs', $aImgs);
+        $this->setPageData('aImgs', $aImgs);
         return 'home_images';
     }
 }

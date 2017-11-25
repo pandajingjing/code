@@ -35,7 +35,7 @@ class image
      * @throws Exception
      * @return blob
      */
-    private static function resizeImage_Imagick($p_sPath, $p_iWidth, $p_iHeight, $p_sExtension, $p_aOption = [])
+    private static function _resizeImage_Imagick($p_sPath, $p_iWidth, $p_iHeight, $p_sExtension, $p_aOption = [])
     {
         $oImage = new \Imagick();
         $oImage->setResourceLimit(6, 1);
@@ -229,7 +229,7 @@ class image
      * @param array $p_aOption            
      * @return blob
      */
-    private static function resizeImage_Gd($p_sPath, $p_iWidth, $p_iHeight, $p_sExtension, $p_aOption = array())
+    private static function _resizeImage_Gd($p_sPath, $p_iWidth, $p_iHeight, $p_sExtension, $p_aOption = array())
     {}
 
     /**

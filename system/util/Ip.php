@@ -52,7 +52,7 @@ class ip
             return 'N/A';
         }
         if (self::$_oFileHandle === null) {
-            self::init();
+            self::_init();
         }
         $nip2 = pack('N', ip2long($p_sIP));
         $tmp_offset = (int) $p_aIP[0] * 4;
@@ -73,7 +73,7 @@ class ip
         return explode("\t", fread(self::$_oFileHandle, $index_length['len']));
     }
 
-    private static function init()
+    private static function _init()
     {
         if (self::$_oFileHandle === null) {
             self::$_oFileHandle = fopen(__DIR__ . '/ipdb.dat', 'rb');

@@ -69,8 +69,8 @@ class interface_viewcontroller extends interface_controller{
 			$this->addHeader('DFS-Info: ' . $mResult);
 			$this->addHeader('HTTP/1.0 404 Not Found');
 		}
-		$this->setData('bErrFnd', $bErrFnd);
-		$this->setData('oFile', $mResult);
+		$this->setPageData('bErrFnd', $bErrFnd);
+		$this->setPageData('oFile', $mResult);
 		return '/view';
 	}
 }

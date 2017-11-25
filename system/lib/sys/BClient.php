@@ -84,7 +84,7 @@ class bclient
      * @param array $p_aFuncParams            
      * @return array
      */
-    static protected function _call($p_sClassName, $p_sFuncName, $p_aFuncParams)
+    static protected function call($p_sClassName, $p_sFuncName, $p_aFuncParams)
     {
         return self::_localCall($p_sClassName, $p_sFuncName, $p_aFuncParams);
     }

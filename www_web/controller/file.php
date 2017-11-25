@@ -87,10 +87,10 @@ class controller_file extends controller_base
         if ($iRename) {
             $this->redirectURL($sFileListURL);
         }
-        $this->setData('aFileList', $aFileList);
-        $this->setData('bFound', $bFound);
-        $this->setData('sVScanDir', $sVScanDir);
-        $this->setData('sPattern', $sPattern);
+        $this->setPageData('aFileList', $aFileList);
+        $this->setPageData('bFound', $bFound);
+        $this->setPageData('sVScanDir', $sVScanDir);
+        $this->setPageData('sPattern', $sPattern);
         return 'file';
     }
 }

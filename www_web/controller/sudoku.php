@@ -26,7 +26,7 @@ class controller_sudoku extends controller_base
             }
         }
         $aData = bclient_sudoku::calSudoku($aData);
-        $this->setData('aData', $aData);
+        $this->setPageData('aData', $aData);
         return 'sudoku';
     }
 }

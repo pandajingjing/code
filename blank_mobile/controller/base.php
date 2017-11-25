@@ -17,20 +17,27 @@ abstract class base extends web
 {
 
     /**
+     * 脚本开始时间
+     *
+     * @var string
+     */
+    const DKEY_SCRIPT_STARTTIME = 'fScriptStartTime';
+
+    /**
      * 在控制器开始时执行（调度使用）
      */
     function beforeRequest()
     {
         parent::beforeRequest();
         // do something
-        $this->setData('fScriptStartTime', $this->getRealTime(true));
-        $this->setData('sRemoteIP', $this->getParam('CLIENTIP', 'server'));
+        $this->setControllerData(self::DKEY_SCRIPT_STARTTIME, $this->getRealTime(true));
+        $this->setPageData('sRemoteIP', $this->getParam('CLIENTIP', 'server'));
         $sGuid = $this->getParam('guid', 'cookie');
         if ('' == $sGuid) {
             $sGuid = guid::getGuid();
         }
         $this->setCookie('guid', $sGuid, 31536000);
-        $this->setData('iVisitTime', $this->getVisitTime());
+        $this->setPageData('iVisitTime', $this->getVisitTime());
         
         $oBllDoc = new doc();
         $aChapters = $oBllDoc->getChapters();
@@ -48,7 +55,7 @@ abstract class base extends web
             'sDefault' => $this->createInUrl('\\app\\controller\\home\\home'),
             'aChapterList' => $aChapterList
         ];
-        $this->setData('aTopURLs', $aTopURLs);
+        $this->setPageData('aTopURLs', $aTopURLs);
     }
 
     /**
@@ -57,7 +64,9 @@ abstract class base extends web
     function afterRequest()
     {
         // do something
-        $this->setData('fScriptEndTime', $this->getRealTime(true));
+        $fScriptStartTime = $this->getControllerData(self::DKEY_SCRIPT_STARTTIME);
+        $fScriptEndTime = $this->getRealTime(true);
+        $this->setPageData('fScriptTime', $fScriptEndTime - $fScriptStartTime);
         parent::afterRequest();
     }
 }

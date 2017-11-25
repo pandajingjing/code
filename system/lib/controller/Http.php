@@ -18,18 +18,6 @@ abstract class http extends controller
 {
 
     /**
-     * 内部变量
-     *
-     * 存放响应头数据和页面数据
-     *
-     * @var array
-     */
-    protected $_aPri = [
-        'aPageData' => [],
-        'aHeaders' => []
-    ];
-
-    /**
      * 在控制器结束时执行（调度使用）
      *
      * @return void
@@ -40,7 +28,7 @@ abstract class http extends controller
         foreach ($this->_aPri['aHeaders'] as $aHeader) {
             header($aHeader[0], $aHeader[1], $aHeader[2]);
         }
-        $this->addLog('controller get data', json_encode($this->getAllData(), JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE), 'parameter');
+        $this->addLog('page get data', json_encode($this->getAllPageData(), JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE), 'parameter');
         parent::afterRequest();
     }
 
@@ -68,7 +56,7 @@ abstract class http extends controller
      * @param mixed $p_mValue            
      * @return void
      */
-    protected function setData($p_sKey, $p_mValue)
+    protected function setPageData($p_sKey, $p_mValue)
     {
         $this->_aPri['aPageData'][$p_sKey] = $p_mValue;
     }
@@ -79,7 +67,7 @@ abstract class http extends controller
      * @param string $p_sKey            
      * @return mix
      */
-    protected function getData($p_sKey)
+    protected function getPageData($p_sKey)
     {
         return $this->_aPri['aPageData'][$p_sKey];
     }
@@ -89,7 +77,7 @@ abstract class http extends controller
      *
      * @return array
      */
-    function getAllData()
+    function getAllPageData()
     {
         return $this->_aPri['aPageData'];
     }
