@@ -19,14 +19,14 @@ class demo extends orm
      *
      * @var string
      */
-    protected $_sMasterDbName = 'spider_db';
+    protected $_sMasterDbName = 'spider_master';
 
     /**
      * Slave数据库连接名,在子类中配置
      *
      * @var string
      */
-    protected $_sSlaveDbName = 'spider_slave_db';
+    protected $_sSlaveDbName = 'spider_slave';
 
     /**
      * 主键ID
