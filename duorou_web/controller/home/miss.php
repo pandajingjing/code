@@ -1,9 +1,17 @@
 <?php
+/**
+ * miss
+ *
+ * @namespace app\controller\home
+ */
 namespace app\controller\home;
 
-use panda\lib\controller\Web;
+use panda\lib\controller\web;
 
-class miss extends Web
+/**
+ * home
+ */
+class miss extends web
 {
 
     function doRequest()

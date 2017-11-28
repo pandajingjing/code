@@ -25,13 +25,13 @@ class pandapdo extends \PDO
     /**
      * 准备执行计划
      *
-     * @param string $p_sSQL            
+     * @param string $p_sSql            
      * @param array $p_aDriverOption            
      * @return object
      */
-    function prepare($p_sSQL, $p_aDriverOption = [])
+    function prepare($p_sSql, $p_aDriverOption = [])
     {
-        $oStatement = parent::prepare($p_sSQL, $p_aDriverOption);
+        $oStatement = parent::prepare($p_sSql, $p_aDriverOption);
         if ($oStatement instanceof \PDOStatement) {
             $oStatement->setFetchMode($this->_iDefaultFetchMode);
         }

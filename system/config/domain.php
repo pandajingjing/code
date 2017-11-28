@@ -9,5 +9,5 @@
 return [
     'sCookieDomain' => 'dev.jxulife.com',
     'sSelfSchemeDomain' => 'http://www.master.dev.jxulife.com',
-    'sCDNSchemeDomain' => 'http://static.master.dev.jxulife.com'
+    'sCdnSchemeDomain' => 'http://static.master.dev.jxulife.com'
 ];

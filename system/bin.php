@@ -98,7 +98,7 @@ function bin_cmd()
     
     $oDebugger->startDebug('Parse Route');
     $oRouter = router::getInstance();
-    $oRouter->parseCMD($oVar->getParam('DISPATCH_PARAM', 'server'));
+    $oRouter->parseCmd($oVar->getParam('DISPATCH_PARAM', 'server'));
     $sControllerName = $oRouter->getControllerName();
     $oDebugger->showMsg('router find controller: ' . $sControllerName);
     $oVar->setRouterParam($oRouter->getRouterParam());

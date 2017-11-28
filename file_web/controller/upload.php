@@ -51,7 +51,7 @@ class controller_upload extends lib_controller_service
             $sDomainKey = $aResult['mOne'];
             $aFiles = $this->uploadMulti();
             $sBiz = $this->getParam('sBiz', 'router');
-            $sIP = $this->getParam('CLIENTIP', 'server');
+            $sIp = $this->getParam('CLIENTIP', 'server');
             $iTime = $this->getVisitTime();
             $aUpdResult = [];
             //debug($aFiles);
@@ -62,7 +62,7 @@ class controller_upload extends lib_controller_service
                     $aUpdResult[$aFile['key']] = util_error::getErrors();
                 } else {
                     if (is_uploaded_file($aFile['tmp_name'])) {
-                        $aResult = bclient_file_save::saveInfo($sDomainKey, $sBiz, $sIP, $iTime, $aFile['name'], file_get_contents($aFile['tmp_name']));
+                        $aResult = bclient_file_save::saveInfo($sDomainKey, $sBiz, $sIp, $iTime, $aFile['name'], file_get_contents($aFile['tmp_name']));
                         if (0 == $aResult['iStatus']) {
                             $aUpdResult[$aFile['key']] = $aResult['aErrors'];
                         } else {

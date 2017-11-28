@@ -104,9 +104,9 @@ class pooling
         $oConnect = null;
         switch ($aConfig['sType']) {
             case 'mysql':
-                $oConnect = new pandapdo($aConfig['sDSN'], $aConfig['sUserName'], Crypt::deCrypt($aConfig['sUserPassword'], $this->_sDeCrypt));
-                foreach ($aConfig['aInitSQL'] as $sSQL) {
-                    $oConnect->exec($sSQL);
+                $oConnect = new pandapdo($aConfig['sDsn'], $aConfig['sUserName'], crypt::deCrypt($aConfig['sUserPassword'], $this->_sDeCrypt));
+                foreach ($aConfig['aInitSql'] as $sSql) {
+                    $oConnect->exec($sSql);
                 }
                 break;
             case 'filecache':

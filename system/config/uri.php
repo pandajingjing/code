@@ -7,7 +7,7 @@
  * @package config
  */
 return [
-    'sCDNSchemeDomain' => [
+    'sCdnSchemeDomain' => [
         'sAlias' => [
             '/url/{s1}-{s2}-{s3}',
             [

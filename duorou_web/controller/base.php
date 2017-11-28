@@ -1,22 +1,18 @@
 <?php
-
 /**
- * Base
+ * base
  * 
- * @author jxu
- * @package duorou_web_controller
+ * @namespace app\controller
  */
 namespace app\controller;
 
-use panda\lib\controller\Web;
-use panda\util\Guid;
+use panda\lib\controller\web;
+use panda\util\guid;
 
 /**
- * Base
- *
- * @author jxu
+ * base
  */
-abstract class base extends Web
+abstract class base extends web
 {
 
     /**
@@ -34,18 +30,18 @@ abstract class base extends Web
         parent::beforeRequest();
         // do something
         $this->setControllerData(self::DKEY_SCRIPT_STARTTIME, $this->getRealTime(true));
-        $this->setPageData('sRemoteIP', $this->getParam('CLIENTIP', 'server'));
-        $sGUID = $this->getParam('guid', 'cookie');
-        if ('' == $sGUID) {
-            $sGUID = Guid::getGuid();
+        $this->setPageData('sRemoteIp', $this->getParam('CLIENTIP', 'server'));
+        $sGuid = $this->getParam('guid', 'cookie');
+        if ('' == $sGuid) {
+            $sGuid = guid::getGuid();
         }
-        $this->setCookie('guid', $sGUID, 31536000);
+        $this->setCookie('guid', $sGuid, 31536000);
         $this->setPageData('iVisitTime', $this->getVisitTime());
         
-        $aTopURLs = [
-            'sDefault' => $this->createInURL('\\app\\controller\\home\\Home')
+        $aTopUrls = [
+            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
         ];
-        $this->setPageData('aTopURLs', $aTopURLs);
+        $this->setPageData('aTopUrls', $aTopUrls);
     }
 
     /**
@@ -54,7 +50,7 @@ abstract class base extends Web
     function afterRequest()
     {
         // do something
-         $fScriptStartTime = $this->getControllerData(self::DKEY_SCRIPT_STARTTIME);
+        $fScriptStartTime = $this->getControllerData(self::DKEY_SCRIPT_STARTTIME);
         $fScriptEndTime = $this->getRealTime(true);
         $this->setPageData('fScriptTime', $fScriptEndTime - $fScriptStartTime);
         parent::afterRequest();

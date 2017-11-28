@@ -15,7 +15,7 @@ class bll_cropfile extends bll_file{
 		parent::__construct();
 	}
 
-	function cropFile($p_sKey, $p_sExt, $p_sBiz, $p_iPointX, $p_iPointY, $p_iWidth, $p_iHeight, $p_sIP, $p_iTime, &$o_aCropFile){
+	function cropFile($p_sKey, $p_sExt, $p_sBiz, $p_iPointX, $p_iPointY, $p_iWidth, $p_iHeight, $p_sIp, $p_iTime, &$o_aCropFile){
 		load_lib('/dao/dfsdao');
 		load_lib('/util/error');
 		if(!isset($p_sKey[39])){
@@ -124,7 +124,7 @@ class bll_cropfile extends bll_file{
 												'iFileSize' => filesize($sDestFile),
 												'sFileExt' => $p_sExt,
 												'sFromDomain' => $this->_sDomain,
-												'sFromIP' => $p_sIP,
+												'sFromIP' => $p_sIp,
 												'iCreateTime' => $p_iTime 
 										),
 										'iRetry' => 10 

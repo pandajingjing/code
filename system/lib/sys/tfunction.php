@@ -33,11 +33,11 @@ function pandaText($p_sStr)
 }
 
 /**
- * 输出HTML代码
+ * 输出Html代码
  *
  * @param string $p_sStr            
  */
-function pandaHTML($p_sStr)
+function pandaHtml($p_sStr)
 {
     echo $p_sStr;
 }
@@ -49,7 +49,7 @@ function pandaHTML($p_sStr)
  * @param string $p_sSchemeDomainKey            
  * @return string
  */
-function pandaRes($p_sPath, $p_sSchemeDomainKey = 'sCDNSchemeDomain')
+function pandaRes($p_sPath, $p_sSchemeDomainKey = 'sCdnSchemeDomain')
 {
     $sStaticSchemeDomain = variable::getInstance()->getConfig($p_sSchemeDomainKey, 'domain');
     return $sStaticSchemeDomain . $p_sPath;

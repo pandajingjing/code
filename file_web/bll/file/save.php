@@ -19,7 +19,7 @@ class bll_file_save extends bll_file_base
         parent::__construct();
     }
 
-    function saveInfo($p_sDomainKey, $p_sBiz, $p_sIP, $p_iTime, $p_sFileName, $p_blFile)
+    function saveInfo($p_sDomainKey, $p_sBiz, $p_sIp, $p_iTime, $p_sFileName, $p_blFile)
     {
         if ($this->chkBiz($p_sDomainKey, $p_sBiz)) {
             if (isset($this->_aUpdConfig[$p_sDomainKey][$p_sBiz])) {
@@ -131,7 +131,7 @@ class bll_file_save extends bll_file_base
                             'iFileSize' => $p_iSize,
                             'sFileExt' => $sExtension,
                             'sFromDomain' => $this->_sDomain,
-                            'sFromIP' => $p_sIP,
+                            'sFromIP' => $p_sIp,
                             'iCreateTime' => $p_iTime
                         ),
                         'iRetry' => 10
@@ -217,13 +217,13 @@ class bll_file_save extends bll_file_base
      * @param string $p_sTmpName            
      * @param int $p_iError            
      * @param int $p_iSize            
-     * @param string $p_sIP            
+     * @param string $p_sIp            
      * @param int $p_iTime            
      * @param string $p_sBiz            
      * @param array $o_aFileInfo            
      * @return true/string
      */
-    function saveFile1($p_sName, $p_sTmpName, $p_iError, $p_iSize, $p_sIP, $p_iTime, $p_sBiz, &$o_aFileInfo)
+    function saveFile1($p_sName, $p_sTmpName, $p_iError, $p_iSize, $p_sIp, $p_iTime, $p_sBiz, &$o_aFileInfo)
     {
         load_lib('/util/error');
         if ($p_iError > 0) {
@@ -349,7 +349,7 @@ class bll_file_save extends bll_file_base
                                 'iFileSize' => $p_iSize,
                                 'sFileExt' => $sExtension,
                                 'sFromDomain' => $this->_sDomain,
-                                'sFromIP' => $p_sIP,
+                                'sFromIP' => $p_sIp,
                                 'iCreateTime' => $p_iTime
                             ),
                             'iRetry' => 10
@@ -477,7 +477,7 @@ class bll_file_save extends bll_file_base
         $sBaseDir = dao_dfsbackupdao::getConfig('sRawDir', 'storage');
         $sSubDir = $this->dispatchFile($sFileKey);
         foreach ($aBackupInfo as $aBackup) {
-            dao_dfsbackupdao::delData($aBackup['iAutoID']);
+            dao_dfsbackupdao::delData($aBackup['iAutoId']);
             $sDestDir = $sBaseDir . DIRECTORY_SEPARATOR . $aBackup['iHostID'] . $sSubDir . $sFileKey;
             util_file::tryDeleteFile($sDestDir);
         }
@@ -509,7 +509,7 @@ class bll_file_save extends bll_file_base
                 $aTmpIDs = array();
                 foreach ($aBackupInfo as $aBackup) {
                     if (in_array($aBackup['iHostID'], $p_aParam['aErrHostIDs'])) { // 把拦掉的那些拿掉
-                        dao_dfsbackupdao::delData($aBackup['iAutoID']);
+                        dao_dfsbackupdao::delData($aBackup['iAutoId']);
                     } else {
                         $aTmpIDs[] = $aBackup['iHostID'];
                     }

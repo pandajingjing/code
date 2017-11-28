@@ -9,19 +9,19 @@
 return [
     'dfs_master' => [
         'sType' => 'mysql',
-        'sDSN' => 'mysql:host=127.0.0.1;dbname=test_db;port=3306',
+        'sDsn' => 'mysql:host=127.0.0.1;dbname=test_db;port=3306',
         'sUserName' => 'username',
         'sUserPassword' => 'userpassword',
-        'aInitSQL' => [
+        'aInitSql' => [
             'set names utf8'
         ]
     ],
     'dfs_slave' => [
         'sType' => 'mysql',
-        'sDSN' => 'mysql:host=127.0.0.1;dbname=test_db;port=3306',
+        'sDsn' => 'mysql:host=127.0.0.1;dbname=test_db;port=3306',
         'sUserName' => 'username',
         'sUserPassword' => 'userpassword',
-        'aInitSQL' => [
+        'aInitSql' => [
             'set names utf8'
         ]
     ]

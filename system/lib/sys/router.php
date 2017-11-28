@@ -114,7 +114,7 @@ class router
      * @param string $p_sDispatchParam            
      * @return void
      */
-    function parseCMD($p_sDispatchParam)
+    function parseCmd($p_sDispatchParam)
     {
         $aDispatchParams = parse_url($p_sDispatchParam);
         $sPath = $aDispatchParams['path'];

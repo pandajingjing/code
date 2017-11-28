@@ -9,10 +9,10 @@
 return [
     'spider_db' => [
         'sType' => 'mysql',
-        'sDSN' => 'mysql:host=127.0.0.1;dbname=spider_db;port=3255',
+        'sDsn' => 'mysql:host=127.0.0.1;dbname=spider_db;port=3255',
         'sUserName' => 'username',
         'sUserPassword' => 'userpassword',
-        'aInitSQL' => [
+        'aInitSql' => [
             'set names utf8'
         ]
     ],

@@ -127,7 +127,7 @@ class browser
         } else {
             $oCurl->setPost(false);
         }
-        $oCurl->setURL($p_sUrl);
+        $oCurl->setUrl($p_sUrl);
         foreach (self::$_aOpt as $iKey => $mVal) {
             $oCurl->setOption($iKey, $mVal);
         }

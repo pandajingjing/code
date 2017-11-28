@@ -109,7 +109,7 @@ class handle
                 'aDebugInfo' => $oDebugger->getDebugInfo(),
                 'aAllParam' => $oDebugger->getAllParam()
             ]);
-            $oTpl->render('component_sys_debug');
+            $oTpl->render('global_sys_debug');
         }
         logger::getInstance()->writeLog();
     }

@@ -30,7 +30,7 @@ abstract class base extends web
         parent::beforeRequest();
         // do something
         $this->setControllerData(self::DKEY_SCRIPT_STARTTIME, $this->getRealTime(true));
-        $this->setPageData('sRemoteIP', $this->getParam('CLIENTIP', 'server'));
+        $this->setPageData('sRemoteIp', $this->getParam('CLIENTIP', 'server'));
         $sGuid = $this->getParam('guid', 'cookie');
         if ('' == $sGuid) {
             $sGuid = guid::getGuid();
@@ -38,12 +38,12 @@ abstract class base extends web
         $this->setCookie('guid', $sGuid, 31536000);
         $this->setPageData('iVisitTime', $this->getVisitTime());
         
-        $aTopURLs = [
+        $aTopUrls = [
             'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
         ];
         // 'aChapterList' => $aChapterList
         
-        $this->setPageData('aTopURLs', $aTopURLs);
+        $this->setPageData('aTopUrls', $aTopUrls);
     }
 
     /**

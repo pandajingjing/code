@@ -87,12 +87,12 @@ class bll
      * 发送调试信息
      *
      * @param string $p_sMsg            
-     * @param boolean $p_bIsHTML            
+     * @param boolean $p_bIsHtml            
      * @return void
      */
-    protected function showDebugMsg($p_sMsg, $p_bIsHTML = false)
+    protected function showDebugMsg($p_sMsg, $p_bIsHtml = false)
     {
-        debugger::getInstance()->showMsg($p_sMsg, $p_bIsHTML);
+        debugger::getInstance()->showMsg($p_sMsg, $p_bIsHtml);
     }
 
     /**

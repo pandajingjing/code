@@ -22,7 +22,7 @@ class controller_file extends controller_base
         $sScanDir = $sRootDir . $sVScanDir; // 真实管理目录,不可见
         
         $iRename = $this->getParam('rename', 'post');
-        $sFileListURL = $this->createInURL('controller_file');
+        $sFileListURL = $this->createInUrl('controller_file');
         
         if (is_dir($sScanDir)) {
             $aScanFileList = scandir($sScanDir);

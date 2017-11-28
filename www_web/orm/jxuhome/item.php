@@ -8,7 +8,7 @@ class orm_jxuhome_item extends orm_jxuhome_base
      *
      * @var int
      */
-    public $iAutoID;
+    public $iAutoId;
 
     /**
      * 物品名称
@@ -57,15 +57,15 @@ class orm_jxuhome_item extends orm_jxuhome_base
      *
      * @var string
      */
-    protected $_sPKField = 'iAutoID';
+    protected $_sPkField = 'iAutoId';
 
     /**
      * 数据库表结构
      *
      * @var array
      */
-    protected $_aDBField = [
-        'iAutoID' => [
+    protected $_aDbField = [
+        'iAutoId' => [
             'sType' => 'int',
             'bUnsigned' => true
         ],
@@ -92,12 +92,12 @@ class orm_jxuhome_item extends orm_jxuhome_base
     ];
 
     /**
-     * ORM字段结构
+     * Orm字段结构
      *
      * @var array
      */
-    protected $_aORMField = [
-        'iAutoID' => [
+    protected $_aOrmField = [
+        'iAutoId' => [
             'sType' => 'int',
             'bUnsigned' => true
         ],

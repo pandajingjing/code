@@ -44,14 +44,14 @@ class pandamail
      *
      * @var array
      */
-    private $_aCC = [];
+    private $_aCc = [];
 
     /**
      * 暗送人
      *
      * @var array
      */
-    private $_aBCC = [];
+    private $_aBcc = [];
 
     /**
      * 收件人
@@ -96,11 +96,11 @@ class pandamail
     private $_aMailImages = [];
 
     /**
-     * 是否HTML
+     * 是否Html
      *
      * @var boolean
      */
-    private $_bIsHTML = false;
+    private $_bIsHtml = false;
 
     /**
      * 邮件内容
@@ -127,13 +127,13 @@ class pandamail
     function initMail()
     {
         $this->_aTo = [];
-        $this->_aCC = [];
-        $this->_aBCC = [];
+        $this->_aCc = [];
+        $this->_aBcc = [];
         $this->_sHeader = '';
         $this->_sSubject = '';
         $this->_aAttachs = [];
         $this->_aMailImages = [];
-        $this->_bIsHTML = false;
+        $this->_bIsHtml = false;
         $this->_sBody = '';
     }
 
@@ -160,7 +160,7 @@ class pandamail
      */
     function addCC($p_sAddr, $p_sName = '')
     {
-        $this->_aCC[$p_sAddr] = $p_sName;
+        $this->_aCc[$p_sAddr] = $p_sName;
     }
 
     /**
@@ -172,7 +172,7 @@ class pandamail
      */
     function addBCC($p_sAddr, $p_sName = '')
     {
-        $this->_aBCC[$p_sAddr] = $p_sName;
+        $this->_aBcc[$p_sAddr] = $p_sName;
     }
 
     /**
@@ -241,12 +241,12 @@ class pandamail
      * 设置邮件体
      *
      * @param string $p_sBody            
-     * @param boolean $p_bIsHTML            
+     * @param boolean $p_bIsHtml            
      * @return void
      */
-    function setBody($p_sBody, $p_bIsHTML = false)
+    function setBody($p_sBody, $p_bIsHtml = false)
     {
-        $this->_bIsHTML = $p_bIsHTML;
+        $this->_bIsHtml = $p_bIsHtml;
         $this->_sBody = $p_sBody;
     }
 
@@ -311,7 +311,7 @@ class pandamail
             'oContent' => $p_oContent,
             'sName' => $p_sName,
             'sMimeType' => $p_sMimeType,
-            'sCID' => md5(uniqid(variable::getInstance()->getRealTime()))
+            'sCid' => md5(uniqid(variable::getInstance()->getRealTime()))
         );
     }
 
@@ -331,33 +331,33 @@ class pandamail
         if (! empty($this->_aReturnTo)) {
             $sHeader .= 'Return-Path: ' . self::_mkSBody($this->_aReturnTo, $this->_sCharset) . PHP_EOL;
         }
-        if (! empty($this->_aCC)) {
-            $sHeader .= 'CC: ' . self::_mkSBody($this->_aCC, $this->_sCharset) . PHP_EOL;
+        if (! empty($this->_aCc)) {
+            $sHeader .= 'CC: ' . self::_mkSBody($this->_aCc, $this->_sCharset) . PHP_EOL;
         }
-        if (! empty($this->_sBCC)) {
-            $sHeader .= 'BCC: ' . self::_mkSBody($this->_sBCC, $this->_sCharset) . PHP_EOL;
+        if (! empty($this->_sBcc)) {
+            $sHeader .= 'BCC: ' . self::_mkSBody($this->_sBcc, $this->_sCharset) . PHP_EOL;
         }
         $sBoundary = '=_' . md5(uniqid(variable::getInstance()->getRealTime()));
         $sHeader .= 'Content-Type: multipart/related;charset="' . $this->_sCharset . '"; boundary="' . $sBoundary . '"' . PHP_EOL;
         $sHeader .= $this->_sHeader;
-        return mail(self::_mkSBody($this->_aTo, $this->_sCharset), $sSubject, self::_buildMail($sBoundary, $this->_bIsHTML, $this->_sCharset, $this->_sBody, $this->_aAttachs, $this->_aMailImages), $sHeader);
+        return mail(self::_mkSBody($this->_aTo, $this->_sCharset), $sSubject, self::_buildMail($sBoundary, $this->_bIsHtml, $this->_sCharset, $this->_sBody, $this->_aAttachs, $this->_aMailImages), $sHeader);
     }
 
     /**
      * 生成邮件内容
      *
      * @param string $p_sBoundary            
-     * @param boolean $p_bIsHTML            
+     * @param boolean $p_bIsHtml            
      * @param string $p_sCharset            
      * @param string $p_sBody            
      * @param array $p_aAttachs            
      * @param array $p_aMailImages            
      * @return string
      */
-    private static function _buildMail($p_sBoundary, $p_bIsHTML, $p_sCharset, $p_sBody, $p_aAttachs, $p_aMailImages)
+    private static function _buildMail($p_sBoundary, $p_bIsHtml, $p_sCharset, $p_sBody, $p_aAttachs, $p_aMailImages)
     {
-        if ($p_bIsHTML) {
-            $sMultipart = self::_buildHTML($p_sBoundary, $p_sCharset, $p_sBody, $p_aMailImages);
+        if ($p_bIsHtml) {
+            $sMultipart = self::_buildHtml($p_sBoundary, $p_sCharset, $p_sBody, $p_aMailImages);
         } else {
             $sMultipart = self::_buildTxt($p_sBoundary, $p_sCharset, $p_sBody);
             $p_aAttachs[] = [
@@ -413,7 +413,7 @@ class pandamail
     }
 
     /**
-     * 生成HTML内容
+     * 生成Html内容
      *
      * @param string $p_sOrigBoundary            
      * @param string $p_sCharset            
@@ -421,13 +421,13 @@ class pandamail
      * @param array $p_aMailImages            
      * @return string
      */
-    private static function _buildHTML($p_sOrigBoundary, $p_sCharset, $p_sBody, $p_aMailImages = [])
+    private static function _buildHtml($p_sOrigBoundary, $p_sCharset, $p_sBody, $p_aMailImages = [])
     {
         if (count($p_aMailImages) > 0) {
             $aPatterns = $aReplaces = [];
             foreach ($p_aMailImages as $aImage) {
                 $aPatterns[] = '/' . $aImage['sName'] . '/i';
-                $aReplaces[] = 'cid:' . $aImage['sCID'];
+                $aReplaces[] = 'cid:' . $aImage['sCid'];
             }
             $p_sBody = preg_replace($aPatterns, $aReplaces, $p_sBody);
             
@@ -437,7 +437,7 @@ class pandamail
             $sMultipart .= chunk_split(base64_encode($p_sBody), 76, PHP_EOL) . PHP_EOL;
             foreach ($p_aMailImages as $aImage) {
                 $sMultipart .= '--' . $p_sOrigBoundary . PHP_EOL;
-                $sMultipart .= self::_buildHTMLImage($aImage);
+                $sMultipart .= self::_buildHtmlImage($aImage);
             }
         } else {
             $sMultipart = '--' . $p_sOrigBoundary . PHP_EOL;
@@ -449,12 +449,12 @@ class pandamail
     }
 
     /**
-     * 编译HTML中带的图片
+     * 编译Html中带的图片
      *
      * @param array $p_aImage            
      * @return string
      */
-    private static function _buildHTMLImage($p_aImage)
+    private static function _buildHtmlImage($p_aImage)
     {
         $sMultipart = 'Content-Type: ' . $p_aImage['sMimeType'];
         if ($p_aImage['sName'] != '') {
@@ -462,7 +462,7 @@ class pandamail
         } else {
             $sMultipart .= PHP_EOL;
         }
-        $sMultipart .= 'Content-ID: <' . $p_aImage['sCID'] . '>' . PHP_EOL;
+        $sMultipart .= 'Content-ID: <' . $p_aImage['sCid'] . '>' . PHP_EOL;
         $sMultipart .= 'Content-Transfer-Encoding: base64' . PHP_EOL;
         $sMultipart .= 'Content-Disposition: inline; filename="' . $p_aImage['sName'] . '"' . PHP_EOL . PHP_EOL;
         $sMultipart .= chunk_split(base64_encode($p_aImage['oContent']), 76, PHP_EOL) . PHP_EOL;

@@ -39,22 +39,22 @@ class ip
     /**
      * 获取地址
      *
-     * @param string $p_sIP            
+     * @param string $p_sIp            
      * @return string
      */
-    static function findAddr($p_sIP)
+    static function findAddr($p_sIp)
     {
-        if ('' == $p_sIP) {
+        if ('' == $p_sIp) {
             return 'N/A';
         }
-        $p_aIP = explode('.', $p_sIP);
+        $p_aIP = explode('.', $p_sIp);
         if ($p_aIP[0] < 0 || $p_aIP[0] > 255 || count($p_aIP) !== 4) {
             return 'N/A';
         }
         if (self::$_oFileHandle === null) {
             self::_init();
         }
-        $nip2 = pack('N', ip2long($p_sIP));
+        $nip2 = pack('N', ip2long($p_sIp));
         $tmp_offset = (int) $p_aIP[0] * 4;
         $start = unpack('Vlen', self::$_blIndex[$tmp_offset] . self::$_blIndex[$tmp_offset + 1] . self::$_blIndex[$tmp_offset + 2] . self::$_blIndex[$tmp_offset + 3]);
         $index_offset = $index_length = null;

@@ -239,16 +239,16 @@ class variable
     private function _getWebServerParam()
     {
         $aServer = [];
-        $sIP = null;
+        $sIp = null;
         if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-            $sIP = $_SERVER['HTTP_CLIENT_IP'];
+            $sIp = $_SERVER['HTTP_CLIENT_IP'];
         } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $aIPLists = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            $sIP = array_shift($aIPLists);
+            $sIp = array_shift($aIPLists);
         } else {
-            $sIP = $_SERVER['REMOTE_ADDR'] ?? null;
+            $sIp = $_SERVER['REMOTE_ADDR'] ?? null;
         }
-        $aServer['CLIENTIP'] = $sIP;
+        $aServer['CLIENTIP'] = $sIp;
         $aServer['REQUEST_TIME'] = $_SERVER['REQUEST_TIME'];
         $aServer['REQUEST_TIME_FLOAT'] = $_SERVER['REQUEST_TIME_FLOAT'];
         $aServer['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'] ?? null;

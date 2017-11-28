@@ -96,16 +96,16 @@ class debugger
     {
         $this->_oVari = variable::getInstance();
         if ($this->_oVari->getConfig('bDebug', 'debugger')) { // 系统配置
-            $aAllowIPs = $this->_oVari->getConfig('aAllowedIpList', 'debugger'); // ip过滤
-            $sIP = $this->_oVari->getParam('CLIENTIP', 'server');
-            $bCanIP = false;
-            foreach ($aAllowIPs as $sPattern) {
-                if (preg_match($sPattern, $sIP)) {
-                    $bCanIP = true;
+            $aAllowIps = $this->_oVari->getConfig('aAllowedIpList', 'debugger'); // ip过滤
+            $sIp = $this->_oVari->getParam('CLIENTIP', 'server');
+            $bCanIp = false;
+            foreach ($aAllowIps as $sPattern) {
+                if (preg_match($sPattern, $sIp)) {
+                    $bCanIp = true;
                     break;
                 }
             }
-            if ($bCanIP) {
+            if ($bCanIp) {
                 $iCanCookie = $this->_oVari->getParam(self::COOKIE_SWITCH_NAME, 'cookie'); // cookie过滤
                 $iCanGet = $this->_oVari->getParam(self::GET_SWITCH_NAME, 'get'); // get过滤
                 $iExpireTime = $this->_oVari->getRealTime() + self::COOKIE_SWITCH_LIFETIME;
@@ -167,14 +167,14 @@ class debugger
      * 添加输出信息
      *
      * @param string $p_sMsg            
-     * @param boolean $p_bIsHTML            
+     * @param boolean $p_bIsHtml            
      * @return void
      */
-    function showMsg($p_sMsg, $p_bIsHTML = false)
+    function showMsg($p_sMsg, $p_bIsHtml = false)
     {
         if ($this->_bolNeedDebug) {
             $this->_aMessages[] = [
-                'bIsHTML' => $p_bIsHTML,
+                'bIsHtml' => $p_bIsHtml,
                 'sMsg' => $p_sMsg
             ];
         }
