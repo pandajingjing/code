@@ -1,6 +1,6 @@
 <?php
 /**
- * miss
+ * home
  * 
  * @namespace app\controller\home
  */
@@ -9,14 +9,13 @@ namespace app\controller\home;
 use app\controller\base;
 
 /**
- * miss
+ * home
  */
-class miss extends base
+class home extends base
 {
 
     function doRequest()
     {
-        $this->addHeader('HTTP/1.1 404 Not Found');
-        return '/home/404';
+        return 'home_home';
     }
 }

@@ -8,6 +8,8 @@
 namespace panda\lib\sys;
 
 use panda\lib\traits\response;
+use panda\util\strings;
+use panda\util\error;
 
 /**
  * bll
@@ -17,6 +19,27 @@ use panda\lib\traits\response;
 class bll
 {
     use response;
+
+    /**
+     * 数据校验规则
+     *
+     * @var array
+     */
+    protected $aValidRule = [];
+
+    /**
+     * 属性字段,可以通过保存方法直接修改
+     *
+     * @var array
+     */
+    protected $aPropertyFields = [];
+
+    /**
+     * 流程字段,不可以通过保存方法直接修改,需要使用具体的方法修改
+     *
+     * @var array
+     */
+    protected $aFlowFields = [];
 
     /**
      * 构造函数
@@ -104,5 +127,187 @@ class bll
     protected function stopDebug($p_sModule)
     {
         debugger::getInstance()->stopDebug($p_sModule);
+    }
+
+    /**
+     * 验证数据类型
+     *
+     * @param array $aRule            
+     * @param string $sField            
+     * @param mix $mValue            
+     * @return true|false
+     */
+    protected static function validType($aRule, $sField, $mValue)
+    {
+        if (strings::chkStrType($mValue, $aRule['eType'])) {
+            if ($aRule['eType'] == strings::TYPE_ENUM) {
+                if ($aRule['multi']) {
+                    $aDiff = array_diff($mValue, $aRule['aRange']);
+                    if (empty($aDiff)) {
+                        return true;
+                    } else {
+                        error::addFieldError($sField, error::TYPE_INVALID, '', $aDiff);
+                        return false;
+                    }
+                } else {
+                    if (in_array($mValue, $aRule['aRange'])) {
+                        return true;
+                    } else {
+                        error::addFieldError($sField, error::TYPE_INVALID, '', $mValue);
+                        return false;
+                    }
+                }
+            } else {
+                return true;
+            }
+        } else {
+            error::addFieldError($sField, error::TYPE_FORMAT_ERROR, $aRule['eType'], $mValue);
+            return false;
+        }
+    }
+
+    /**
+     * 验证长度
+     *
+     * @param array $aRule            
+     * @param string $sField            
+     * @param mix $mValue            
+     * @return true|false
+     */
+    protected static function validLength($aRule, $sField, $mValue)
+    {
+        if (isset($aRule['aLength'])) {
+            if (strings::chkStrLength($mValue, $aRule['aLength'][0])) {
+                if (strings::chkStrLength($mValue, 0, $aRule['aLength'][1])) {
+                    return true;
+                } else {
+                    error::addFieldError($sField, error::TYPE_LENGTH_LONG, $aRule['aLength'][1], $mValue);
+                    return false;
+                }
+            } else {
+                error::addFieldError($sField, error::TYPE_LENGTH_SHORT, $aRule['aLength'][0], $mValue);
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 验证和过滤用户输入的数据
+     *
+     * @param array $aData            
+     * @param boolean $bIsNew            
+     * @param array $aValidRule            
+     * @param array $aPropertyFields            
+     * @return array
+     */
+    protected static function validData($aData, $bIsNew, $aValidRule, $aPropertyFields)
+    {
+        // 字段校验
+        error::initError();
+        $aSaveData = [];
+        foreach ($aValidRule as $sField => $aRule) {
+            if (isset($aData[$sField])) {
+                $mValue = $aData[$sField];
+                if ($aRule['bRequire']) {
+                    if ($mValue === '') {
+                        error::addFieldError($sField, error::TYPE_EMPTY, 'require', '');
+                    } else {
+                        if (self::validType($aRule, $sField, $mValue)) {
+                            if (self::validLength($aRule, $sField, $mValue)) {
+                                $aSaveData[$sField] = $mValue;
+                            }
+                        }
+                    }
+                } else {
+                    if (self::validType($aRule, $sField, $mValue)) {
+                        if (self::validLength($aRule, $sField, $mValue)) {
+                            $aSaveData[$sField] = $mValue;
+                        }
+                    }
+                }
+            } else {
+                if ($bIsNew and $aRule['bRequire']) {
+                    error::addFieldError($sField, error::TYPE_EMPTY, 'require', '');
+                }
+            }
+        }
+        if (error::isError()) {
+            return self::returnValidErrors(error::getErrors());
+        } else {
+            // 过滤属性字段
+            if ($bIsNew) {
+                return self::returnRow($aSaveData);
+            } else {
+                $aPropData = [];
+                foreach ($aSaveData as $sField => $mValue) {
+                    if (in_array($sField, $aPropertyFields)) {
+                        $aPropData[$sField] = $mValue;
+                    }
+                }
+                // foreach ($aPropertyFields as $sField) {
+                // if (isset($aSaveData[$sField])) {
+                // $aPropData[$sField] = $aSaveData[$sField];
+                // }
+                // }
+                return self::returnRow($aPropData);
+            }
+        }
+    }
+
+    /**
+     * 随机返回列表中的数据
+     * 为了方便测试,制造数据等.严禁用于生产.
+     * 所以是public方法,但使用非public方法的命名规则
+     *
+     * @param array $aList            
+     * @param int $iCount            
+     * @return string|array
+     */
+    static function _fakeList($aList, $iCount = 1)
+    {
+        if (1 == $iCount) {
+            $iIndex = array_rand($aList, 1);
+            return $aList[$iIndex];
+        } else {
+            $aIndexs = array_rand($aList, $iCount);
+            $aReturns = [];
+            foreach ($aIndexs as $iIndex) {
+                $aReturns[] = $aList[$iIndex];
+            }
+            return $aReturns;
+        }
+    }
+
+    /**
+     * 生成随机字符串数据
+     *
+     * @param string $sPrefix            
+     * @return string
+     */
+    static function _fakeName($sPrefix = '')
+    {
+        return $sPrefix . date('His') . strings::getRand(3);
+    }
+
+    /**
+     * 生成随机手机号码
+     *
+     * @return string
+     */
+    static function _fakeCellphone()
+    {
+        return rand(139000, 139999) . strings::addZero(rand(0, 99999), 5);
+    }
+
+    /**
+     * 生成随机电话号码
+     *
+     * @return string
+     */
+    static function _fakeTelephone()
+    {
+        return strings::addZero(rand(10, 999), 3) . rand(20000000, 69999999);
     }
 }

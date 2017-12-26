@@ -23,7 +23,7 @@ abstract class api extends service
      *
      * @var array
      */
-    protected $_aFields = [];
+    protected $aFields = [];
 
     /**
      * 在控制器开始时执行（调度使用）

@@ -86,18 +86,25 @@ class template
     /**
      * 加载模版
      *
-     * @param string $p_sPageName            
+     * @param string $p_sSubPath            
      * @param array $p_aExtendDatas            
      * @throws Exception
      * @return true
      */
-    protected function pandaTpl($p_sPageName, $p_aExtendDatas = [])
+    protected function pandaTpl($p_sSubPath, $p_aExtendDatas = [])
     {
         global $G_PAGE_DIR;
-        $aTmp = explode('_', $p_sPageName);
-        $sSubPath = join(DIRECTORY_SEPARATOR, $aTmp);
+        if (false === strstr($p_sSubPath, '/')) {
+            throw new \Exception(__CLASS__ . ': template path must start with \'/\' ');
+        } else {
+            if ('\\' == DIRECTORY_SEPARATOR) {
+                $sSubPath = str_replace('/', DIRECTORY_SEPARATOR, $p_sSubPath);
+            } else {
+                $sSubPath = $p_sSubPath;
+            }
+        }
         foreach ($G_PAGE_DIR as $sLoadDir) {
-            $sLoadFilePath = $sLoadDir . DIRECTORY_SEPARATOR . $sSubPath . '.phtml';
+            $sLoadFilePath = $sLoadDir . $sSubPath . '.phtml';
             // echo $sLoadFilePath,'<br />';
             if (file_exists($sLoadFilePath)) {
                 extract(array_merge($this->_aPageData, $p_aExtendDatas));
@@ -106,6 +113,6 @@ class template
                 return true;
             }
         }
-        throw new \Exception(__CLASS__ . ': can not found template(' . $p_sPageName . ').');
+        throw new \Exception(__CLASS__ . ': can not found template(' . $p_sSubPath . ').');
     }
 }

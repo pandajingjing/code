@@ -19,14 +19,14 @@ class demo extends orm
      *
      * @var string
      */
-    protected $_sMasterDbName = 'spider_master';
+    protected $sMasterDbName = 'spider_master';
 
     /**
      * Slave数据库连接名,在子类中配置
      *
      * @var string
      */
-    protected $_sSlaveDbName = 'spider_slave';
+    protected $sSlaveDbName = 'spider_slave';
 
     /**
      * 主键ID
@@ -61,21 +61,21 @@ class demo extends orm
      *
      * @var string
      */
-    protected $_sTblName = 't_demo';
+    protected $sTblName = 't_demo';
 
     /**
      * 主键字段
      *
      * @var string
      */
-    protected $_sPkField = 'iAutoId';
+    protected $sPkField = 'iAutoId';
 
     /**
      * 数据库表结构
      *
      * @var array
      */
-    protected $_aDbField = [
+    protected $aDbField = [
         'iAutoId' => [
             'sType' => 'int',
             'bUnsigned' => true
@@ -99,7 +99,7 @@ class demo extends orm
      *
      * @var array
      */
-    protected $_aOrmField = [
+    protected $aOrmField = [
         'iAutoId' => [
             'sType' => 'int',
             'bUnsigned' => true
@@ -120,7 +120,7 @@ class demo extends orm
     /**
      * 数据库索引顺序
      */
-    protected $_aDbIndexOrders = [
+    protected $aDbIndexOrders = [
         'iAutoId',
         'sName'
     ];
@@ -130,7 +130,7 @@ class demo extends orm
      *
      * @var array
      */
-    protected $_aBizSql = [
+    protected $aBizSql = [
         'sName' => 'sName like :sName ORDER BY iAutoId desc'
     ];
 

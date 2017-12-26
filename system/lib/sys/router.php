@@ -312,7 +312,7 @@ class router
         $aTmp = explode($this->_sParamSeperator, $p_sParam);
         for ($iIndex = 0;;) {
             if (isset($aTmp[$iIndex]) and isset($aTmp[$iIndex + 1])) {
-                $aParam[$aTmp[$iIndex]] = $aTmp[++ $iIndex];
+                $aParam[$aTmp[$iIndex]] = urldecode($aTmp[++ $iIndex]);
                 ++ $iIndex;
             } else {
                 break;

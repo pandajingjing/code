@@ -17,6 +17,6 @@ class miss extends base
     function doRequest()
     {
         $this->addHeader('HTTP/1.1 404 Not Found');
-        return 'home_404';
+        return '/home/404';
     }
 }

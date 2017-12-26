@@ -28,6 +28,6 @@ class doc extends base
             ];
         }
         $this->setPageData('aChapterList', $aChapterList);
-        return 'doc';
+        return '/doc';
     }
 }

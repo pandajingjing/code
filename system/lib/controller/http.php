@@ -25,7 +25,7 @@ abstract class http extends controller
     function afterRequest()
     {
         // 发送头部信息
-        foreach ($this->_aPri['aHeaders'] as $aHeader) {
+        foreach ($this->aPri['aHeaders'] as $aHeader) {
             header($aHeader[0], $aHeader[1], $aHeader[2]);
         }
         $this->addLog('page get data', json_encode($this->getAllPageData(), JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE), 'parameter');
@@ -42,7 +42,7 @@ abstract class http extends controller
      */
     protected function addHeader($p_sValue, $p_bReplace = true, $p_iCode = null)
     {
-        $this->_aPri['aHeaders'][] = array(
+        $this->aPri['aHeaders'][] = array(
             $p_sValue,
             $p_bReplace,
             $p_iCode
@@ -58,7 +58,7 @@ abstract class http extends controller
      */
     protected function setPageData($p_sKey, $p_mValue)
     {
-        $this->_aPri['aPageData'][$p_sKey] = $p_mValue;
+        $this->aPri['aPageData'][$p_sKey] = $p_mValue;
     }
 
     /**
@@ -69,7 +69,7 @@ abstract class http extends controller
      */
     protected function getPageData($p_sKey)
     {
-        return $this->_aPri['aPageData'][$p_sKey];
+        return $this->aPri['aPageData'][$p_sKey];
     }
 
     /**
@@ -79,6 +79,6 @@ abstract class http extends controller
      */
     function getAllPageData()
     {
-        return $this->_aPri['aPageData'];
+        return $this->aPri['aPageData'];
     }
 }

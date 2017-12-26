@@ -50,21 +50,21 @@ class orm_jxuhome_item extends orm_jxuhome_base
      *
      * @var string
      */
-    protected $_sTblName = 't_item_copy';
+    protected $sTblName = 't_item_copy';
 
     /**
      * 主键字段
      *
      * @var string
      */
-    protected $_sPkField = 'iAutoId';
+    protected $sPkField = 'iAutoId';
 
     /**
      * 数据库表结构
      *
      * @var array
      */
-    protected $_aDbField = [
+    protected $aDbField = [
         'iAutoId' => [
             'sType' => 'int',
             'bUnsigned' => true
@@ -96,7 +96,7 @@ class orm_jxuhome_item extends orm_jxuhome_base
      *
      * @var array
      */
-    protected $_aOrmField = [
+    protected $aOrmField = [
         'iAutoId' => [
             'sType' => 'int',
             'bUnsigned' => true

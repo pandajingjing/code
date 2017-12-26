@@ -29,6 +29,6 @@ class home extends base
             ];
         }
         $this->setPageData('aChapterList', $aChapterList);
-        return 'home_home';
+        return '/home/home';
     }
 }

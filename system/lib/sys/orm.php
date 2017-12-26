@@ -27,42 +27,42 @@ abstract class orm
      *
      * @var string
      */
-    protected $_sMasterDbName = '';
+    protected $sMasterDbName = '';
 
     /**
      * Slave数据库连接名,在子类中配置
      *
      * @var string
      */
-    protected $_sSlaveDbName = '';
+    protected $sSlaveDbName = '';
 
     /**
      * 表名称
      *
      * @var string
      */
-    protected $_sTblName = '';
+    protected $sTblName = '';
 
     /**
      * 缓存连接名
      *
      * @var string
      */
-    protected $_sCacheName = 'ormcache';
+    protected $sCacheName = 'ormcache';
 
     /**
      * 主键字段
      *
      * @var string
      */
-    protected $_sPkField = '';
+    protected $sPkField = '';
 
     /**
      * 数据库表结构
      *
      * @var array
      */
-    protected $_aDbField = [
+    protected $aDbField = [
         'int/tinyint' => [
             'sType' => 'int/tinyint',
             'bUnsigned' => true
@@ -78,7 +78,7 @@ abstract class orm
      *
      * @var array
      */
-    protected $_aOrmField = [
+    protected $aOrmField = [
         'int/tinyint' => [
             'sType' => 'int/tinyint',
             'bUnsigned' => true
@@ -99,7 +99,7 @@ abstract class orm
     /**
      * 数据库索引顺序
      */
-    protected $_aDbIndexOrders = [
+    protected $aDbIndexOrders = [
         'iAutoId'
     ];
 
@@ -108,7 +108,7 @@ abstract class orm
      *
      * @var array
      */
-    protected $_aBizSql = [
+    protected $aBizSql = [
         'itemname_57' => 'iBuyTime>:iBuyTime ORDER BY iAutoId asc'
     ];
 
@@ -117,7 +117,7 @@ abstract class orm
      *
      * @var boolean
      */
-    protected $_bNeedDelData = false;
+    protected $bNeedDelData = false;
     
     // 系统属性,子类不允许修改
     
@@ -364,10 +364,10 @@ abstract class orm
         $this->_sClassName = get_class($this);
         self::$_oDebugger = debugger::getInstance();
         if ($p_bStrictMaster) {
-            $this->_sSlaveDbName = $this->_sMasterDbName;
+            $this->sSlaveDbName = $this->sMasterDbName;
         }
-        $this->_aAllDbField = array_merge($this->_aDbField, self::$_aReservedField);
-        self::$_oDebugger->showMsg($this->_sClassName . '->Info: sMasterName: ' . $this->_sMasterDbName . ', sSlaveName: ' . $this->_sSlaveDbName . ', sCacheName: ' . $this->_sCacheName);
+        $this->_aAllDbField = array_merge($this->aDbField, self::$_aReservedField);
+        self::$_oDebugger->showMsg($this->_sClassName . '->Info: sMasterName: ' . $this->sMasterDbName . ', sSlaveName: ' . $this->sSlaveDbName . ', sCacheName: ' . $this->sCacheName);
     }
 
     /**
@@ -413,11 +413,11 @@ abstract class orm
     /**
      * 设置需要已删除数据
      *
-     * @param boolean $p_bNeedDelData            
+     * @param boolean $pbNeedDelData            
      */
-    function setRecycled($p_bNeedDelData = true)
+    function setRecycled($pbNeedDelData = true)
     {
-        $this->_bNeedDelData = $p_bNeedDelData;
+        $this->bNeedDelData = $pbNeedDelData;
     }
 
     /**
@@ -500,7 +500,7 @@ abstract class orm
                 ];
             }
         } else { // 用法1
-            if (isset($this->_aOrmField[$p_sDbFieldOrSql])) {
+            if (isset($this->aOrmField[$p_sDbFieldOrSql])) {
                 if (in_array($p_sOperatorOrParam, self::$_aFilterOperators)) {
                     if (isset($this->_aFilters[$p_sDbFieldOrSql])) {
                         $this->_aFilters[$p_sDbFieldOrSql][] = [
@@ -542,7 +542,7 @@ abstract class orm
     function getSource()
     {
         $this->_aOrmData = [];
-        foreach ($this->_aOrmField as $sField => $aFieldSet) {
+        foreach ($this->aOrmField as $sField => $aFieldSet) {
             if (null !== $this->$sField) {
                 $this->_aOrmData[$sField] = $this->$sField;
             }
@@ -570,44 +570,56 @@ abstract class orm
     {
         return self::_clearCacheData([
             self::_getCacheRowKey($this->_sClassName, $p_mPkVal)
-        ], $this->_sCacheName, $this->_sClassName);
+        ], $this->sCacheName, $this->_sClassName);
     }
 
     /**
      * 添加数据
      *
+     * @param boolean $p_bUpdate            
+     *
      * @return int|false
      */
-    function addData()
+    function addData($p_bUpdate = false)
     {
-        $aOrmData = self::_checkField($this->getSource(), $this->_aOrmField, $this->_sClassName);
+        $aOrmData = self::_checkField($this->getSource(), $this->aOrmField, $this->_sClassName);
         $aDbData = $this->beforeSave($aOrmData);
-        $aDbData['iCreateTime'] = variable::getInstance()->getRealTime();
         $aDbData = self::_checkField($aDbData, $this->_aAllDbField, $this->_sClassName);
-        $aSqlParam = self::_joinAddString($this->_aAllDbField, $aDbData, $this->_sPkField, $this->_sClassName);
-        $sSql = 'insert into ' . $this->dispatchTable($this->_sTblName) . ' (' . $aSqlParam['sFieldStr'] . ')values(' . $aSqlParam['sParamStr'] . ')';
-        return self::_insertDbData($sSql, $aSqlParam['aValue'], $this->dispatchDb($this->_sMasterDbName), $this->_aAllDbField, $this->_sClassName);
+        $aDbData['iCreateTime'] = variable::getInstance()->getRealTime();
+        $aSqlParam = self::_joinAddString($this->_aAllDbField, $aDbData, $this->_sClassName);
+        $sSql = 'insert into ' . $this->dispatchTable($this->sTblName) . ' (' . $aSqlParam['sFieldStr'] . ')values(' . $aSqlParam['sParamStr'] . ')';
+        if ($p_bUpdate) {
+            $aDbData['iUpdateTime'] = $aDbData['iCreateTime'];
+            unset($aDbData['iCreateTime']);
+            $aUpdSql = self::_joinUpdString($this->_aAllDbField, $aDbData, $this->sPkField, $this->_sClassName);
+            $aSqlParam['aValue'] = array_merge($aSqlParam['aValue'], $aUpdSql['aValue']);
+            $sSql = $sSql . ' on duplicate key update ' . $aUpdSql['sFieldStr'];
+            if (isset($aDbData[$this->sPkField])) {
+                $this->clearRowCache($aDbData[$this->sPkField]);
+            }
+        }
+        return self::_insertDbData($sSql, $aSqlParam['aValue'], $this->dispatchDb($this->sMasterDbName), $this->_aAllDbField, $this->_sClassName);
     }
 
     /**
      * 获取一行数据
      *
      * @param boolean $p_bStrictFreshCache            
-     * @return object|null
+     * @return array|null
      */
     function getDetail($p_bStrictFreshCache = false)
     {
-        $aOrmData = self::_checkField($this->getSource(), $this->_aOrmField, $this->_sClassName);
+        $aOrmData = self::_checkField($this->getSource(), $this->aOrmField, $this->_sClassName);
         $aDbData = $this->beforeSave($aOrmData);
-        $aDbData = self::_checkField($aDbData, $this->_aDbField, $this->_sClassName);
-        $aPkParam = self::_joinPKWhereString($this->_sPkField, $aDbData, $this->_sClassName, $this->_bNeedDelData);
-        $sCacheKey = self::_getCacheRowKey($this->_sClassName, $aPkParam['aValue'][$this->_sPkField]);
+        $aDbData = self::_checkField($aDbData, $this->aDbField, $this->_sClassName);
+        $aPkParam = self::_joinPKWhereString($this->sPkField, $aDbData, $this->_sClassName, $this->bNeedDelData);
+        $sCacheKey = self::_getCacheRowKey($this->_sClassName, $aPkParam['aValue'][$this->sPkField]);
         if ($p_bStrictFreshCache or ! $this->_bolNeedCache) {
             $aOrmData = [];
         } else {
             $aCacheData = $this->_getCacheData([
                 $sCacheKey
-            ], $this->_sCacheName, $this->_sClassName);
+            ], $this->sCacheName, $this->_sClassName);
             if (empty($aCacheData)) {
                 $aOrmData = [];
             } else {
@@ -615,16 +627,16 @@ abstract class orm
             }
         }
         if (empty($aOrmData)) {
-            $sSql = 'select ' . self::_joinSelectString($this->_aDbField, $this->_sClassName) . ' from ' . $this->dispatchTable($this->_sTblName) . ' where ' . $aPkParam['sFieldStr'];
-            $aDbData = self::_getDbData($sSql, $aPkParam['aValue'], self::Sql_FETCH_TYPE_ROW, $this->dispatchDb($this->_sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
+            $sSql = 'select ' . self::_joinSelectString($this->aDbField, $this->_sClassName) . ' from ' . $this->dispatchTable($this->sTblName) . ' where ' . $aPkParam['sFieldStr'];
+            $aDbData = self::_getDbData($sSql, $aPkParam['aValue'], self::Sql_FETCH_TYPE_ROW, $this->dispatchDb($this->sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
             if (null === $aDbData) {
                 return null;
             }
             $aOrmData = $this->beforeRead($aDbData);
-            if (! $this->_bNeedDelData) {
+            if (! $this->bNeedDelData) {
                 $this->_setCacheData([
                     $sCacheKey => $aOrmData
-                ], self::DEFAULT_CACHE_LEVEL, $this->_sCacheName, $this->_sClassName);
+                ], self::DEFAULT_CACHE_LEVEL, $this->sCacheName, $this->_sClassName);
             }
         }
         return $aOrmData;
@@ -637,7 +649,7 @@ abstract class orm
      */
     function updData()
     {
-        $aNewOrmData = self::_checkField($this->getSource(), $this->_aOrmField, $this->_sClassName);
+        $aNewOrmData = self::_checkField($this->getSource(), $this->aOrmField, $this->_sClassName);
         $oOldOrmData = $this->getDetail();
         if (null === $oOldOrmData) {
             return 0;
@@ -645,7 +657,7 @@ abstract class orm
         $aNewDbData = $this->beforeSave($aNewOrmData);
         $aOldDbData = $this->beforeSave($oOldOrmData);
         foreach ($aNewDbData as $sDbField => $sValue) {
-            if ($sDbField != $this->_sPkField and $sValue == $aOldDbData[$sDbField]) {
+            if ($sDbField != $this->sPkField and $sValue == $aOldDbData[$sDbField]) {
                 unset($aNewDbData[$sDbField]);
             }
         }
@@ -653,11 +665,11 @@ abstract class orm
             return 0;
         }
         $aNewDbData['iUpdateTime'] = variable::getInstance()->getRealTime();
-        $aSqlParam = self::_joinUpdString($this->_aAllDbField, $aNewDbData, $this->_sPkField, $this->_sClassName);
-        $aPkParam = self::_joinPKWhereString($this->_sPkField, $aNewDbData, $this->_sClassName);
-        $sSql = 'update ' . $this->dispatchTable($this->_sTblName) . ' set ' . $aSqlParam['sFieldStr'] . ' where ' . $aPkParam['sFieldStr'];
-        $this->clearRowCache($aPkParam['aValue'][$this->_sPkField]);
-        return self::_updDbData($sSql, array_merge($aSqlParam['aValue'], $aPkParam['aValue']), $this->dispatchDb($this->_sMasterDbName), $this->_aAllDbField, $this->_sClassName);
+        $aSqlParam = self::_joinUpdString($this->_aAllDbField, $aNewDbData, $this->sPkField, $this->_sClassName);
+        $aPkParam = self::_joinPKWhereString($this->sPkField, $aNewDbData, $this->_sClassName);
+        $sSql = 'update ' . $this->dispatchTable($this->sTblName) . ' set ' . $aSqlParam['sFieldStr'] . ' where ' . $aPkParam['sFieldStr'];
+        $this->clearRowCache($aPkParam['aValue'][$this->sPkField]);
+        return self::_updDbData($sSql, array_merge($aSqlParam['aValue'], $aPkParam['aValue']), $this->dispatchDb($this->sMasterDbName), $this->_aAllDbField, $this->_sClassName);
     }
 
     /**
@@ -667,19 +679,19 @@ abstract class orm
      */
     function delData()
     {
-        $aOrmData = self::_checkField($this->getSource(), $this->_aOrmField, $this->_sClassName);
+        $aOrmData = self::_checkField($this->getSource(), $this->aOrmField, $this->_sClassName);
         $aDbData = $this->beforeSave($aOrmData);
         $aDbData['iDeleteTime'] = variable::getInstance()->getRealTime();
-        $aPkParam = self::_joinPKWhereString($this->_sPkField, $aDbData, $this->_sClassName);
+        $aPkParam = self::_joinPKWhereString($this->sPkField, $aDbData, $this->_sClassName);
         if (self::$_bPhyDelete) {
-            $sSql = 'delete from ' . $this->dispatchTable($this->_sTblName) . ' where ' . $aPkParam['sFieldStr'];
-            $this->clearRowCache($aPkParam['aValue'][$this->_sPkField]);
-            return $this->_updDbData($sSql, $aPkParam['aValue'], $this->dispatchDb($this->_sMasterDbName), $this->_aAllDbField, $this->_sClassName);
+            $sSql = 'delete from ' . $this->dispatchTable($this->sTblName) . ' where ' . $aPkParam['sFieldStr'];
+            $this->clearRowCache($aPkParam['aValue'][$this->sPkField]);
+            return $this->_updDbData($sSql, $aPkParam['aValue'], $this->dispatchDb($this->sMasterDbName), $this->_aAllDbField, $this->_sClassName);
         } else {
-            $aSqlParam = self::_joinUpdString($this->_aAllDbField, $aDbData, $this->_sPkField, $this->_sClassName);
-            $sSql = 'update ' . $this->dispatchTable($this->_sTblName) . ' set ' . $aSqlParam['sFieldStr'] . ' where ' . $aPkParam['sFieldStr'];
-            $this->clearRowCache($aPkParam['aValue'][$this->_sPkField]);
-            return self::_updDbData($sSql, array_merge($aSqlParam['aValue'], $aPkParam['aValue']), $this->dispatchDb($this->_sMasterDbName), $this->_aAllDbField, $this->_sClassName);
+            $aSqlParam = self::_joinUpdString($this->_aAllDbField, $aDbData, $this->sPkField, $this->_sClassName);
+            $sSql = 'update ' . $this->dispatchTable($this->sTblName) . ' set ' . $aSqlParam['sFieldStr'] . ' where ' . $aPkParam['sFieldStr'];
+            $this->clearRowCache($aPkParam['aValue'][$this->sPkField]);
+            return self::_updDbData($sSql, array_merge($aSqlParam['aValue'], $aPkParam['aValue']), $this->dispatchDb($this->sMasterDbName), $this->_aAllDbField, $this->_sClassName);
         }
     }
 
@@ -692,11 +704,11 @@ abstract class orm
      */
     function getList($p_bStrictFreshCache = false)
     {
-        $sSql = 'select ' . $this->_sPkField . ' from ' . $this->dispatchTable($this->_sTblName);
-        $aWhereParam = self::_joinWhereString($this->_aFilters, $this->_aDbIndexOrders, $this->_sPkField, $this->_sClassName, $this->_bNeedDelData);
+        $sSql = 'select ' . $this->sPkField . ' from ' . $this->dispatchTable($this->sTblName);
+        $aWhereParam = self::_joinWhereString($this->_aFilters, $this->aDbIndexOrders, $this->sPkField, $this->_sClassName, $this->bNeedDelData);
         $sSql .= ' where ' . $aWhereParam['sFieldStr'];
         if ('' == $this->_sOrder) {
-            $sSql .= ' order by ' . $this->_sPkField . ' desc';
+            $sSql .= ' order by ' . $this->sPkField . ' desc';
         } else {
             $sSql .= ' order by ' . $this->_sOrder;
             $this->_sOrder = '';
@@ -706,11 +718,11 @@ abstract class orm
         $aWhereParam['aValue']['iFetchRow'] = $this->_iFetchRow;
         $this->_iStartRow = self::DEFAULT_START_ROW;
         $this->_iFetchRow = self::DEFAULT_FETCH_ROW;
-        $aPkVals = self::_getDbData($sSql, $aWhereParam['aValue'], self::Sql_FETCH_TYPE_LIST, $this->dispatchDb($this->_sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
+        $aPkVals = self::_getDbData($sSql, $aWhereParam['aValue'], self::Sql_FETCH_TYPE_LIST, $this->dispatchDb($this->sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
         if (empty($aPkVals)) {
             return [];
         } else {
-            return self::_orderPkDataList($aPkVals, $this->getListByPkVals($aPkVals, $p_bStrictFreshCache), $this->_sPkField);
+            return self::_orderPkDataList($aPkVals, $this->getListByPkVals($aPkVals, $p_bStrictFreshCache), $this->sPkField);
         }
     }
 
@@ -721,10 +733,10 @@ abstract class orm
      */
     function getCnt()
     {
-        $sSql = 'select count(*) as cnt from ' . $this->dispatchTable($this->_sTblName);
-        $aWhereParam = self::_joinWhereString($this->_aFilters, $this->_aDbIndexOrders, $this->_sPkField, $this->_sClassName, $this->_bNeedDelData);
+        $sSql = 'select count(*) as cnt from ' . $this->dispatchTable($this->sTblName);
+        $aWhereParam = self::_joinWhereString($this->_aFilters, $this->aDbIndexOrders, $this->sPkField, $this->_sClassName, $this->bNeedDelData);
         $sSql .= ' where ' . $aWhereParam['sFieldStr'];
-        return $this->_getDbData($sSql, $aWhereParam['aValue'], self::Sql_FETCH_TYPE_COLUMN, $this->dispatchDb($this->_sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
+        return $this->_getDbData($sSql, $aWhereParam['aValue'], self::Sql_FETCH_TYPE_COLUMN, $this->dispatchDb($this->sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
     }
 
     /**
@@ -736,7 +748,7 @@ abstract class orm
      */
     function getListByPkVals($p_mPkVals, $p_bStrictFreshCache = false)
     {
-        $aPkVals = self::_rebuildPkVals($p_mPkVals, $this->_sPkField);
+        $aPkVals = self::_rebuildPkVals($p_mPkVals, $this->sPkField);
         if (empty($aPkVals)) {
             return [];
         }
@@ -746,7 +758,7 @@ abstract class orm
             foreach ($aPkVals as $mPkVal) {
                 $aCacheKeys[] = self::_getCacheRowKey($this->_sClassName, $mPkVal);
             }
-            $aCacheData = self::_getCacheData($aCacheKeys, $this->_sCacheName, $this->_sClassName);
+            $aCacheData = self::_getCacheData($aCacheKeys, $this->sCacheName, $this->_sClassName);
             foreach ($aPkVals as $mPkVal) {
                 $sCacheKey = self::_getCacheRowKey($this->_sClassName, $mPkVal);
                 if (isset($aCacheData[$sCacheKey])) {} else {
@@ -762,24 +774,24 @@ abstract class orm
         } else {
             $aPkValsHolders = $aPkParam = $aDbCacheData = [];
             foreach ($aCacheMissPkVals as $iIndex => $mVal) {
-                $sHolder = $this->_sPkField . '_' . $iIndex;
+                $sHolder = $this->sPkField . '_' . $iIndex;
                 $aPkValsHolders[] = self::$_sBindHolder . $sHolder;
                 $aPkParam[$sHolder] = $mVal;
             }
-            if ($this->_bNeedDelData) {
-                $sSql = 'select ' . self::_joinSelectString($this->_aDbField, $this->_sClassName) . ' from ' . $this->dispatchTable($this->_sTblName) . ' where `' . $this->_sPkField . '` in (' . join(' ,', $aPkValsHolders) . ')';
+            if ($this->bNeedDelData) {
+                $sSql = 'select ' . self::_joinSelectString($this->aDbField, $this->_sClassName) . ' from ' . $this->dispatchTable($this->sTblName) . ' where `' . $this->sPkField . '` in (' . join(' ,', $aPkValsHolders) . ')';
             } else {
-                $sSql = 'select ' . self::_joinSelectString($this->_aDbField, $this->_sClassName) . ' from ' . $this->dispatchTable($this->_sTblName) . ' where `' . $this->_sPkField . '` in (' . join(' ,', $aPkValsHolders) . ') and `iDeleteTime`=:iDeleteTime_99';
+                $sSql = 'select ' . self::_joinSelectString($this->aDbField, $this->_sClassName) . ' from ' . $this->dispatchTable($this->sTblName) . ' where `' . $this->sPkField . '` in (' . join(' ,', $aPkValsHolders) . ') and `iDeleteTime`=:iDeleteTime_99';
                 $aPkParam['iDeleteTime_99'] = 0;
             }
-            $aDbDatas = self::_getDbData($sSql, $aPkParam, self::Sql_FETCH_TYPE_LIST, $this->dispatchDb($this->_sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
+            $aDbDatas = self::_getDbData($sSql, $aPkParam, self::Sql_FETCH_TYPE_LIST, $this->dispatchDb($this->sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
             if (empty($aDbDatas)) {} else {
-                if (! $this->_bNeedDelData) {
+                if (! $this->bNeedDelData) {
                     foreach ($aDbDatas as $aData) {
-                        $sCacheKey = self::_getCacheRowKey($this->_sClassName, $aData[$this->_sPkField]);
+                        $sCacheKey = self::_getCacheRowKey($this->_sClassName, $aData[$this->sPkField]);
                         $aDbCacheData[$sCacheKey] = $this->beforeRead($aData);
                     }
-                    $this->_setCacheData($aDbCacheData, self::DEFAULT_CACHE_LEVEL, $this->_sCacheName, $this->_sClassName);
+                    $this->_setCacheData($aDbCacheData, self::DEFAULT_CACHE_LEVEL, $this->sCacheName, $this->_sClassName);
                 }
             }
         }
@@ -801,28 +813,28 @@ abstract class orm
      */
     function delDataByPkVals($p_mPkVals)
     {
-        $aPkVals = self::_rebuildPkVals($p_mPkVals, $this->_sPkField);
+        $aPkVals = self::_rebuildPkVals($p_mPkVals, $this->sPkField);
         if (empty($aPkVals)) {
             return 0;
         }
         $aPkValsHolders = $aCacheKeys = $aPkParam = [];
         foreach ($aPkVals as $iIndex => $mVal) {
-            $sHolder = $this->_sPkField . '_' . $iIndex;
+            $sHolder = $this->sPkField . '_' . $iIndex;
             $aPkValsHolders[] = self::$_sBindHolder . $sHolder;
             $aPkParam[$sHolder] = $mVal;
             $aCacheKeys[] = self::_getCacheRowKey($this->_sClassName, $mVal);
         }
         if (self::$_bPhyDelete) {
-            $sSql = 'delete from ' . $this->dispatchTable($this->_sTblName) . ' where `' . $this->_sPkField . '` in (' . join(' ,', $aPkValsHolders) . ')';
-            $iLastAffectedCnt = $this->_updDbData($sSql, $aPkParam, $this->dispatchDb($this->_sMasterDbName), $this->_aDbField, $this->_sClassName);
+            $sSql = 'delete from ' . $this->dispatchTable($this->sTblName) . ' where `' . $this->sPkField . '` in (' . join(' ,', $aPkValsHolders) . ')';
+            $iLastAffectedCnt = $this->_updDbData($sSql, $aPkParam, $this->dispatchDb($this->sMasterDbName), $this->aDbField, $this->_sClassName);
         } else {
             $aDbData = [];
             $aDbData['iDeleteTime'] = variable::getInstance()->getRealTime();
             $aDbData['iDeleteTime_99'] = 0;
-            $sSql = 'update ' . $this->dispatchTable($this->_sTblName) . ' set `iDeleteTime`=:iDeleteTime where `' . $this->_sPkField . '` in (' . join(' ,', $aPkValsHolders) . ') and `iDeleteTime`=:iDeleteTime_99';
-            $iLastAffectedCnt = self::_updDbData($sSql, array_merge($aDbData, $aPkParam), $this->dispatchDb($this->_sMasterDbName), $this->_aAllDbField, $this->_sClassName);
+            $sSql = 'update ' . $this->dispatchTable($this->sTblName) . ' set `iDeleteTime`=:iDeleteTime where `' . $this->sPkField . '` in (' . join(' ,', $aPkValsHolders) . ') and `iDeleteTime`=:iDeleteTime_99';
+            $iLastAffectedCnt = self::_updDbData($sSql, array_merge($aDbData, $aPkParam), $this->dispatchDb($this->sMasterDbName), $this->_aAllDbField, $this->_sClassName);
         }
-        self::_clearCacheData($aCacheKeys, $this->_sCacheName, $this->_sClassName);
+        self::_clearCacheData($aCacheKeys, $this->sCacheName, $this->_sClassName);
         return $iLastAffectedCnt;
     }
 
@@ -834,27 +846,27 @@ abstract class orm
      */
     function updListByPkVals($p_mPkVals)
     {
-        $aPkVals = self::_rebuildPkVals($p_mPkVals, $this->_sPkField);
+        $aPkVals = self::_rebuildPkVals($p_mPkVals, $this->sPkField);
         if (empty($aPkVals)) {
             return [];
         }
-        $aOrmData = self::_checkField($this->getSource(), $this->_aOrmField, $this->_sClassName);
+        $aOrmData = self::_checkField($this->getSource(), $this->aOrmField, $this->_sClassName);
         $aDbData = $this->beforeSave($aOrmData);
-        $aDbData = self::_checkField($aDbData, $this->_aDbField, $this->_sClassName);
+        $aDbData = self::_checkField($aDbData, $this->aDbField, $this->_sClassName);
         $aDbData['iUpdateTime'] = variable::getInstance()->getRealTime();
-        $aSqlParam = self::_joinUpdString($this->_aAllDbField, $aDbData, $this->_sPkField, $this->_sClassName);
+        $aSqlParam = self::_joinUpdString($this->_aAllDbField, $aDbData, $this->sPkField, $this->_sClassName);
         $aPkValsHolders = $aCacheKeys = $aPkParam = [];
         foreach ($aPkVals as $iIndex => $mVal) {
-            $sHolder = $this->_sPkField . '_' . $iIndex;
+            $sHolder = $this->sPkField . '_' . $iIndex;
             $aPkValsHolders[] = self::$_sBindHolder . $sHolder;
             $aPkParam[$sHolder] = $mVal;
             $aCacheKeys[] = self::_getCacheRowKey($this->_sClassName, $mVal);
         }
-        $sSql = 'update ' . $this->dispatchTable($this->_sTblName) . ' set ' . $aSqlParam['sFieldStr'] . ' where `' . $this->_sPkField . '` in (' . join(' ,', $aPkValsHolders) . ') and iDeleteTime=:iDeleteTime_99';
+        $sSql = 'update ' . $this->dispatchTable($this->sTblName) . ' set ' . $aSqlParam['sFieldStr'] . ' where `' . $this->sPkField . '` in (' . join(' ,', $aPkValsHolders) . ') and iDeleteTime=:iDeleteTime_99';
         $iLastAffectedCnt = self::_updDbData($sSql, array_merge($aSqlParam['aValue'], $aPkParam, [
             'iDeleteTime_99' => 0
-        ]), $this->dispatchDb($this->_sMasterDbName), $this->_aAllDbField, $this->_sClassName);
-        self::_clearCacheData($aCacheKeys, $this->_sCacheName, $this->_sClassName);
+        ]), $this->dispatchDb($this->sMasterDbName), $this->_aAllDbField, $this->_sClassName);
+        self::_clearCacheData($aCacheKeys, $this->sCacheName, $this->_sClassName);
         return $iLastAffectedCnt;
     }
 
@@ -869,11 +881,11 @@ abstract class orm
      */
     function getBizList($p_sSqlName, $p_aParam = [], $p_bStrictFreshCache = false)
     {
-        if (isset($this->_aBizSql[$p_sSqlName])) {
-            if ($this->_bNeedDelData) {
-                $sSql = 'select ' . $this->_sPkField . ' from ' . $this->dispatchTable($this->_sTblName) . ' where ' . $this->_aBizSql[$p_sSqlName];
+        if (isset($this->aBizSql[$p_sSqlName])) {
+            if ($this->bNeedDelData) {
+                $sSql = 'select ' . $this->sPkField . ' from ' . $this->dispatchTable($this->sTblName) . ' where ' . $this->aBizSql[$p_sSqlName];
             } else {
-                $sSql = 'select ' . $this->_sPkField . ' from ' . $this->dispatchTable($this->_sTblName) . ' where iDeleteTime=:iDeleteTime and ' . $this->_aBizSql[$p_sSqlName];
+                $sSql = 'select ' . $this->sPkField . ' from ' . $this->dispatchTable($this->sTblName) . ' where iDeleteTime=:iDeleteTime and ' . $this->aBizSql[$p_sSqlName];
                 $p_aParam['iDeleteTime'] = 0;
             }
             $sSql .= ' limit :iStartRow, :iFetchRow';
@@ -881,11 +893,11 @@ abstract class orm
             $p_aParam['iFetchRow'] = $this->_iFetchRow;
             $this->_iStartRow = self::DEFAULT_START_ROW;
             $this->_iFetchRow = self::DEFAULT_FETCH_ROW;
-            $aPkVals = $this->_getDbData($sSql, $p_aParam, self::Sql_FETCH_TYPE_LIST, $this->dispatchDb($this->_sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
+            $aPkVals = $this->_getDbData($sSql, $p_aParam, self::Sql_FETCH_TYPE_LIST, $this->dispatchDb($this->sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
             if (empty($aPkVals)) {
                 return [];
             } else {
-                return self::_orderPkDataList($aPkVals, $this->getListByPkVals($aPkVals, $p_bStrictFreshCache), $this->_sPkField);
+                return self::_orderPkDataList($aPkVals, $this->getListByPkVals($aPkVals, $p_bStrictFreshCache), $this->sPkField);
             }
         } else {
             throw new \Exception($this->_sClassName . ': you gave an invalid Sql name(' . $p_sSqlName . ').');
@@ -902,14 +914,14 @@ abstract class orm
      */
     function getBizCnt($p_sSqlName, $p_aParam = [])
     {
-        if (isset($this->_aBizSql[$p_sSqlName])) {
-            if ($this->_bNeedDelData) {
-                $sSql = 'select count(*) as `cnt` from ' . $this->dispatchTable($this->_sTblName) . ' where ' . $this->_aBizSql[$p_sSqlName];
+        if (isset($this->aBizSql[$p_sSqlName])) {
+            if ($this->bNeedDelData) {
+                $sSql = 'select count(*) as `cnt` from ' . $this->dispatchTable($this->sTblName) . ' where ' . $this->aBizSql[$p_sSqlName];
             } else {
-                $sSql = 'select count(*) as `cnt` from ' . $this->dispatchTable($this->_sTblName) . ' where iDeleteTime=:iDeleteTime and ' . $this->_aBizSql[$p_sSqlName];
+                $sSql = 'select count(*) as `cnt` from ' . $this->dispatchTable($this->sTblName) . ' where iDeleteTime=:iDeleteTime and ' . $this->aBizSql[$p_sSqlName];
                 $p_aParam['iDeleteTime'] = 0;
             }
-            return $this->_getDbData($sSql, $p_aParam, self::Sql_FETCH_TYPE_COLUMN, $this->dispatchDb($this->_sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
+            return $this->_getDbData($sSql, $p_aParam, self::Sql_FETCH_TYPE_COLUMN, $this->dispatchDb($this->sSlaveDbName), $this->_aAllDbField, $this->_sClassName);
         } else {
             throw new \Exception($this->_sClassName . ': you gave an invalid Sql name(' . $p_sSqlName . ').');
         }
@@ -922,7 +934,7 @@ abstract class orm
      */
     function beginTransaction()
     {
-        $sDbName = $this->dispatchDb($this->_sMasterDbName);
+        $sDbName = $this->dispatchDb($this->sMasterDbName);
         self::_connectDb($sDbName);
         self::$_aDbPool[$sDbName]->beginTransaction();
     }
@@ -934,7 +946,7 @@ abstract class orm
      */
     function commit()
     {
-        $sDbName = $this->dispatchDb($this->_sMasterDbName);
+        $sDbName = $this->dispatchDb($this->sMasterDbName);
         self::_connectDb($sDbName);
         self::$_aDbPool[$sDbName]->commit();
     }
@@ -946,7 +958,7 @@ abstract class orm
      */
     function rollBack()
     {
-        $sDbName = $this->dispatchDb($this->_sMasterDbName);
+        $sDbName = $this->dispatchDb($this->sMasterDbName);
         self::_connectDb($sDbName);
         self::$_aDbPool[$sDbName]->rollBack();
     }
@@ -965,12 +977,12 @@ abstract class orm
     /**
      * 分配表
      *
-     * @param string $p_sTblName            
+     * @param string $psTblName            
      * @return string
      */
-    protected function dispatchTable($p_sTblName)
+    protected function dispatchTable($psTblName)
     {
-        return $p_sTblName;
+        return $psTblName;
     }
 
     /**
@@ -1046,13 +1058,13 @@ abstract class orm
     /**
      * 获取缓存连接
      *
-     * @param string $p_sCacheName            
+     * @param string $psCacheName            
      * @return void
      */
-    private static function _connectCache($p_sCacheName)
+    private static function _connectCache($psCacheName)
     {
-        if (isset(self::$_aCachePool[$p_sCacheName])) {} else {
-            self::$_aCachePool[$p_sCacheName] = pooling::getInstance()->getConnect($p_sCacheName);
+        if (isset(self::$_aCachePool[$psCacheName])) {} else {
+            self::$_aCachePool[$psCacheName] = pooling::getInstance()->getConnect($psCacheName);
         }
     }
 
@@ -1137,6 +1149,9 @@ abstract class orm
         self::$_oDebugger->showMsg($p_sClassName . '->Parameter: ' . var_export($p_aParam, true));
         self::$_oDebugger->showMsg($p_sClassName . '->Result: ' . var_export(self::$_mDebugResult, true));
         self::$_oDebugger->showMsg($p_sClassName . '->Affected row count: ' . $iLastAffectedCnt);
+        if (false === self::$_mDebugResult) {
+            self::$_oDebugger->showMsg($p_sClassName . '->ErrorInfo:' . var_export(self::$_oDbStmt->errorInfo(), true));
+        }
         return $iLastAffectedCnt;
     }
 
@@ -1166,6 +1181,9 @@ abstract class orm
         self::$_oDebugger->showMsg($p_sClassName . '->Parameter: ' . var_export($p_aParam, true));
         self::$_oDebugger->showMsg($p_sClassName . '->Result: ' . var_export(self::$_mDebugResult, true));
         self::$_oDebugger->showMsg($p_sClassName . '->LastID: ' . $iLastInsertID);
+        if (false === self::$_mDebugResult) {
+            self::$_oDebugger->showMsg($p_sClassName . '->ErrorInfo:' . var_export(self::$_oDbStmt->errorInfo(), true));
+        }
         return $iLastInsertID;
     }
 
@@ -1173,16 +1191,16 @@ abstract class orm
      * 根据Key删除缓存
      *
      * @param array $p_aCacheKeys            
-     * @param string $p_sCacheName            
+     * @param string $psCacheName            
      * @param string $p_sClassName            
      * @return true|false
      */
-    private static function _clearCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName)
+    private static function _clearCacheData($p_aCacheKeys, $psCacheName, $p_sClassName)
     {
         ++ self::$_iCacheCnt;
         self::_clearStaticCacheData($p_aCacheKeys, $p_sClassName);
         self::_clearAPCCacheData($p_aCacheKeys, $p_sClassName);
-        return self::_clearMemCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName);
+        return self::_clearMemCacheData($p_aCacheKeys, $psCacheName, $p_sClassName);
     }
 
     /**
@@ -1217,18 +1235,18 @@ abstract class orm
      * 根据Key删除Memcache
      *
      * @param array $p_aCacheKeys            
-     * @param string $p_sCacheName            
+     * @param string $psCacheName            
      * @param string $p_sClassName            
      * @todo 再检查
      *      
      * @return true|false
      */
-    private static function _clearMemCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName)
+    private static function _clearMemCacheData($p_aCacheKeys, $psCacheName, $p_sClassName)
     {
-        self::_connectCache($p_sCacheName);
+        self::_connectCache($psCacheName);
         for ($iIndex = 0; $iIndex < self::MAX_CACHE_TRY; ++ $iIndex) {
             $bFoundErr = false;
-            self::$_mDebugResult = self::$_aCachePool[$p_sCacheName]->deleteMulti($p_aCacheKeys);
+            self::$_mDebugResult = self::$_aCachePool[$psCacheName]->deleteMulti($p_aCacheKeys);
             self::$_oDebugger->showMsg($p_sClassName . '[Memcache]->Delete: Set: Multi Key|' . var_export($p_aCacheKeys, true) . '|' . var_export(self::$_mDebugResult, true));
             foreach (self::$_mDebugResult as $sKey => $mResult) {
                 if (true === $mResult) {} else {
@@ -1251,11 +1269,11 @@ abstract class orm
      *
      * @param array $p_aCache            
      * @param int $p_iDeepLevel            
-     * @param string $p_sCacheName            
+     * @param string $psCacheName            
      * @param string $p_sClassName            
      * @return void
      */
-    private static function _setCacheData($p_aCache, $p_iDeepLevel, $p_sCacheName, $p_sClassName)
+    private static function _setCacheData($p_aCache, $p_iDeepLevel, $psCacheName, $p_sClassName)
     {
         ++ self::$_iCacheCnt;
         if ($p_iDeepLevel < 1 or $p_iDeepLevel > 7) {
@@ -1269,7 +1287,7 @@ abstract class orm
             self::_setAPCCacheData($p_aCache, $p_sClassName);
         }
         if (1 == $sStyle[0]) {
-            self::_setMemCacheData($p_aCache, $p_sCacheName, $p_sClassName);
+            self::_setMemCacheData($p_aCache, $psCacheName, $p_sClassName);
         }
     }
 
@@ -1302,18 +1320,18 @@ abstract class orm
      * 写入Memcache缓存数据
      *
      * @param array $p_aCache            
-     * @param string $p_sCacheName            
+     * @param string $psCacheName            
      * @param string $p_sClassName            
      * @return void
      */
-    private static function _setMemCacheData($p_aCache, $p_sCacheName, $p_sClassName)
+    private static function _setMemCacheData($p_aCache, $psCacheName, $p_sClassName)
     {
-        self::_connectCache($p_sCacheName);
+        self::_connectCache($psCacheName);
         foreach ($p_aCache as $sKey => $mValue) {
             $p_aCache[$sKey] = self::_implodeCache($mValue, self::DEFAULT_CACHE_TIME);
         }
         for ($iIndex = 0; $iIndex < self::MAX_CACHE_TRY; ++ $iIndex) {
-            self::$_mDebugResult = self::$_aCachePool[$p_sCacheName]->setMulti($p_aCache, self::DEFAULT_CACHE_TIME);
+            self::$_mDebugResult = self::$_aCachePool[$psCacheName]->setMulti($p_aCache, self::DEFAULT_CACHE_TIME);
             if (true === self::$_mDebugResult) {
                 break;
             }
@@ -1325,11 +1343,11 @@ abstract class orm
      * 获取缓存数据
      *
      * @param array $p_aCacheKeys            
-     * @param string $p_sCacheName            
+     * @param string $psCacheName            
      * @param string $p_sClassName            
      * @return array
      */
-    private static function _getCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName)
+    private static function _getCacheData($p_aCacheKeys, $psCacheName, $p_sClassName)
     {
         ++ self::$_iCacheCnt;
         $aMissKeys = $mData = [];
@@ -1346,8 +1364,8 @@ abstract class orm
             return $mData;
         }
         // @todo get apc cache
-        self::_connectCache($p_sCacheName);
-        $mCacheData = self::$_aCachePool[$p_sCacheName]->getMulti($aMissKeys);
+        self::_connectCache($psCacheName);
+        $mCacheData = self::$_aCachePool[$psCacheName]->getMulti($aMissKeys);
         if (false !== $mCacheData) {
             foreach ($aMissKeys as $sCacheKey) {
                 if (isset($mCacheData[$sCacheKey])) {
@@ -1451,18 +1469,18 @@ abstract class orm
      * 获取查询条件
      *
      * @param array $p_aFilters            
-     * @param array $p_aDbIndexOrders            
+     * @param array $paDbIndexOrders            
      * @param string $p_sPkField            
      * @param string $p_sClassName            
-     * @param boolean $p_bNeedDelData            
+     * @param boolean $pbNeedDelData            
      * @throws Exception
      * @return array
      */
-    private static function _joinWhereString($p_aFilters, $p_aDbIndexOrders, $p_sPkField, $p_sClassName, $p_bNeedDelData = false)
+    private static function _joinWhereString($p_aFilters, $paDbIndexOrders, $p_sPkField, $p_sClassName, $pbNeedDelData = false)
     {
         $sFieldStr = '';
         $aIndex = $aValue = [];
-        if (! $p_bNeedDelData) {
+        if (! $pbNeedDelData) {
             $p_aFilters['iDeleteTime'] = [
                 [
                     'sOperator' => '=',
@@ -1470,7 +1488,7 @@ abstract class orm
                 ]
             ];
         }
-        foreach ($p_aDbIndexOrders as $sDbField) { // 按索引顺序拼接查询语句
+        foreach ($paDbIndexOrders as $sDbField) { // 按索引顺序拼接查询语句
             if (isset($p_aFilters[$sDbField])) {
                 foreach ($p_aFilters[$sDbField] as $aFilter) {
                     if (! isset($aIndex[$sDbField])) {
@@ -1520,18 +1538,17 @@ abstract class orm
      *
      * @param array $p_aDbField            
      * @param array $p_aData            
-     * @param string $p_sPkField            
      * @param string $p_sClassName            
      * @throws Exception
      * @return array
      */
-    private static function _joinAddString($p_aDbField, $p_aData, $p_sPkField, $p_sClassName)
+    private static function _joinAddString($p_aDbField, $p_aData, $p_sClassName)
     {
         $sFieldStr = '';
         $sParams = '';
         $aValue = [];
         foreach ($p_aDbField as $sField => $aFieldSet) {
-            if ($p_sPkField != $sField and isset($p_aData[$sField])) {
+            if (isset($p_aData[$sField])) {
                 $sFieldStr .= ', `' . $sField . '`';
                 $sParams .= ', ' . self::$_sBindHolder . $sField;
                 $aValue[$sField] = $p_aData[$sField];
@@ -1666,14 +1683,14 @@ abstract class orm
      * @param string $p_sPkField            
      * @param array $p_aData            
      * @param string $p_sClassName            
-     * @param boolean $p_bNeedDelData            
+     * @param boolean $pbNeedDelData            
      * @throws Exception
      * @return array
      */
-    private static function _joinPKWhereString($p_sPkField, $p_aData, $p_sClassName, $p_bNeedDelData = false)
+    private static function _joinPKWhereString($p_sPkField, $p_aData, $p_sClassName, $pbNeedDelData = false)
     {
         if (isset($p_aData[$p_sPkField])) {
-            if ($p_bNeedDelData) {
+            if ($pbNeedDelData) {
                 return [
                     'sFieldStr' => '`' . $p_sPkField . '`=' . self::$_sBindHolder . $p_sPkField,
                     'aValue' => [

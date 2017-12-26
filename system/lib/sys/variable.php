@@ -255,6 +255,7 @@ class variable
         $aServer['DISPATCH_PARAM'] = $_SERVER['REQUEST_URI'];
         $aServer['HTTP_REFERER'] = $_SERVER['HTTP_REFERER'] ?? null;
         $aServer['HTTP_HOST'] = $_SERVER['HTTP_HOST'];
+        $aServer['INTEGRATED_URL'] = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         return $aServer;
     }
 

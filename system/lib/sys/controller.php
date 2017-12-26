@@ -24,7 +24,7 @@ abstract class controller
      *
      * @var array
      */
-    protected $_aPri = [
+    protected $aPri = [
         'aControllerData' => [],
         'aPageData' => [],
         'aHeaders' => []
@@ -78,7 +78,7 @@ abstract class controller
      */
     protected function setControllerData($p_sKey, $p_mValue)
     {
-        $this->_aPri['aControllerData'][$p_sKey] = $p_mValue;
+        $this->aPri['aControllerData'][$p_sKey] = $p_mValue;
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class controller
      */
     protected function getControllerData($p_sKey)
     {
-        return $this->_aPri['aControllerData'][$p_sKey];
+        return $this->aPri['aControllerData'][$p_sKey];
     }
 
     /**
