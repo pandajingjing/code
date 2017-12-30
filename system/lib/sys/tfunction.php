@@ -3,6 +3,7 @@
  * 模板全局函数
  */
 use panda\lib\sys\variable;
+use panda\lib\sys\template;
 
 /**
  * 输出普通数据
@@ -53,4 +54,15 @@ function pandaRes($p_sPath, $p_sSchemeDomainKey = 'sCdnSchemeDomain')
 {
     $sStaticSchemeDomain = variable::getInstance()->getConfig($p_sSchemeDomainKey, 'domain');
     return $sStaticSchemeDomain . $p_sPath;
+}
+
+/**
+ * 输出语言
+ * 
+ * @param string $p_sKey            
+ * @return void
+ */
+function pandaLang($p_sKey)
+{
+    panda(template::getInstance()->pandaLang($p_sKey));
 }

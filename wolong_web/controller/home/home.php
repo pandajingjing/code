@@ -16,6 +16,6 @@ class home extends base
 
     function doRequest()
     {
-        return 'home_home';
+        return '/home/home';
     }
 }

@@ -1,0 +1,10 @@
+*.DS_Store
+.buildpath
+.project
+.settings
+.idea
+*.swp
+build
+sftp-config.json
+composer.lock
+phpunit.xml

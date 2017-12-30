@@ -1,21 +1,21 @@
 <?php
 /**
- * import
+ * edit
  * 
  * @namespace app\controller\manage\photo
  */
 namespace app\controller\manage\photo;
 
-use panda\lib\controller\web;
+use app\controller\manage\base;
 
 /**
- * import
+ * edit
  */
-class import extends web
+class edit extends base
 {
 
     function doRequest()
     {
-        return '/home/home';
+        return '/manage/photo/edit';
     }
 }

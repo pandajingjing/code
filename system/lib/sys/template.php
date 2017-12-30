@@ -70,6 +70,46 @@ class template
     }
 
     /**
+     * 语言包
+     *
+     * @var array
+     */
+    protected $aLanguage = [];
+
+    /**
+     * 加载语言
+     *
+     * @param string $p_sKey            
+     * @return string
+     */
+    function pandaLang($p_sKey)
+    {
+        // debug($p_sKey);
+        if (isset($this->aLanguage[$p_sKey])) {
+            return $this->aLanguage[$p_sKey];
+        } else {
+            global $G_PAGE_DIR;
+            $aTmp = explode('/', $p_sKey);
+            array_pop($aTmp);
+            $sSubDir = join(DIRECTORY_SEPARATOR, $aTmp);
+            foreach ($G_PAGE_DIR as $sLoadDir) {
+                $sLoadFilePath = $sLoadDir . $sSubDir . DIRECTORY_SEPARATOR . 'language.php';
+                // debug($sSubDir, $sLoadFilePath);
+                if (file_exists($sLoadFilePath)) {
+                    $aLanguage = include $sLoadFilePath;
+                    $this->aLanguage = array_merge($this->aLanguage, $aLanguage);
+                }
+            }
+            // debug($this->aLanguage);
+            if (isset($this->aLanguage[$p_sKey])) {
+                return $this->aLanguage[$p_sKey];
+            } else {
+                return $p_sKey;
+            }
+        }
+    }
+
+    /**
      * 渲染页面
      *
      * @param string $p_sPageName            
