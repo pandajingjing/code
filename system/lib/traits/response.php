@@ -90,21 +90,7 @@ trait response {
     {
         return [
             'iStatus' => 1,
-            'sData' => $p_sInfo
-        ];
-    }
-
-    /**
-     * 返回错误消息
-     *
-     * @param string $p_sError            
-     * @return array
-     */
-    static function returnError($p_sError)
-    {
-        return [
-            'iStatus' => 0,
-            'sError' => $p_sError
+            'sInfo' => $p_sInfo
         ];
     }
 

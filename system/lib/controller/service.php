@@ -8,6 +8,7 @@
 namespace panda\lib\controller;
 
 use panda\lib\traits\Response;
+use panda\util\xml;
 
 /**
  * service
@@ -16,7 +17,36 @@ use panda\lib\traits\Response;
  */
 abstract class service extends http
 {
+    /**
+     * 定义结构体
+     */
     use Response;
+
+    /**
+     * 默认返回格式
+     *
+     * @var string
+     */
+    protected $sResponseType = 'json';
+
+    /**
+     * 在控制器开始时执行（调度使用）
+     *
+     * @return void
+     */
+    function beforeRequest()
+    {
+        parent::beforeRequest();
+        // do something
+        $sResponseType = $this->getParam('restype', 'get');
+        if (in_array($sResponseType, [
+            'json',
+            'xml',
+            'txt'
+        ])) {
+            $this->sResponseType = $sResponseType;
+        }
+    }
 
     /**
      * 在控制器结束时执行（调度使用）
@@ -25,7 +55,47 @@ abstract class service extends http
      */
     function afterRequest()
     {
-        $this->addHeader('Content-type: application/json;charset=utf-8');
+        switch ($this->sResponseType) {
+            case 'json':
+                $this->addHeader('Content-type: application/json;charset=utf-8');
+                break;
+            case 'xml':
+                $this->addHeader('Content-type:text/xml;charset=utf-8');
+                break;
+            case 'txt':
+                $this->addHeader('Content-type: text/plain;charset=utf-8');
+                break;
+        }
         parent::afterRequest();
+    }
+
+    /**
+     * 设置接口返回数据
+     *
+     * @param array $p_mData            
+     * @param string $p_eType            
+     * @return string
+     */
+    protected function setInfData($p_mData, $p_eType = '')
+    {
+        if ('' == $p_eType) {
+            $p_eType = $this->sResponseType;
+        } else {
+            $this->sResponseType = $p_eType;
+        }
+        switch ($p_eType) {
+            case 'json':
+                $this->setPageData('jData', $p_mData);
+                return '/service/json';
+                break;
+            case 'txt':
+                $this->setPageData('sData', $p_mData);
+                return '/service/txt';
+                break;
+            case 'xml':
+                $this->setPageData('sData', xml::parseArr($p_mData));
+                return '/service/txt';
+                break;
+        }
     }
 }
