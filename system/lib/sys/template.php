@@ -77,6 +77,13 @@ class template
     protected $aLanguage = [];
 
     /**
+     * 静态资源映射关系
+     *
+     * @var array
+     */
+    protected $aResMap = [];
+
+    /**
      * 加载语言
      *
      * @param string $p_sKey            
@@ -88,6 +95,9 @@ class template
         if (isset($this->aLanguage[$p_sKey])) {
             return $this->aLanguage[$p_sKey];
         } else {
+            if (false === strstr($p_sKey, '/')) {
+                throw new \Exception(__CLASS__ . ': language key must start with \'/\' ');
+            }
             global $G_PAGE_DIR;
             $aTmp = explode('/', $p_sKey);
             array_pop($aTmp);
@@ -107,6 +117,47 @@ class template
                 return $p_sKey;
             }
         }
+    }
+
+    /**
+     * 加载资源文件
+     *
+     * @param string $p_sPath            
+     * @param string $p_sSchemeDomainKey            
+     * @return string
+     */
+    function pandaRes($p_sPath, $p_sSchemeDomainKey)
+    {
+        // debug($p_sPath);
+        if (false === strstr($p_sPath, '/')) {
+            throw new \Exception(__CLASS__ . ': resource path must start with \'/\' ');
+        }
+        $sStaticSchemeDomain = variable::getInstance()->getConfig($p_sSchemeDomainKey, 'domain');
+        $sKey = $sStaticSchemeDomain . $p_sPath;
+        if (isset($this->aResMap[$sKey])) {
+            $sPath = $this->aResMap[$sKey];
+        } else {
+            global $G_PAGE_DIR;
+            $aTmp = explode('/', $p_sPath);
+            array_shift($aTmp);
+            array_pop($aTmp);
+            $sFilePrefix = join('_', $aTmp);
+            foreach ($G_PAGE_DIR as $sLoadDir) {
+                $sLoadFilePath = $sLoadDir . DIRECTORY_SEPARATOR . 'resmap' . DIRECTORY_SEPARATOR . $sFilePrefix . '.php';
+                // debug($sLoadFilePath);
+                if (file_exists($sLoadFilePath)) {
+                    $aResMap = include $sLoadFilePath;
+                    $this->aResMap = array_merge($this->aLanguage, $aResMap);
+                }
+            }
+            // debug($this->aLanguage);
+            if (isset($this->aResMap[$sKey])) {
+                $sPath = $this->aResMap[$sKey];
+            } else {
+                $sPath = $p_sPath;
+            }
+        }
+        return $sStaticSchemeDomain . $sPath;
     }
 
     /**
@@ -133,7 +184,6 @@ class template
      */
     protected function pandaTpl($p_sSubPath, $p_aExtendDatas = [])
     {
-        global $G_PAGE_DIR;
         if (false === strstr($p_sSubPath, '/')) {
             throw new \Exception(__CLASS__ . ': template path must start with \'/\' ');
         } else {
@@ -143,6 +193,7 @@ class template
                 $sSubPath = $p_sSubPath;
             }
         }
+        global $G_PAGE_DIR;
         foreach ($G_PAGE_DIR as $sLoadDir) {
             $sLoadFilePath = $sLoadDir . $sSubPath . '.phtml';
             // echo $sLoadFilePath,'<br />';

@@ -23,13 +23,6 @@ class session extends bll
     const KEY_MEMBER_ID = 'sMemberId';
 
     /**
-     * 用户Id过期时间
-     *
-     * @var int
-     */
-    const LIFETIME_MEMBER_ID = 1800;
-
-    /**
      * 用户名
      *
      * @var string
@@ -37,11 +30,24 @@ class session extends bll
     const KEY_MEMBER_NICKNAME = 'sNickName';
 
     /**
-     * 用户名过期时间
+     * session key
      *
-     * @var integer
+     * @var array
      */
-    const LIFETIME_MEMBER_NICKNAME = 31536000;
+    private $_aKeys = [
+        self::KEY_MEMBER_ID,
+        self::KEY_MEMBER_NICKNAME
+    ];
+
+    /**
+     * session过期时间
+     *
+     * @var array
+     */
+    private $_aLifeTime = [
+        self::KEY_MEMBER_ID => 1800,
+        self::KEY_MEMBER_NICKNAME => 31536000
+    ];
 
     /**
      * session数据
@@ -163,14 +169,17 @@ class session extends bll
      *
      * @param string $p_sKey            
      * @param mix $p_mData            
-     * @param int $p_iLifeTime            
      * @return void
      */
-    function set($p_sKey, $p_mData, $p_iLifeTime)
+    function set($p_sKey, $p_mData)
     {
-        $aData = $this->_implodeSession($p_mData, $p_iLifeTime);
-        $this->_aSessionData[$p_sKey] = $aData;
-        $this->showDebugMsg($this->_sClassName . '->Set: ' . var_export($aData, true));
+        if (in_array($p_sKey, $this->_aKeys)) {
+            $aData = $this->_implodeSession($p_mData, $this->_aLifeTime[$p_sKey]);
+            $this->_aSessionData[$p_sKey] = $aData;
+            $this->showDebugMsg($this->_sClassName . '->Set: ' . var_export($aData, true));
+        } else {
+            throw new \Exception('you set an unknown key(' . $p_sKey . ') to session.');
+        }
     }
 
     /**

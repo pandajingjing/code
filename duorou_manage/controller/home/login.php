@@ -45,9 +45,9 @@ class login extends base
             $aResult = $oBllMember->chkLogin($aFormData['sUserName'], $aFormData['sUserPwd']);
             if ($aResult['iStatus'] == 1) {
                 $oBllSession = $this->getControllerData(parent::DKEY_SESSION);
-                $oBllSession->set(session::KEY_MEMBER_ID, $aResult['aData']['iAutoId'], session::LIFETIME_MEMBER_ID);
+                $oBllSession->set(session::KEY_MEMBER_ID, $aResult['aData']['iAutoId']);
                 if ($aFormData['bRemember'] == 'on') {
-                    $oBllSession->set(session::KEY_MEMBER_NICKNAME, $aResult['aData']['sNickName'], session::LIFETIME_MEMBER_NICKNAME);
+                    $oBllSession->set(session::KEY_MEMBER_NICKNAME, $aResult['aData']['sNickName']);
                 }
                 $sEncodeBackUrl = $this->getParam('back_url', 'router');
                 $sBackUrl = base64_decode($sEncodeBackUrl);

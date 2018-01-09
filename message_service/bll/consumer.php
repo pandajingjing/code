@@ -1,15 +1,16 @@
 <?php
 /**
- * bll domsg
- * @package app-mq-shared_lib_bll_mq
+ * wechat
+ *
+ * @namespace api_service\bll
  */
-load_lib('/bll/mq/base');
+namespace api_service\bll;
+
+use panda\lib\sys\bll;
+use panda\util\error;
 
 /**
- * bll domsg
- *
- * @author jxu
- * @package app-mq-shared_lib_bll_mq
+ * wechat
  */
 class bll_mq_domsg extends bll_mq_base
 {
@@ -274,4 +275,5 @@ class bll_mq_domsg extends bll_mq_base
      */
     function sendWarningMail($p_sTitle, $p_sContent)
     {}
+    
 }

@@ -183,7 +183,17 @@ class wechat extends bll
                     $p_iCurrentTime,
                     '我也喜欢，矮肥矮肥的。我们家就属桃蛋养的最好了，有机会你来我们家看看吧。'
                 ]
-            ]
+            ],
+//             [
+//                 'sPattern' => '/买多肉/i',
+//                 'sHandler' => 'createTextReply',
+//                 'aArgs' => [
+//                     $p_sTo,
+//                     $p_sFrom,
+//                     $p_iCurrentTime,
+//                     '买买买<a href="http://drmanage.jxu.dev.jxulife.com/">管理</a>'
+//                 ]
+//             ]
         ];
         usort($aPattern, [
             $this,

@@ -2,7 +2,6 @@
 /**
  * 模板全局函数
  */
-use panda\lib\sys\variable;
 use panda\lib\sys\template;
 
 /**
@@ -48,17 +47,16 @@ function pandaHtml($p_sStr)
  *
  * @param string $p_sPath            
  * @param string $p_sSchemeDomainKey            
- * @return string
+ * @return void
  */
 function pandaRes($p_sPath, $p_sSchemeDomainKey = 'sCdnSchemeDomain')
 {
-    $sStaticSchemeDomain = variable::getInstance()->getConfig($p_sSchemeDomainKey, 'domain');
-    return $sStaticSchemeDomain . $p_sPath;
+    panda(template::getInstance()->pandaRes($p_sPath, $p_sSchemeDomainKey));
 }
 
 /**
  * 输出语言
- * 
+ *
  * @param string $p_sKey            
  * @return void
  */

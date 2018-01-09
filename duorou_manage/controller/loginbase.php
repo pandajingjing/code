@@ -29,7 +29,7 @@ abstract class loginbase extends base
                 'back_url' => base64_encode($sUrl)
             ]));
         } else {
-            $oBllSession->set(session::KEY_MEMBER_ID, $mMemberId, session::LIFETIME_MEMBER_ID);
+            $oBllSession->set(session::KEY_MEMBER_ID, $mMemberId);
         }
         // 补充登陆后的顶部菜单
         $aTopUrls = $this->getControllerData('aTopUrls');
