@@ -7,7 +7,7 @@
  */
 namespace panda\lib\controller;
 
-use panda\lib\traits\Response;
+use panda\lib\traits\response;
 use panda\util\xml;
 
 /**
@@ -20,7 +20,7 @@ abstract class service extends http
     /**
      * 定义结构体
      */
-    use Response;
+    use response;
 
     /**
      * 默认返回格式
