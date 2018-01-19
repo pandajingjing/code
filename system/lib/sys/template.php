@@ -77,13 +77,6 @@ class template
     protected $aLanguage = [];
 
     /**
-     * 静态资源映射关系
-     *
-     * @var array
-     */
-    protected $aResMap = [];
-
-    /**
      * 加载语言
      *
      * @param string $p_sKey            
@@ -132,32 +125,17 @@ class template
         if (false === strstr($p_sPath, '/')) {
             throw new \Exception(__CLASS__ . ': resource path must start with \'/\' ');
         }
+        // debug($p_sPath);
         $sStaticSchemeDomain = variable::getInstance()->getConfig($p_sSchemeDomainKey, 'domain');
-        $sKey = $sStaticSchemeDomain . $p_sPath;
-        if (isset($this->aResMap[$sKey])) {
-            $sPath = $this->aResMap[$sKey];
-        } else {
-            global $G_PAGE_DIR;
-            $aTmp = explode('/', $p_sPath);
-            array_shift($aTmp);
-            array_pop($aTmp);
-            $sFilePrefix = join('_', $aTmp);
-            foreach ($G_PAGE_DIR as $sLoadDir) {
-                $sLoadFilePath = $sLoadDir . DIRECTORY_SEPARATOR . 'resmap' . DIRECTORY_SEPARATOR . $sFilePrefix . '.php';
-                // debug($sLoadFilePath);
-                if (file_exists($sLoadFilePath)) {
-                    $aResMap = include $sLoadFilePath;
-                    $this->aResMap = array_merge($this->aLanguage, $aResMap);
-                }
-            }
-            // debug($this->aLanguage);
-            if (isset($this->aResMap[$sKey])) {
-                $sPath = $this->aResMap[$sKey];
-            } else {
-                $sPath = $p_sPath;
+        global $G_PAGE_DIR;
+        foreach ($G_PAGE_DIR as $sLoadDir) {
+            $sLoadFilePath = $sLoadDir . DIRECTORY_SEPARATOR . 'resmap' . $p_sPath;
+            // debug($sLoadFilePath);
+            if (file_exists($sLoadFilePath)) {
+                return $sStaticSchemeDomain . file_get_contents($sLoadFilePath);
             }
         }
-        return $sStaticSchemeDomain . $sPath;
+        return $sStaticSchemeDomain . $p_sPath . '?t=' . variable::getInstance()->getRealTime();
     }
 
     /**
