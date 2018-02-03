@@ -36,6 +36,7 @@ class wechat extends api
                 return $this->setInfData($sEchoStr, 'txt');
             } else { // 用户发消息过来了
                 $aResult = $oBll->replyMsg($this->parseMsg(), $this->getVisitTime());
+                $this->addLog('we answer', var_export($aResult, true), 'wechat');
                 if ($aResult['iStatus'] == 1) {
                     return $this->setInfData($aResult['aData']);
                 } else {

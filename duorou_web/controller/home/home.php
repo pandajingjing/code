@@ -7,9 +7,6 @@
 namespace app\controller\home;
 
 use app\controller\base;
-use duorou_service\orm\spider\demo;
-use panda\util\strings;
-use duorou_service\orm\duorou\duorou_variety;
 
 /**
  * home

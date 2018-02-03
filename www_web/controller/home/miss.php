@@ -1,21 +1,21 @@
 <?php
 /**
- * home
+ * miss
  *
  * @namespace app\controller\home
  */
 namespace app\controller\home;
 
-use app\controller\base;
+use panda\lib\controller\web;
 
 /**
  * home
  */
-class home extends base
+class miss extends web
 {
 
     function doRequest()
     {
-        return '/home/home';
+        return 'web_404';
     }
 }

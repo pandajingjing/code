@@ -1,17 +1,26 @@
 <?php
+/**
+ * base
+ * 
+ * @namespace app\controller
+ */
+namespace app\controller;
+
+use panda\lib\controller\web;
+use panda\util\guid;
 
 /**
- * controller_base
- * @author jxu
- * @package www_web_controller
+ * base
  */
-/**
- * controller_base
- *
- * @author jxu
- */
-abstract class controller_base extends lib_controller_web
+abstract class base extends web
 {
+
+    /**
+     * 脚本开始时间
+     *
+     * @var string
+     */
+    const DKEY_SCRIPT_STARTTIME = 'fScriptStartTime';
 
     /**
      * 在控制器开始时执行（调度使用）
@@ -20,33 +29,18 @@ abstract class controller_base extends lib_controller_web
     {
         parent::beforeRequest();
         // do something
-        $this->setPageData('fScriptStartTime', $this->getRealTime(true));
+        $this->setControllerData(self::DKEY_SCRIPT_STARTTIME, $this->getRealTime(true));
         $this->setPageData('sRemoteIp', $this->getParam('CLIENTIP', 'server'));
         $sGuid = $this->getParam('guid', 'cookie');
         if ('' == $sGuid) {
-            $sGuid = util_guid::getGuid();
+            $sGuid = guid::getGuid();
         }
         $this->setCookie('guid', $sGuid, 31536000);
         $this->setPageData('iVisitTime', $this->getVisitTime());
         
         $aTopUrls = [
-            'sDefault' => $this->createInUrl('controller_home_home'),
-            'sHome' => $this->createInUrl('controller_home_home'),
-            'sSudoku' => $this->createInUrl('controller_sudoku'),
-            'sItem' => $this->createInUrl('controller_item_list'),
-            'sNote' => $this->createInUrl('controller_note'),
-            'sFile' => $this->createInUrl('controller_file'),
-            'aQZoneTopList' => []
+            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
         ];
-        $aResult = bclient_qzone::getTopArticleKeyList();
-        $aTopArticleKeyList = $aResult['aDataList'];
-        foreach ($aTopArticleKeyList as $sKey) {
-            $aTopUrls['aQZoneTopList'][$sKey] = $this->createInUrl('controller_qzone_show', [
-                'article' => $sKey
-            ]);
-        }
-        unset($aTopArticleKeyList);
-        $aTopUrls['aQZoneTopList']['sOther'] = $this->createInUrl('controller_qzone_list');
         $this->setPageData('aTopUrls', $aTopUrls);
     }
 
@@ -56,7 +50,9 @@ abstract class controller_base extends lib_controller_web
     function afterRequest()
     {
         // do something
-        $this->setPageData('fScriptEndTime', $this->getRealTime(true));
+        $fScriptStartTime = $this->getControllerData(self::DKEY_SCRIPT_STARTTIME);
+        $fScriptEndTime = $this->getRealTime(true);
+        $this->setPageData('fScriptTime', $fScriptEndTime - $fScriptStartTime);
         parent::afterRequest();
     }
 }

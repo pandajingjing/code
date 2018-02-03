@@ -184,17 +184,28 @@ class wechat extends bll
                     '我也喜欢，矮肥矮肥的。我们家就属桃蛋养的最好了，有机会你来我们家看看吧。'
                 ]
             ],
-//             [
-//                 'sPattern' => '/买多肉/i',
-//                 'sHandler' => 'createTextReply',
-//                 'aArgs' => [
-//                     $p_sTo,
-//                     $p_sFrom,
-//                     $p_iCurrentTime,
-//                     '买买买<a href="http://drmanage.jxu.dev.jxulife.com/">管理</a>'
-//                 ]
-//             ]
+            [
+                'sPattern' => '/文章|养护/i',
+                'sHandler' => 'createTextReply',
+                'aArgs' => [
+                    $p_sTo,
+                    $p_sFrom,
+                    $p_iCurrentTime,
+                    '<a href="http://mp.weixin.qq.com/mp/homepage?__biz=MzU0MjU5NzA4MQ==&hid=2&sn=5ef9af1e6e75aeaa40557c31e20f914e&scene=18#wechat_redirect">文章列表</a>'
+                ]
+            ]
         ];
+        // [
+        // 'sPattern' => '/买多肉/i',
+        // 'sHandler' => 'createTextReply',
+        // 'aArgs' => [
+        // $p_sTo,
+        // $p_sFrom,
+        // $p_iCurrentTime,
+        // '买买买<a href="http://drmanage.jxu.dev.jxulife.com/">管理</a>'
+        // ]
+        // ]
+        
         usort($aPattern, [
             $this,
             'sortPattern'
