@@ -184,13 +184,13 @@ class curl
     function executeUrl()
     {
         $mResult = curl_exec($this->_oResource);
+        $sClassName = get_class($this);
         if (false === $mResult) {
+            debugger::getInstance()->showMsg($sClassName . ': error message: ' . $this->getErrMsg());
             return false;
         } else {
             $this->_aInfo = curl_getinfo($this->_oResource);
-            $sClassName = get_class($this);
             debugger::getInstance()->showMsg($sClassName . ': execution information: ' . var_export($this->_aInfo, true));
-            debugger::getInstance()->showMsg($sClassName . ': error message: ' . $sErr);
             $this->_sContent = $mResult;
             if (200 == $this->_aInfo['http_code']) {
                 return true;

@@ -47,7 +47,7 @@ abstract class base extends web
         $this->setPageData('iVisitTime', $this->getVisitTime());
         // 加载session
         $oBllSession = new session($sGuid, $this->getVisitTime());
-        $oBllSession->setClientIp($this->getParam('CLIENTIP','server'));
+        $oBllSession->setClientIp($this->getParam('CLIENTIP', 'server'));
         $oBllSession->setUserAgent($this->getParam('HTTP_USER_AGENT', 'server'));
         $oBllSession->load();
         $this->setControllerData(self::DKEY_SESSION, $oBllSession);
@@ -71,5 +71,26 @@ abstract class base extends web
         $fScriptEndTime = $this->getRealTime(true);
         $this->setPageData('fScriptTime', $fScriptEndTime - $fScriptStartTime);
         parent::afterRequest();
+    }
+
+    /**
+     * 获取表单错误信息
+     *
+     * @param array $p_aResult            
+     * @return array
+     */
+    static function getFormError($p_aResult)
+    {
+        $aError = [];
+        if ($p_aResult['iStatus'] == 0) {
+            if ($p_aResult['sType'] == 'logic') {
+                $aError[$p_aResult['aError']['sField']] = $p_aResult['aError'];
+            } elseif ($p_aResult['sType'] == 'validation') {
+                foreach ($p_aResult['aErrors'] as $sField => $aFieldError) {
+                    $aError[$sField] = $aFieldError;
+                }
+            }
+        }
+        return $aError;
     }
 }

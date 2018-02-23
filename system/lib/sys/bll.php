@@ -10,6 +10,7 @@ namespace panda\lib\sys;
 use panda\lib\traits\response;
 use panda\util\strings;
 use panda\util\error;
+use panda\lib\data\pooling;
 
 /**
  * bll
@@ -42,12 +43,21 @@ class bll
     protected $aFlowFields = [];
 
     /**
+     * 当前的类名
+     *
+     * @var string
+     */
+    protected $sClassName = '';
+
+    /**
      * 构造函数
      *
      * @return void
      */
     function __construct()
-    {}
+    {
+        $this->sClassName = get_class($this);
+    }
 
     /**
      * 添加日志
@@ -81,6 +91,120 @@ class bll
             }
         }
         return $p_mDefault;
+    }
+
+    /**
+     * 缓存连接池
+     *
+     * @var array
+     */
+    private static $_aCachePool = [];
+
+    /**
+     * 缓存连接名
+     *
+     * @var string
+     */
+    protected $sCacheName = 'bllcache';
+
+    /**
+     * 默认缓存时间
+     *
+     * @var int
+     */
+    const DEFAULT_CACHE_TIME = 86400;
+
+    /**
+     * 缓存最大尝试次数
+     *
+     * @var int
+     */
+    const MAX_CACHE_TRY = 5;
+
+    /**
+     * 获取缓存连接
+     *
+     * @param string $p_sCacheName            
+     * @return void
+     */
+    private static function _connectCache($p_sCacheName)
+    {
+        if (isset(self::$_aCachePool[$p_sCacheName])) {} else {
+            self::$_aCachePool[$p_sCacheName] = pooling::getInstance()->getConnect($p_sCacheName);
+        }
+    }
+
+    /**
+     * 生成缓存key
+     *
+     * @param string $p_sClassName            
+     * @param string $p_sFuncName            
+     * @param array $p_aParams            
+     * @return string
+     */
+    private static function _getCacheKey($p_sClassName, $p_sFuncName, $p_aParams)
+    {
+        return $p_sClassName . '_' . $p_sFuncName . '_' . md5(serialize($p_aParams));
+    }
+
+    /**
+     * 生成cache的数据
+     *
+     * @param mix $p_mValue            
+     * @param int $p_iLifeTime            
+     * @return array
+     */
+    private static function _implodeCache($p_mValue, $p_iLifeTime)
+    {
+        return [
+            'mData' => $p_mValue,
+            'iCreateTime' => variable::getInstance()->getRealTime(),
+            'iLifeTime' => $p_iLifeTime
+        ];
+    }
+
+    /**
+     * 设置缓存
+     *
+     * @param mix $p_mData            
+     * @param string $p_sFuncName            
+     * @param array $p_aParams            
+     */
+    protected function setCache($p_mData, $p_sFuncName, $p_aParams)
+    {
+        self::_connectCache($this->sCacheName);
+        $sKey = self::_getCacheKey($this->sClassName, $p_sFuncName, $p_aParams);
+        $p_mData = self::_implodeCache($p_mData, self::DEFAULT_CACHE_TIME);
+        for ($iIndex = 0; $iIndex < self::MAX_CACHE_TRY; ++ $iIndex) {
+            $mDebugResult = self::$_aCachePool[$this->sCacheName]->set($sKey, $p_mData, self::DEFAULT_CACHE_TIME);
+            if (true === $mDebugResult) {
+                break;
+            }
+        }
+        $this->showDebugMsg($this->sClassName . '[Memcache]->Set: Key|' . var_export($sKey, true) . '|' . var_export($mDebugResult, true));
+    }
+
+    /**
+     * 获取缓存
+     *
+     * @param string $p_sFuncName            
+     * @param array $p_aParams            
+     * @return mix
+     */
+    protected function getCache($p_sFuncName, $p_aParams)
+    {
+        self::_connectCache($this->sCacheName);
+        $sKey = self::_getCacheKey($this->sClassName, $p_sFuncName, $p_aParams);
+        $mCacheData = self::$_aCachePool[$this->sCacheName]->get($sKey);
+        if (false === $mCacheData) {
+            $this->showDebugMsg($this->sClassName . '[Memcache]->Get: ' . $sKey . '|false');
+            return false;
+        } else {
+            $mData = $mCacheData['mData'];
+            $this->showDebugMsg($this->sClassName . '[Memcache]->Get: ' . $sKey . '|' . var_export($mData, true));
+            $this->showDebugMsg($this->sClassName . '[Memcache]->Info: Key=>' . $sKey . ' Create=>' . date('Y-m-d H:i:s', $mCacheData['iCreateTime']) . ' Expire=>' . (0 == $mCacheData['iLifeTime'] ? 'unlimit' : date('Y-m-d H:i:s', $mCacheData['iCreateTime'] + $mCacheData['iLifeTime'])));
+            return $mData;
+        }
     }
 
     /**
@@ -141,7 +265,7 @@ class bll
     {
         if (strings::chkStrType($mValue, $aRule['eType'])) {
             if ($aRule['eType'] == strings::TYPE_ENUM) {
-                if ($aRule['multi']) {
+                if ($aRule['bMulti']) {
                     $aDiff = array_diff($mValue, $aRule['aRange']);
                     if (empty($aDiff)) {
                         return true;
@@ -198,7 +322,7 @@ class bll
      *
      * @param array $aData            
      * @param boolean $bIsNew            
-     * @param array $aValidRule            
+     * @param array $aFRule            
      * @param array $aPropertyFields            
      * @return array
      */
@@ -211,7 +335,7 @@ class bll
             if (isset($aData[$sField])) {
                 $mValue = $aData[$sField];
                 if ($aRule['bRequire']) {
-                    if ($mValue === '') {
+                    if ($mValue === '' or $mValue === null) {
                         error::addFieldError($sField, error::TYPE_EMPTY, 'require', '');
                     } else {
                         if (self::validType($aRule, $sField, $mValue)) {
@@ -221,9 +345,11 @@ class bll
                         }
                     }
                 } else {
-                    if (self::validType($aRule, $sField, $mValue)) {
-                        if (self::validLength($aRule, $sField, $mValue)) {
-                            $aSaveData[$sField] = $mValue;
+                    if ($mValue != '') {
+                        if (self::validType($aRule, $sField, $mValue)) {
+                            if (self::validLength($aRule, $sField, $mValue)) {
+                                $aSaveData[$sField] = $mValue;
+                            }
                         }
                     }
                 }

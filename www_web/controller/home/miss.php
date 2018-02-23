@@ -16,6 +16,6 @@ class miss extends web
 
     function doRequest()
     {
-        return 'web_404';
+        return '/web/404';
     }
 }

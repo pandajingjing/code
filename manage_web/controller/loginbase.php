@@ -33,8 +33,10 @@ abstract class loginbase extends base
         }
         // 补充登陆后的顶部菜单
         $aTopUrls = $this->getControllerData('aTopUrls');
-        $aTopUrls['aStock']['sAddNew'] = $this->createInUrl('\\app\\controller\\stock\\edit');
-        $aTopUrls['aStock']['sListing'] = $this->createInUrl('\\app\\controller\\stock\\listing');
+        // 会员管理-开始
+        $aTopUrls['aMember']['sAddNew'] = $this->createInUrl('\\app\\controller\\member\\edit');
+        $aTopUrls['aMember']['sListing'] = $this->createInUrl('\\app\\controller\\member\\listing');
+        // 会员管理-结束
         $aTopUrls['sLogOut'] = $this->createInUrl('\\app\\controller\\home\\logout', [
             'back_url' => base64_encode($sUrl)
         ]);

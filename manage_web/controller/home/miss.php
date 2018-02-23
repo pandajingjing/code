@@ -16,6 +16,7 @@ class miss extends base
 
     function doRequest()
     {
+        $this->setPageData('sHomeUrl', $this->createInUrl('\\app\\controller\\home\\home'));
         return '/home/404';
     }
 }

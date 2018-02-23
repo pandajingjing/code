@@ -1058,13 +1058,13 @@ abstract class orm
     /**
      * 获取缓存连接
      *
-     * @param string $psCacheName            
+     * @param string $p_sCacheName            
      * @return void
      */
-    private static function _connectCache($psCacheName)
+    private static function _connectCache($p_sCacheName)
     {
-        if (isset(self::$_aCachePool[$psCacheName])) {} else {
-            self::$_aCachePool[$psCacheName] = pooling::getInstance()->getConnect($psCacheName);
+        if (isset(self::$_aCachePool[$p_sCacheName])) {} else {
+            self::$_aCachePool[$p_sCacheName] = pooling::getInstance()->getConnect($p_sCacheName);
         }
     }
 
@@ -1191,16 +1191,16 @@ abstract class orm
      * 根据Key删除缓存
      *
      * @param array $p_aCacheKeys            
-     * @param string $psCacheName            
+     * @param string $p_sCacheName            
      * @param string $p_sClassName            
      * @return true|false
      */
-    private static function _clearCacheData($p_aCacheKeys, $psCacheName, $p_sClassName)
+    private static function _clearCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName)
     {
         ++ self::$_iCacheCnt;
         self::_clearStaticCacheData($p_aCacheKeys, $p_sClassName);
         self::_clearAPCCacheData($p_aCacheKeys, $p_sClassName);
-        return self::_clearMemCacheData($p_aCacheKeys, $psCacheName, $p_sClassName);
+        return self::_clearMemCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName);
     }
 
     /**
@@ -1235,18 +1235,18 @@ abstract class orm
      * 根据Key删除Memcache
      *
      * @param array $p_aCacheKeys            
-     * @param string $psCacheName            
+     * @param string $p_sCacheName            
      * @param string $p_sClassName            
      * @todo 再检查
      *      
      * @return true|false
      */
-    private static function _clearMemCacheData($p_aCacheKeys, $psCacheName, $p_sClassName)
+    private static function _clearMemCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName)
     {
-        self::_connectCache($psCacheName);
+        self::_connectCache($p_sCacheName);
         for ($iIndex = 0; $iIndex < self::MAX_CACHE_TRY; ++ $iIndex) {
             $bFoundErr = false;
-            self::$_mDebugResult = self::$_aCachePool[$psCacheName]->deleteMulti($p_aCacheKeys);
+            self::$_mDebugResult = self::$_aCachePool[$p_sCacheName]->deleteMulti($p_aCacheKeys);
             self::$_oDebugger->showMsg($p_sClassName . '[Memcache]->Delete: Set: Multi Key|' . var_export($p_aCacheKeys, true) . '|' . var_export(self::$_mDebugResult, true));
             foreach (self::$_mDebugResult as $sKey => $mResult) {
                 if (true === $mResult) {} else {
@@ -1269,11 +1269,11 @@ abstract class orm
      *
      * @param array $p_aCache            
      * @param int $p_iDeepLevel            
-     * @param string $psCacheName            
+     * @param string $p_sCacheName            
      * @param string $p_sClassName            
      * @return void
      */
-    private static function _setCacheData($p_aCache, $p_iDeepLevel, $psCacheName, $p_sClassName)
+    private static function _setCacheData($p_aCache, $p_iDeepLevel, $p_sCacheName, $p_sClassName)
     {
         ++ self::$_iCacheCnt;
         if ($p_iDeepLevel < 1 or $p_iDeepLevel > 7) {
@@ -1287,7 +1287,7 @@ abstract class orm
             self::_setAPCCacheData($p_aCache, $p_sClassName);
         }
         if (1 == $sStyle[0]) {
-            self::_setMemCacheData($p_aCache, $psCacheName, $p_sClassName);
+            self::_setMemCacheData($p_aCache, $p_sCacheName, $p_sClassName);
         }
     }
 
@@ -1320,18 +1320,18 @@ abstract class orm
      * 写入Memcache缓存数据
      *
      * @param array $p_aCache            
-     * @param string $psCacheName            
+     * @param string $p_sCacheName            
      * @param string $p_sClassName            
      * @return void
      */
-    private static function _setMemCacheData($p_aCache, $psCacheName, $p_sClassName)
+    private static function _setMemCacheData($p_aCache, $p_sCacheName, $p_sClassName)
     {
-        self::_connectCache($psCacheName);
+        self::_connectCache($p_sCacheName);
         foreach ($p_aCache as $sKey => $mValue) {
             $p_aCache[$sKey] = self::_implodeCache($mValue, self::DEFAULT_CACHE_TIME);
         }
         for ($iIndex = 0; $iIndex < self::MAX_CACHE_TRY; ++ $iIndex) {
-            self::$_mDebugResult = self::$_aCachePool[$psCacheName]->setMulti($p_aCache, self::DEFAULT_CACHE_TIME);
+            self::$_mDebugResult = self::$_aCachePool[$p_sCacheName]->setMulti($p_aCache, self::DEFAULT_CACHE_TIME);
             if (true === self::$_mDebugResult) {
                 break;
             }
@@ -1343,11 +1343,11 @@ abstract class orm
      * 获取缓存数据
      *
      * @param array $p_aCacheKeys            
-     * @param string $psCacheName            
+     * @param string $p_sCacheName            
      * @param string $p_sClassName            
      * @return array
      */
-    private static function _getCacheData($p_aCacheKeys, $psCacheName, $p_sClassName)
+    private static function _getCacheData($p_aCacheKeys, $p_sCacheName, $p_sClassName)
     {
         ++ self::$_iCacheCnt;
         $aMissKeys = $mData = [];
@@ -1364,8 +1364,8 @@ abstract class orm
             return $mData;
         }
         // @todo get apc cache
-        self::_connectCache($psCacheName);
-        $mCacheData = self::$_aCachePool[$psCacheName]->getMulti($aMissKeys);
+        self::_connectCache($p_sCacheName);
+        $mCacheData = self::$_aCachePool[$p_sCacheName]->getMulti($aMissKeys);
         if (false !== $mCacheData) {
             foreach ($aMissKeys as $sCacheKey) {
                 if (isset($mCacheData[$sCacheKey])) {

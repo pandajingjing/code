@@ -34,15 +34,18 @@ class login extends base
 
     function doRequest()
     {
-        $aFormData = $aFormStatus = [];
+        // 外界参数
         $sNextAction = $this->getParam('next_act', 'post');
+        // 本页参数
+        // 代码参数
+        $aFormData = $aFormStatus = [];
         if ('login' == $sNextAction) {
             foreach ($this->_aFormField as $sFormField => $aFieldSet) {
                 $aFormData[$aFieldSet['sMapping']] = $this->getParam($sFormField, 'post');
                 $aFormStatus[$aFieldSet['sMapping']] = true;
             }
             $oBllMember = new member();
-            $aResult = $oBllMember->chkLogin($aFormData['sUserName'], $aFormData['sUserPwd']);
+            $aResult = $oBllMember->chkManageLogin($aFormData['sUserName'], $aFormData['sUserPwd']);
             if ($aResult['iStatus'] == 1) {
                 $oBllSession = $this->getControllerData(parent::DKEY_SESSION);
                 $oBllSession->set(session::KEY_MEMBER_ID, $aResult['aData']['iAutoId']);
@@ -58,7 +61,7 @@ class login extends base
                     $this->redirectUrl($this->createInUrl('\\app\\controller\\home\\home'));
                 }
             } else {
-                $aFormStatus = array_merge($aFormStatus, $this->getFormError($aResult));
+                $aFormStatus = array_merge($aFormStatus, self::getFormError($aResult));
             }
         } else {
             $oBllSession = $this->getControllerData(parent::DKEY_SESSION);
@@ -74,26 +77,5 @@ class login extends base
         $this->setPageData('aFormData', $aFormData);
         $this->setPageData('aFormStatus', $aFormStatus);
         return '/home/login';
-    }
-
-    /**
-     * 获取表单错误信息
-     *
-     * @param array $p_aResult            
-     * @return array
-     */
-    function getFormError($p_aResult)
-    {
-        $aError = [];
-        if ($p_aResult['iStatus'] == 0) {
-            if ($p_aResult['sType'] == 'logic') {
-                $aError[$p_aResult['aError']['sField']] = $p_aResult['aError'];
-            } elseif ($p_aResult['sType'] == 'validation') {
-                foreach ($p_aResult['aErrors'] as $sField => $aFieldError) {
-                    $aError[$sField] = $aFieldError;
-                }
-            }
-        }
-        return $aError;
     }
 }

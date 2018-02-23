@@ -31,6 +31,7 @@ class pooling
      * @var string
      */
     private $_sDeCrypt = '0fc613bdc6';
+
     // substr(md5('jxu'),-10)
     
     /**

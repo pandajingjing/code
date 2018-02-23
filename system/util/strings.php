@@ -288,4 +288,16 @@ class strings
         }
         return substr(str_shuffle(str_repeat($sSource, $p_iLength)), 0, $p_iLength);
     }
+
+    /**
+     * 左补0
+     *
+     * @param string $p_sData            
+     * @param int $p_iLength            
+     * @return string
+     */
+    static function addZero($p_sData, $p_iLength)
+    {
+        return substr(str_repeat('0', $p_iLength) . $p_sData, 0 - $p_iLength);
+    }
 }
