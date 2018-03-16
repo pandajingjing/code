@@ -145,9 +145,6 @@ class strings
      */
     static function chkStrType($p_mData, $p_sDataType)
     {
-        if ('' == $p_mData) {
-            return false;
-        }
         switch ($p_sDataType) {
             case self::TYPE_NORMAL:
             case self::TYPE_ENUM:

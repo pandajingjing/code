@@ -85,6 +85,20 @@ class member extends orm
     public $iPlatformScore;
 
     /**
+     * 创建者id
+     *
+     * @var int
+     */
+    public $iCreatorId;
+
+    /**
+     * 添加时间
+     *
+     * @var int
+     */
+    public $iAddTime;
+
+    /**
      * 表名称
      *
      * @var string
@@ -139,6 +153,14 @@ class member extends orm
         'iPlatformScore' => [
             'sType' => 'int',
             'bUnsigned' => true
+        ],
+        'iCreatorId' => [
+            'sType' => 'int',
+            'bUnsigned' => true
+        ],
+        'iAddTime' => [
+            'sType' => 'int',
+            'bUnsigned' => true
         ]
     ];
 
@@ -181,6 +203,14 @@ class member extends orm
             'bUnsigned' => true
         ],
         'iPlatformScore' => [
+            'sType' => 'int',
+            'bUnsigned' => true
+        ],
+        'iCreatorId' => [
+            'sType' => 'int',
+            'bUnsigned' => true
+        ],
+        'iAddTime' => [
             'sType' => 'int',
             'bUnsigned' => true
         ]

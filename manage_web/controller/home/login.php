@@ -37,6 +37,10 @@ class login extends base
         // 外界参数
         $sNextAction = $this->getParam('next_act', 'post');
         // 本页参数
+        // 顶部菜单
+        $aTopUrls = [
+            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
+        ];
         // 代码参数
         $aFormData = $aFormStatus = [];
         if ('login' == $sNextAction) {
@@ -74,6 +78,10 @@ class login extends base
                 $aFormStatus[$aFieldSet['sMapping']] = false;
             }
         }
+        // 外界参数
+        // 本页参数
+        $this->setPageData('aTopUrls', $aTopUrls);
+        // 代码参数
         $this->setPageData('aFormData', $aFormData);
         $this->setPageData('aFormStatus', $aFormStatus);
         return '/home/login';

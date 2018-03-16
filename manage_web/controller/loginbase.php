@@ -30,9 +30,12 @@ abstract class loginbase extends base
             ]));
         } else {
             $oBllSession->set(session::KEY_MEMBER_ID, $mMemberId);
+            $this->setControllerData(parent::DKEY_OPERATOR_ID, $mMemberId);
         }
-        // 补充登陆后的顶部菜单
-        $aTopUrls = $this->getControllerData('aTopUrls');
+        // 顶部菜单
+        $aTopUrls = [];
+        // 首页
+        $aTopUrls['sDefault'] = $this->createInUrl('\\app\\controller\\home\\home');
         // 会员管理-开始
         $aTopUrls['aMember']['sAddNew'] = $this->createInUrl('\\app\\controller\\member\\edit');
         $aTopUrls['aMember']['sListing'] = $this->createInUrl('\\app\\controller\\member\\listing');

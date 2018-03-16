@@ -28,7 +28,14 @@ abstract class base extends web
      *
      * @var string
      */
-    const DKEY_SESSION = 'session';
+    const DKEY_SESSION = 'oSession';
+
+    /**
+     * 当前操作用户ID
+     *
+     * @var int
+     */
+    const DKEY_OPERATOR_ID = 'iOperatorId';
 
     /**
      * 在控制器开始时执行（调度使用）
@@ -51,12 +58,6 @@ abstract class base extends web
         $oBllSession->setUserAgent($this->getParam('HTTP_USER_AGENT', 'server'));
         $oBllSession->load();
         $this->setControllerData(self::DKEY_SESSION, $oBllSession);
-        
-        $aTopUrls = [
-            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
-        ];
-        $this->setControllerData('aTopUrls', $aTopUrls);
-        $this->setPageData('aTopUrls', $aTopUrls);
     }
 
     /**

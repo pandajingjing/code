@@ -8,6 +8,7 @@ namespace app\controller\member;
 
 use app\controller\loginbase;
 use member_service\bll\member;
+use panda\util\strings;
 
 /**
  * edit
@@ -15,6 +16,11 @@ use member_service\bll\member;
 class edit extends loginbase
 {
 
+    /**
+     * 表单映射关系
+     *
+     * @var array
+     */
     private $_aFormField = [
         'nickname' => [
             'sMapping' => 'sNickName',
@@ -45,9 +51,10 @@ class edit extends loginbase
     function doRequest()
     {
         // 外界参数
-        $iMemberId = $this->getParam('id', 'router');
+        $iMemberId = $this->getParam('id', 'router', strings::TYPE_INT, 0);
         $sNextAction = $this->getParam('next_act', 'post');
         // 本页参数
+        $iOperatorId = $this->getControllerData(parent::DKEY_OPERATOR_ID);
         $sListingUrl = $this->createInUrl('\\app\\controller\\member\\listing');
         $oBllMember = new member();
         $aChannels = $oBllMember->getChannels();
@@ -60,12 +67,14 @@ class edit extends loginbase
         }
         // 代码参数
         $aFormData = $aFormStatus = [];
+        // 业务逻辑
         if ('save_member' == $sNextAction) {
             foreach ($this->_aFormField as $sFormField => $aFieldSet) {
                 $aFormData[$aFieldSet['sMapping']] = $this->getParam($sFormField, 'post');
                 $aFormStatus[$aFieldSet['sMapping']] = true;
             }
-            $aResult = $oBllMember->editMember($aFormData);
+            $aFormData['iAddTime'] = $this->getVisitTime();
+            $aResult = $oBllMember->editMember($aFormData, $iMemberId, $iOperatorId);
             if ($aResult['iStatus'] == 1) {} else {
                 if ($aFormData['iRegistrationTime'] != '') {
                     $aFormData['iRegistrationTime'] = strtotime($aFormData['iRegistrationTime']);
