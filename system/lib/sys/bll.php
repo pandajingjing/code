@@ -73,6 +73,19 @@ class bll
     }
 
     /**
+     * 添加bll异常日志
+     *
+     * @param string $p_sBllName            
+     * @param string $p_sFuncName            
+     * @param object $p_oException            
+     * @return void
+     */
+    protected function addBllExLog($p_sBllName, $p_sFuncName, $p_oException)
+    {
+        $this->addLog($p_sBllName . '(' . $p_sFuncName . ')', $p_oException->getMessage());
+    }
+
+    /**
      * 筛选数据
      *
      * 筛选<var>$p_aAllDatas</var>中是否有<var>$p_mValue</var>,如果存在则返回,否则返回<var>$p_mDefault</var>
@@ -345,7 +358,9 @@ class bll
                         }
                     }
                 } else {
-                    if ($mValue != '') {
+                    if ($mValue == '') {
+                        $aSaveData[$sField] = '';
+                    } else {
                         if (self::validType($aRule, $sField, $mValue)) {
                             if (self::validLength($aRule, $sField, $mValue)) {
                                 $aSaveData[$sField] = $mValue;

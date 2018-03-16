@@ -9,6 +9,7 @@ namespace member_service\bll;
 use panda\lib\sys\bll;
 use panda\util\strings;
 use panda\util\error;
+use member_service\orm\member as orm_member;
 
 /**
  * member
@@ -169,6 +170,11 @@ class member extends bll
                 0,
                 50
             ]
+        ],
+        'iAddTime' => [
+            'bRequire' => true,
+            'eType' => strings::TYPE_INT,
+            'bUnsigned' => true
         ]
     ];
 
@@ -183,7 +189,8 @@ class member extends bll
         'iRegistrationTime',
         'eChannel',
         'sMobile',
-        'sWeChat'
+        'sWeChat',
+        'iAddTime'
     ];
 
     /**
@@ -191,16 +198,89 @@ class member extends bll
      *
      * @param array $p_aData            
      * @param int $p_iMemberId            
+     * @param int $p_iOperatorId            
      * @return array
      */
-    function editMember($p_aData, $p_iMemberId = 0)
+    function editMember($p_aData, $p_iMemberId, $p_iOperatorId)
     {
+        // 验证和过滤数据
         $aResult = self::validData($p_aData, $p_iMemberId > 0 ? true : false, $this->aMemberInfoRule, $this->aMemberInfoPropertyFields);
         if ($aResult['iStatus'] == 0) {
             return $aResult;
         }
-        $p_aData['iRegistrationTime'] = strtotime($p_aData['iRegistrationTime']);
-        // return self::returnInfo('sss');
-        return self::returnLogicError('eChannel', error::TYPE_LENGTH_LONG, '', '');
+        $aSaveData = $aResult['aData'];
+        // 如果没有任何需要保存的数据,返回保存成功
+        if (empty($aSaveData)) {
+            return self::returnPrimary($p_iMemberId);
+        }
+        // 实例化orm
+        $oMember = new orm_member();
+        if ($p_iMemberId == 0) {
+            // 初始化数据
+            $oMember->sNickName = $aSaveData['sNickName'];
+            $oMember->sRealName = $aSaveData['sRealName'];
+            $oMember->eChannel = $aSaveData['eChannel'];
+            $oMember->sMobile = $aSaveData['sMobile'];
+            $oMember->sWeChat = $aSaveData['sWeChat'];
+            $oMember->iRegistrationTime = strtotime($aSaveData['iRegistrationTime']);
+            $oMember->iAddTime = $aSaveData['iAddTime'];
+            // 人物关系
+            $oMember->iCreatorId = $p_iOperatorId;
+            // 默认值
+            $oMember->iPlatformScore = 0;
+            // 流程初始状态
+            // 业务逻辑判断,@todo 各种不能重复的判断
+            // 保存数据
+            try {
+                $mResult = $oMember->addData();
+                if ($mResult != false) {
+                    return self::returnPrimary($mResult);
+                } else {
+                    return self::returnSystemError();
+                }
+            } catch (\Exception $oEx) {
+                $this->addBllExLog(get_class($this), __FUNCTION__, $oEx);
+                return self::returnSystemError();
+            }
+        } else {
+            $oMember->iAutoId = $p_iMemberId;
+            $mMember = $oMember->getDetail();
+            // 未找到数据
+            if ($mMember == null) {
+                return self::returnLogicError('iAutoId', error::TYPE_NOT_FOUND, '', $p_iMemberId);
+            }
+            
+            // 实例化model
+            // @todo gogogo
+            if ($mPrimary == '') {} else {
+                $oData = TestData::get($mPrimary);
+                
+                // 记录老数据
+                $aOldData = $oData->toArray();
+                if (! isset($aSaveData['edit_time'])) {
+                    $oData->edit_time = time();
+                }
+            }
+            // 业务逻辑判断
+            if ($oData->creator_id != $iOperatorID) { // 不是创建者不允许编辑,或许还有别的逻辑
+                return $this->_returnLogicError('operator_id', ErrorCollector::TYPE_INVALID, '', $iOperatorID);
+            }
+            // 保存数据
+            try {
+                $oData->save($aSaveData);
+            } catch (\Exception $oEx) {
+                $this->_logError(get_class($this), __FUNCTION__, $oEx->getMessage());
+                return $this->_returnSystemError();
+            }
+            $oLog = new OprLog();
+            if ($mPrimary > 0) {
+                $oLog->saveEdit(OprLog::LOGNAME_TEST, $oData->id, $oData->toArray(), $aOldData, $iOperatorID);
+            } else {
+                $oLog->save(OprLog::LOGNAME_TEST, OprLog::ACTION_ADD, $oData->id, $iOperatorID);
+            }
+            return $this->_returnPrimary($oData->id);
+            
+            return self::returnLogicError('eChannel', error::TYPE_LENGTH_LONG, '', '');
+        }
     }
 }
