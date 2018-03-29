@@ -24,7 +24,16 @@ class bcjh extends bll
      */
     private $_aIGetChefs = [
         [
-            'iChefId' => 184,
+            'iChefId' => 157, // 嫦娥
+            'iStirfry' => 16, // 炒
+            'iBoil' => 99, // 煮
+            'iCut' => 0, // 切
+            'iFry' => 66, // 炸
+            'iRoast' => 0, // 烤
+            'iSteam' => 33 // 蒸
+        ],
+        [
+            'iChefId' => 184, // 湘思
             'iStirfry' => 0, // 炒
             'iBoil' => 22, // 煮
             'iCut' => 91, // 切
@@ -33,7 +42,16 @@ class bcjh extends bll
             'iSteam' => 137 // 蒸
         ],
         [
-            'iChefId' => 37,
+            'iChefId' => 94, // 堂雪
+            'iStirfry' => 22, // 炒
+            'iBoil' => 137, // 煮
+            'iCut' => 0, // 切
+            'iFry' => 0, // 炸
+            'iRoast' => 45, // 烤
+            'iSteam' => 91 // 蒸
+        ],
+        [
+            'iChefId' => 37, // 申公子
             'iStirfry' => 0, // 炒
             'iBoil' => 0, // 煮
             'iCut' => 22, // 切
@@ -42,7 +60,7 @@ class bcjh extends bll
             'iSteam' => 114 // 蒸
         ],
         [
-            'iChefId' => 4,
+            'iChefId' => 4, // 熊麓
             'iStirfry' => 42, // 炒
             'iBoil' => 0, // 煮
             'iCut' => 85, // 切
@@ -51,13 +69,22 @@ class bcjh extends bll
             'iSteam' => 0 // 蒸
         ],
         [
-            'iChefId' => 1,
+            'iChefId' => 1, // 羽十六
             'iStirfry' => 185, // 炒
             'iBoil' => 154, // 煮
             'iCut' => 61, // 切
             'iFry' => 0, // 炸
             'iRoast' => 0, // 烤
             'iSteam' => 30 // 蒸
+        ],
+        [
+            'iChefId' => 238,
+            'iStirfry' => 0, // 炒
+            'iBoil' => 25, // 煮
+            'iCut' => 51, // 切
+            'iFry' => 76, // 炸
+            'iRoast' => 0, // 烤
+            'iSteam' => 51 // 蒸
         ],
         [
             'iChefId' => 211,
@@ -78,15 +105,6 @@ class bcjh extends bll
             'iSteam' => 49 // 蒸
         ],
         [
-            'iChefId' => 121,
-            'iStirfry' => 62, // 炒
-            'iBoil' => 31, // 煮
-            'iCut' => 0, // 切
-            'iFry' => 15, // 炸
-            'iRoast' => 94, // 烤
-            'iSteam' => 0 // 蒸
-        ],
-        [
             'iChefId' => 112,
             'iStirfry' => 92, // 炒
             'iBoil' => 0, // 煮
@@ -94,15 +112,6 @@ class bcjh extends bll
             'iFry' => 46, // 炸
             'iRoast' => 23, // 烤
             'iSteam' => 0 // 蒸
-        ],
-        [
-            'iChefId' => 109,
-            'iStirfry' => 8, // 炒
-            'iBoil' => 0, // 煮
-            'iCut' => 49, // 切
-            'iFry' => 16, // 炸
-            'iRoast' => 0, // 烤
-            'iSteam' => 33 // 蒸
         ],
         [
             'iChefId' => 106,
@@ -114,6 +123,25 @@ class bcjh extends bll
             'iSteam' => 0 // 蒸
         ],
         [
+            'iChefId' => 121,
+            'iStirfry' => 62, // 炒
+            'iBoil' => 31, // 煮
+            'iCut' => 0, // 切
+            'iFry' => 15, // 炸
+            'iRoast' => 94, // 烤
+            'iSteam' => 0 // 蒸
+        ],
+        [
+            'iChefId' => 109,
+            'iStirfry' => 8, // 炒
+            'iBoil' => 0, // 煮
+            'iCut' => 49, // 切
+            'iFry' => 16, // 炸
+            'iRoast' => 0, // 烤
+            'iSteam' => 33 // 蒸
+        ],
+        
+        [
             'iChefId' => 100,
             'iStirfry' => 138, // 炒
             'iBoil' => 46, // 煮
@@ -123,12 +151,12 @@ class bcjh extends bll
             'iSteam' => 23 // 蒸
         ],
         [
-            'iChefId' => 79,
+            'iChefId' => 79, // 盲女
             'iStirfry' => 0, // 炒
-            'iBoil' => 62, // 煮
-            'iCut' => 94, // 切
-            'iFry' => 15, // 炸
-            'iRoast' => 31, // 烤
+            'iBoil' => 92, // 煮
+            'iCut' => 138, // 切
+            'iFry' => 23, // 炸
+            'iRoast' => 46, // 烤
             'iSteam' => 0 // 蒸
         ],
         [
@@ -141,13 +169,13 @@ class bcjh extends bll
             'iSteam' => 31 // 蒸
         ],
         [
-            'iChefId' => 28,
-            'iStirfry' => 94, // 炒
+            'iChefId' => 28, // 鱼不斩
+            'iStirfry' => 138, // 炒
             'iBoil' => 0, // 煮
-            'iCut' => 62, // 切
+            'iCut' => 92, // 切
             'iFry' => 0, // 炸
-            'iRoast' => 31, // 烤
-            'iSteam' => 15 // 蒸
+            'iRoast' => 46, // 烤
+            'iSteam' => 23 // 蒸
         ],
         [
             'iChefId' => 25,
@@ -240,7 +268,7 @@ class bcjh extends bll
             'iSteam' => 61 // 蒸
         ],
         [
-            'iChefId' => 31,
+            'iChefId' => 31, // 雷椒
             'iStirfry' => 0, // 炒
             'iBoil' => 0, // 煮
             'iCut' => 8, // 切
@@ -285,15 +313,6 @@ class bcjh extends bll
             'iSteam' => 100 // 蒸
         ],
         [
-            'iChefId' => 157,
-            'iStirfry' => 4, // 炒
-            'iBoil' => 24, // 煮
-            'iCut' => 0, // 切
-            'iFry' => 16, // 炸
-            'iRoast' => 0, // 烤
-            'iSteam' => 8 // 蒸
-        ],
-        [
             'iChefId' => 238,
             'iStirfry' => 0, // 炒
             'iBoil' => 13, // 煮
@@ -303,13 +322,49 @@ class bcjh extends bll
             'iSteam' => 27 // 蒸
         ],
         [
-            'iChefId' => 52,
+            'iChefId' => 52, // 面小解
             'iStirfry' => 0, // 炒
             'iBoil' => 0, // 煮
             'iCut' => 18, // 切
             'iFry' => 4, // 炸
             'iRoast' => 4, // 烤
             'iSteam' => 27 // 蒸
+        ],
+        [
+            'iChefId' => 91, // 苏吴安
+            'iStirfry' => 0, // 炒
+            'iBoil' => 0, // 煮
+            'iCut' => 46, // 切
+            'iFry' => 23, // 炸
+            'iRoast' => 0, // 烤
+            'iSteam' => 70 // 蒸
+        ],
+        [
+            'iChefId' => 64, // 熊妮
+            'iStirfry' => 10, // 炒
+            'iBoil' => 0, // 煮
+            'iCut' => 64, // 切
+            'iFry' => 43, // 炸
+            'iRoast' => 0, // 烤
+            'iSteam' => 21 // 蒸
+        ],
+        [
+            'iChefId' => 61, // 椒娃
+            'iStirfry' => 0, // 炒
+            'iBoil' => 7, // 煮
+            'iCut' => 0, // 切
+            'iFry' => 21, // 炸
+            'iRoast' => 14, // 烤
+            'iSteam' => 10 // 蒸
+        ],
+        [
+            'iChefId' => 49, // 傣弟
+            'iStirfry' => 0, // 炒
+            'iBoil' => 43, // 煮
+            'iCut' => 10, // 切
+            'iFry' => 21, // 炸
+            'iRoast' => 0, // 烤
+            'iSteam' => 64 // 蒸
         ]
     ];
 
@@ -330,6 +385,7 @@ class bcjh extends bll
         11,
         12,
         13,
+        14,
         15,
         17,
         18,
@@ -346,10 +402,13 @@ class bcjh extends bll
         35,
         36,
         37,
+        38,
         40,
         43,
         44,
+        46,
         49,
+        51,
         54,
         55,
         58,
@@ -368,6 +427,7 @@ class bcjh extends bll
         81,
         82,
         85,
+        89,
         90,
         91,
         93,
@@ -382,21 +442,30 @@ class bcjh extends bll
         122,
         127,
         128,
+        130,
+        133,
         141,
         142,
+        147,
+        153,
         155,
+        157,
         158,
         163,
         164,
         165,
         166,
         168,
+        170,
         172,
         183,
         223,
         238,
+        240,
         246,
-        247
+        247,
+        248,
+        254
     ];
 
     /**
@@ -450,10 +519,10 @@ class bcjh extends bll
         $mData = $this->getCache(__FUNCTION__, func_get_args());
         if (false === $mData) {
             // https://foodgame.github.io/
-            browser::setOption(CURLOPT_TIMEOUT_MS, 5000);
+            browser::setOption(CURLOPT_TIMEOUT_MS, 10000);
             $mData = browser::getData('https://foodgame.github.io/data/data.json?_=1519134097387');
             if (false !== $mData) {
-                $this->setCache($mData, __FUNCTION__, func_get_args());
+                $this->setCache($mData, __FUNCTION__, func_get_args(), 604800);
             }
         }
         isset($mData['recipes']) ? $this->_aRecipes = $mData['recipes'] : '';
@@ -588,13 +657,11 @@ class bcjh extends bll
         '蒸汽宝石', // 银
         '一昧真火', // 银
         '耐住的水草', // 银
-        
         '油火虫', // 铜
         '烤焦的菊花', // 铜
         '蒸汽耳环', // 铜
         '防水的柠檬', // 铜
         '五香果' // 铜
-    
     ];
 
     /**

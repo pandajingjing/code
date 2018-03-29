@@ -182,14 +182,16 @@ class bll
      * @param mix $p_mData            
      * @param string $p_sFuncName            
      * @param array $p_aParams            
+     * @param int $p_iCacheTime            
+     * @return void
      */
-    protected function setCache($p_mData, $p_sFuncName, $p_aParams)
+    protected function setCache($p_mData, $p_sFuncName, $p_aParams, $p_iCacheTime = self::DEFAULT_CACHE_TIME)
     {
         self::_connectCache($this->sCacheName);
         $sKey = self::_getCacheKey($this->sClassName, $p_sFuncName, $p_aParams);
-        $p_mData = self::_implodeCache($p_mData, self::DEFAULT_CACHE_TIME);
+        $p_mData = self::_implodeCache($p_mData, $p_iCacheTime);
         for ($iIndex = 0; $iIndex < self::MAX_CACHE_TRY; ++ $iIndex) {
-            $mDebugResult = self::$_aCachePool[$this->sCacheName]->set($sKey, $p_mData, self::DEFAULT_CACHE_TIME);
+            $mDebugResult = self::$_aCachePool[$this->sCacheName]->set($sKey, $p_mData, $p_iCacheTime);
             if (true === $mDebugResult) {
                 break;
             }
