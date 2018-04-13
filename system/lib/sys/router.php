@@ -332,7 +332,9 @@ class router
         ksort($p_aParam);
         $sParam = '';
         foreach ($p_aParam as $sKey => $sValue) {
-            $sParam .= $this->_sParamSeperator . urlencode($sKey) . $this->_sParamSeperator . urlencode($sValue);
+            if (isset($sValue[0])) {
+                $sParam .= $this->_sParamSeperator . urlencode($sKey) . $this->_sParamSeperator . urlencode($sValue);
+            }
         }
         if (isset($sParam[0])) {
             $sParam = substr($sParam, 1);

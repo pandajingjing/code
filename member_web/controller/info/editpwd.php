@@ -1,17 +1,17 @@
 <?php
 /**
- * home
+ * editpwd
  *
- * @namespace app\controller\home
+ * @namespace app\controller\info
  */
-namespace app\controller\home;
+namespace app\controller\info;
 
-use app\controller\base;
+use app\controller\loginbase;
 
 /**
- * home
+ * editpwd
  */
-class home extends base
+class editpwd extends loginbase
 {
 
     function doRequest()
@@ -36,6 +36,6 @@ class home extends base
         
         /* 开始设置业务逻辑代码所生成的变量 */
         /* 设置业务逻辑代码所生成的变量结束 */
-        return '/home/home';
+        return '/info/editpwd';
     }
 }

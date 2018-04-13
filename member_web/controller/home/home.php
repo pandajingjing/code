@@ -6,12 +6,12 @@
  */
 namespace app\controller\home;
 
-use app\controller\base;
+use app\controller\loginbase;
 
 /**
  * home
  */
-class home extends base
+class home extends loginbase
 {
 
     function doRequest()

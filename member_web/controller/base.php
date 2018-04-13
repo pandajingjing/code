@@ -1,7 +1,7 @@
 <?php
 /**
  * base
- *
+ * 
  * @namespace app\controller
  */
 namespace app\controller;
@@ -41,15 +41,15 @@ abstract class base extends web
         $aTopUrl['sWWW'] = $this->createOutUrl('sWwwSchemeDomain', 'sHome'); // www首页
         $aTopUrl['sWiki'] = $this->createOutUrl('sWikiSchemeDomain', 'sHome'); // wiki首页
         $aTopUrl['sMall'] = $this->createOutUrl('sMallSchemeDomain', 'sHome'); // 商城首页
-        $aTopUrl['aMember']['sHome'] = $this->createOutUrl('sMemberSchemeDomain', 'sHome'); // 用户中心-首页
+        $aTopUrl['aMember']['sHome'] = $this->createInUrl('\\app\\controller\\home\\home'); // 用户中心-首页
         /* 用户中心-账户与安全-开始 */
-        $aTopUrl['aMember']['aInfo']['sEditBase'] = $this->createOutUrl('sMemberSchemeDomain', 'sInfoEditBase'); // 修改基本信息
-        $aTopUrl['aMember']['aInfo']['sEditPwd'] = $this->createOutUrl('sMemberSchemeDomain', 'sInfoEditPwd'); // 修改密码
-        $aTopUrl['aMember']['aInfo']['sBindMobile'] = $this->createOutUrl('sMemberSchemeDomain', 'sInfoEditPwd'); // 绑定手机
+        $aTopUrl['aMember']['aInfo']['sEditBase'] = $this->createInUrl('\\app\\controller\\info\\edit'); // 修改基本信息
+        $aTopUrl['aMember']['aInfo']['sEditPwd'] = $this->createInUrl('\\app\\controller\\info\\editpwd'); // 修改密码
+        $aTopUrl['aMember']['aInfo']['sBindMobile'] = $this->createInUrl('\\app\\controller\\info\\bindmobile'); // 绑定手机
         /* 用户中心-账户与安全-结束 */
         /* 用户中心-我的积分-开始 */
-        $aTopUrl['aMember']['aScore']['sHome'] = $this->createOutUrl('sMemberSchemeDomain', 'sScoreHome'); // 积分首页
-        $aTopUrl['aMember']['aScore']['sListing'] = $this->createOutUrl('sMemberSchemeDomain', 'sScoreListing'); // 积分明细
+        $aTopUrl['aMember']['aScore']['sHome'] = $this->createInUrl('\\app\\controller\\score\\home'); // 积分首页
+        $aTopUrl['aMember']['aScore']['sListing'] = $this->createInUrl('\\app\\controller\\score\\listing'); // 积分明细
         /* 用户中心-我的积分-结束 */
         /* 生成当前控制器所需的变量结束 */
         

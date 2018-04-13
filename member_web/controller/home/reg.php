@@ -1,22 +1,24 @@
 <?php
 /**
- * login
+ * reg
  *
  * @namespace app\controller\home
  */
 namespace app\controller\home;
 
 use app\controller\base;
-use member_service\bll\member;
-use member_service\bll\session;
-use panda\util\strings;
 
 /**
- * login
+ * reg
  */
-class login extends base
+class reg extends base
 {
 
+    /**
+     * 表单字段
+     *
+     * @var array
+     */
     private $_aFormField = [
         'username' => [
             'sMapping' => 'sUserName',
@@ -26,24 +28,48 @@ class login extends base
             'sMapping' => 'sUserPwd',
             'mDefault' => ''
         ],
-        'remember' => [
-            'sMapping' => 'bRemember',
-            'mDefault' => true
+        'userpwdcfm' => [
+            'sMapping' => 'sUserPwdCfm',
+            'mDefault' => ''
         ]
     ];
 
     function doRequest()
     {
+        /* 开始获取外部数据 */
+        /* 获取外部数据结束 */
+        
+        /* 开始生成当前控制器所需的变量 */
+        /* 生成当前控制器所需的变量结束 */
+        
+        /* 开始初始化业务逻辑代码所需的变量 */
+        /* 初始化业务逻辑代码所需的变量结束 */
+        
+        /* 控制器逻辑代码开始 */
+        /* 控制器逻辑代码结束 */
+        
+        /* 开始设置外部数据 */
+        /* 设置外部数据结束 */
+        
+        /* 开始设置当前控制器所生成的变量 */
+        /* 设置当前控制器所生成的变量结束 */
+        
+        /* 开始设置业务逻辑代码所生成的变量 */
+        /* 设置业务逻辑代码所生成的变量结束 */
+        
         // 外界参数
         $sNextAction = $this->getParam('next_act', 'post');
+        $sEncodeBackUrl = $this->getParam('back_url', 'router');
         // 本页参数
-        // 顶部菜单
-        $aTopUrl = [
-            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
+        // 页面url
+        $aPageUrl = [
+            'sLogin' => $this->createInUrl('\\app\\controller\\home\\login', [
+                'back_url' => $sEncodeBackUrl
+            ])
         ];
         // 代码参数
         $aFormData = $aFormStatus = [];
-        if ('login' == $sNextAction) {
+        if ('reg' == $sNextAction) {
             foreach ($this->_aFormField as $sFormField => $aFieldSet) {
                 $aFormData[$aFieldSet['sMapping']] = $this->getParam($sFormField, 'post');
                 $aFormStatus[$aFieldSet['sMapping']] = true;
@@ -68,11 +94,6 @@ class login extends base
                 $aFormStatus = array_merge($aFormStatus, self::getFormError($aResult));
             }
         } else {
-            $oBllSession = $this->getControllerData(parent::DKEY_SESSION);
-            $sRememberNickName = $oBllSession->get(session::KEY_MEMBER_NICKNAME);
-            if ($sRememberNickName !== null) {
-                $this->_aFormField['username']['mDefault'] = $sRememberNickName;
-            }
             foreach ($this->_aFormField as $sFormField => $aFieldSet) {
                 $aFormData[$aFieldSet['sMapping']] = $aFieldSet['mDefault'];
                 $aFormStatus[$aFieldSet['sMapping']] = false;
@@ -80,10 +101,10 @@ class login extends base
         }
         // 外界参数
         // 本页参数
-        $this->setPageData('aTopUrl', $aTopUrl);
+        $this->setPageData('aPageUrl', $aPageUrl);
         // 代码参数
         $this->setPageData('aFormData', $aFormData);
         $this->setPageData('aFormStatus', $aFormStatus);
-        return '/home/login';
+        return '/home/reg';
     }
 }

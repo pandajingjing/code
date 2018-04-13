@@ -118,7 +118,7 @@ abstract class orm
      * @var boolean
      */
     protected $bNeedDelData = false;
-    
+
     // 系统属性,子类不允许修改
     
     /**
@@ -1247,7 +1247,7 @@ abstract class orm
         for ($iIndex = 0; $iIndex < self::MAX_CACHE_TRY; ++ $iIndex) {
             $bFoundErr = false;
             self::$_mDebugResult = self::$_aCachePool[$p_sCacheName]->deleteMulti($p_aCacheKeys);
-            self::$_oDebugger->showMsg($p_sClassName . '[Memcache]->Delete: Set: Multi Key|' . var_export($p_aCacheKeys, true) . '|' . var_export(self::$_mDebugResult, true));
+            self::$_oDebugger->showMsg($p_sClassName . '[Memcache]->Delete: Multi Key|' . var_export($p_aCacheKeys, true) . '|' . var_export(self::$_mDebugResult, true));
             foreach (self::$_mDebugResult as $sKey => $mResult) {
                 if (true === $mResult) {} else {
                     if (\Memcached::RES_NOTFOUND == $mResult) {} else {
@@ -1336,6 +1336,7 @@ abstract class orm
                 break;
             }
         }
+        
         self::$_oDebugger->showMsg($p_sClassName . '[Memcache]->Set: Multi Key|' . var_export($p_aCache, true) . '|' . var_export(self::$_mDebugResult, true));
     }
 

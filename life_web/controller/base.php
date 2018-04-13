@@ -39,11 +39,7 @@ abstract class base extends web
         $this->setPageData('iVisitTime', $this->getVisitTime());
         
         $aTopUrl = [
-            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home'),
-            'sPhotoList' => $this->createInUrl('\\app\\controller\\photo\\listing'),
-            'sDocList' => $this->createInUrl('\\app\\controller\\document\\listing'),
-            'sVideoList' => $this->createInUrl('\\app\\controller\\video\\listing'),
-            'sManage' => $this->createInUrl('\\app\\controller\\manage\\dashboard')
+            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
         ];
         $this->setPageData('aTopUrl', $aTopUrl);
     }

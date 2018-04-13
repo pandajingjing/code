@@ -40,7 +40,7 @@ abstract class base extends web
         $aTopUrl['sHome'] = $this->createInUrl('\\app\\controller\\home\\home'); // 当前首页
         $aTopUrl['sWWW'] = $this->createOutUrl('sWwwSchemeDomain', 'sHome'); // www首页
         $aTopUrl['sWiki'] = $this->createOutUrl('sWikiSchemeDomain', 'sHome'); // wiki首页
-        $aTopUrl['sMall'] = $this->createOutUrl('sMallSchemeDomain', 'sHome'); // 商城首页
+        $aTopUrl['sMall'] = $this->createInUrl('\\app\\controller\\home\\home'); // 商城首页
         $aTopUrl['aMember']['sHome'] = $this->createOutUrl('sMemberSchemeDomain', 'sHome'); // 用户中心-首页
         /* 用户中心-账户与安全-开始 */
         $aTopUrl['aMember']['aInfo']['sEditBase'] = $this->createOutUrl('sMemberSchemeDomain', 'sInfoEditBase'); // 修改基本信息

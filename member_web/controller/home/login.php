@@ -8,7 +8,7 @@ namespace app\controller\home;
 
 use app\controller\base;
 use member_service\bll\member;
-use member_service\bll\session;
+use common_service\bll\session;
 use panda\util\strings;
 
 /**
@@ -17,6 +17,11 @@ use panda\util\strings;
 class login extends base
 {
 
+    /**
+     * 表单字段
+     *
+     * @var array
+     */
     private $_aFormField = [
         'username' => [
             'sMapping' => 'sUserName',
@@ -34,12 +39,36 @@ class login extends base
 
     function doRequest()
     {
+        /* 开始获取外部数据 */
+        /* 获取外部数据结束 */
+        
+        /* 开始生成当前控制器所需的变量 */
+        /* 生成当前控制器所需的变量结束 */
+        
+        /* 开始初始化业务逻辑代码所需的变量 */
+        /* 初始化业务逻辑代码所需的变量结束 */
+        
+        /* 控制器逻辑代码开始 */
+        /* 控制器逻辑代码结束 */
+        
+        /* 开始设置外部数据 */
+        /* 设置外部数据结束 */
+        
+        /* 开始设置当前控制器所生成的变量 */
+        /* 设置当前控制器所生成的变量结束 */
+        
+        /* 开始设置业务逻辑代码所生成的变量 */
+        /* 设置业务逻辑代码所生成的变量结束 */
+        
         // 外界参数
         $sNextAction = $this->getParam('next_act', 'post');
+        $sEncodeBackUrl = $this->getParam('back_url', 'router');
         // 本页参数
-        // 顶部菜单
-        $aTopUrl = [
-            'sDefault' => $this->createInUrl('\\app\\controller\\home\\home')
+        // 页面url
+        $aPageUrl = [
+            'sReg' => $this->createInUrl('\\app\\controller\\home\\reg', [
+                'back_url' => $sEncodeBackUrl
+            ])
         ];
         // 代码参数
         $aFormData = $aFormStatus = [];
@@ -56,9 +85,8 @@ class login extends base
                 if ($aFormData['bRemember'] == 'on') {
                     $oBllSession->set(session::KEY_MEMBER_NICKNAME, $aResult['aData']['sNickName']);
                 }
-                $sEncodeBackUrl = $this->getParam('back_url', 'router');
-                $sBackUrl = base64_decode($sEncodeBackUrl);
                 // debug($aFormData,$aResult,$sBackUrl);
+                $sBackUrl = base64_decode($sEncodeBackUrl);
                 if (strings::chkStrType($sBackUrl, strings::TYPE_URL)) {
                     $this->redirectUrl($sBackUrl);
                 } else {
@@ -80,7 +108,7 @@ class login extends base
         }
         // 外界参数
         // 本页参数
-        $this->setPageData('aTopUrl', $aTopUrl);
+        $this->setPageData('aPageUrl', $aPageUrl);
         // 代码参数
         $this->setPageData('aFormData', $aFormData);
         $this->setPageData('aFormStatus', $aFormStatus);

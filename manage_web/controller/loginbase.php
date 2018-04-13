@@ -33,17 +33,17 @@ abstract class loginbase extends base
             $this->setControllerData(parent::DKEY_OPERATOR_ID, $mMemberId);
         }
         // 顶部菜单
-        $aTopUrls = [];
+        $aTopUrl = [];
         // 首页
-        $aTopUrls['sDefault'] = $this->createInUrl('\\app\\controller\\home\\home');
+        $aTopUrl['sDefault'] = $this->createInUrl('\\app\\controller\\home\\home');
         // 会员管理-开始
-        $aTopUrls['aMember']['sAddNew'] = $this->createInUrl('\\app\\controller\\member\\edit');
-        $aTopUrls['aMember']['sListing'] = $this->createInUrl('\\app\\controller\\member\\listing');
+        $aTopUrl['aMember']['sAddNew'] = $this->createInUrl('\\app\\controller\\member\\edit');
+        $aTopUrl['aMember']['sListing'] = $this->createInUrl('\\app\\controller\\member\\listing');
         // 会员管理-结束
-        $aTopUrls['sLogOut'] = $this->createInUrl('\\app\\controller\\home\\logout', [
+        $aTopUrl['sLogOut'] = $this->createInUrl('\\app\\controller\\home\\logout', [
             'back_url' => base64_encode($sUrl)
         ]);
-        $this->setPageData('aTopUrls', $aTopUrls);
+        $this->setPageData('aTopUrl', $aTopUrl);
     }
 
     /**

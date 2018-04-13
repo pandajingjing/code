@@ -8,6 +8,7 @@ namespace app\controller;
 
 use panda\lib\controller\web;
 use panda\util\guid;
+use blank_service\bll\doc;
 
 /**
  * base
@@ -38,12 +39,21 @@ abstract class base extends web
         $this->setCookie('guid', $sGuid, 31536000);
         $this->setPageData('iVisitTime', $this->getVisitTime());
         
+        $oBllDoc = new doc();
+        $aChapters = $oBllDoc->getChapters();
+        $aChapterList = [];
+        foreach ($aChapters as $aChapter) {
+            $sAnchor = 'doc_' . $aChapter['iIndex'];
+            $aChapterList[] = [
+                'sAnchor' => $sAnchor,
+                'sTitle' => $aChapter['sTitle'],
+                'sUrl' => $this->createInUrl('\\app\\controller\\doc', [], $sAnchor)
+            ];
+        }
+        
         $aTopUrl = [
             'sDefault' => $this->createInUrl('\\app\\controller\\home\\home'),
-            'sPhotoList' => $this->createInUrl('\\app\\controller\\photo\\listing'),
-            'sDocList' => $this->createInUrl('\\app\\controller\\document\\listing'),
-            'sVideoList' => $this->createInUrl('\\app\\controller\\video\\listing'),
-            'sManage' => $this->createInUrl('\\app\\controller\\manage\\dashboard')
+            'aChapterList' => $aChapterList
         ];
         $this->setPageData('aTopUrl', $aTopUrl);
     }

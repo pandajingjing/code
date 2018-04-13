@@ -17,7 +17,7 @@ abstract class Controller_Base extends Controller_Sys_Web
     {
         parent::beforeRequest();
         // do something
-        $this->setPageData('aTopUrls', array(
+        $this->setPageData('aTopUrl', array(
             'sHomeURL' => $this->getURL('Home'),
             'sDietURL' => $this->getURL('Diet'),
             'sMotionURL' => $this->getURL('Motion'),
