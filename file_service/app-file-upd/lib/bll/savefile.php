@@ -89,9 +89,9 @@ class bll_savefile extends bll_file
                     return false;
                 }
                 if ('office' == $sExtension) {
-                	$aFileInfo = pathinfo($p_sName);
-                	$sExtension = $aFileInfo['extension'];
-                	$sMimeType = util_file::getMimeType($sExtension);
+                    $aFileInfo = pathinfo($p_sName);
+                    $sExtension = $aFileInfo['extension'];
+                    $sMimeType = util_file::getMimeType($sExtension);
                 }
                 if (! in_array($sExtension, $aAllowedExtension)) {
                     $this->addLog($this->mkUpdErr(util_error::tagError('Ext', util_error::TYPE_INVALID), $sExtension), 'upd_error');
@@ -153,7 +153,7 @@ class bll_savefile extends bll_file
                             'sController' => 'domsgcontroller',
                             'sHandle' => 'saveInfo',
                             'aData' => array(
-                            	'sFileName' => $p_sName,
+                                'sFileName' => $p_sName,
                                 'sFileKey' => $sFileKey,
                                 'iFileSize' => $p_iSize,
                                 'sFileExt' => $sExtension,

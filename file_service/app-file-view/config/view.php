@@ -5,10 +5,10 @@ $G_CONFIG['view']['aOriginal'] = array(
         'document',
         'avatar',
         'secret',
-		'ahb',
-    	'project',
-    	'export',
-    	'agreement'
+        'ahb',
+        'project',
+        'export',
+        'agreement'
     )
 );
 
@@ -41,7 +41,7 @@ $aThumbnailCfg = array(
 $sWaterMark_120x45 = '/data1/www/other/mask_120x45.png';
 $sWaterMark_140x50 = '/data1/www/other/mask_140x50.png';
 $sWaterMark_140x50_ananzu = '/data1/www/other/mask_140x50_ananzu.png';
-$sWaterMark_66x66_ananzu  = '/data1/www/other/mask_66x66_ananzu.png';
+$sWaterMark_66x66_ananzu = '/data1/www/other/mask_66x66_ananzu.png';
 // 楼盘尺寸
 $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
     'iWidth' => 67,
@@ -129,7 +129,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix' // width,height
-                )
+        )
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
@@ -155,7 +155,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix' // width,height
-                )
+        )
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
@@ -181,7 +181,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix' // width,height
-                )
+        )
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
@@ -359,11 +359,11 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
 );
 
 $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
-		'iWidth' => 240,
-		'iHeight' => 240,
-		'aOption' => array(
-				'aDefault' => $aThumbnailCfg
-		)
+    'iWidth' => 240,
+    'iHeight' => 240,
+    'aOption' => array(
+        'aDefault' => $aThumbnailCfg
+    )
 );
 
 $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
@@ -432,7 +432,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix' // width,height
-                )
+        )
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
@@ -455,15 +455,15 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
                 )
             )
         ),
-    	'wm' => array(
-			'mWatermark' => array(
+        'wm' => array(
+            'mWatermark' => array(
                 'sFilePath' => $sWaterMark_120x45,
                 'aEdge' => array(
                     'iRight' => 40,
                     'iDown' => 30
                 )
             )
-    	)
+        )
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
@@ -484,24 +484,24 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sZoomScaleMode' => 'mix' // width,height
         ),
         'ananzu' => array(
-        	'mWatermark' => array(
-        		'sFilePath' => $sWaterMark_140x50_ananzu,
-        		'aEdge' => array(
-        		'bMiddle' => true
-        		)
-			),
-        	'bThumbnail' => true,
-        	'sMode' => 'zoom', // cut
-        	'sZoomMode' => 'scale', // fill
-        	'sZoomScaleMode' => 'mix' // width,height
+            'mWatermark' => array(
+                'sFilePath' => $sWaterMark_140x50_ananzu,
+                'aEdge' => array(
+                    'bMiddle' => true
+                )
+            ),
+            'bThumbnail' => true,
+            'sMode' => 'zoom', // cut
+            'sZoomMode' => 'scale', // fill
+            'sZoomScaleMode' => 'mix' // width,height
         ),
-    	'ananzupz' => array(
-    		'mWatermark' => false,
-    		'bThumbnail' => true,
-    		'sMode' => 'zoom', // cut
-    		'sZoomMode' => 'scale', // fill
-    		'sZoomScaleMode' => 'mix' // width,height
-    	)
+        'ananzupz' => array(
+            'mWatermark' => false,
+            'bThumbnail' => true,
+            'sMode' => 'zoom', // cut
+            'sZoomMode' => 'scale', // fill
+            'sZoomScaleMode' => 'mix' // width,height
+        )
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
@@ -520,7 +520,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix' // width,height
-                )
+        )
     )
 );
 // 身份证
@@ -534,7 +534,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix' // width,height
-                )
+        )
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
@@ -547,63 +547,63 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix' // width,height
-		)
+        )
     )
 );
 
 $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
-	'iWidth' => 1200,
-	'iHeight' => 900,
-	'aOption' => array(
-		'aDefault' => array(
-			'mWatermark' => array(
-				'sFilePath' => $sWaterMark_140x50,
-				'aEdge' => array(
-					'iRight' => 40,
-					'iDown' => 30
-				)
-			),
-			'bThumbnail' => true,
-			'sMode' => 'zoom', // cut
-			'sZoomMode' => 'scale', // fill
-			'sZoomScaleMode' => 'mix' // width,height
-		)
-	)
+    'iWidth' => 1200,
+    'iHeight' => 900,
+    'aOption' => array(
+        'aDefault' => array(
+            'mWatermark' => array(
+                'sFilePath' => $sWaterMark_140x50,
+                'aEdge' => array(
+                    'iRight' => 40,
+                    'iDown' => 30
+                )
+            ),
+            'bThumbnail' => true,
+            'sMode' => 'zoom', // cut
+            'sZoomMode' => 'scale', // fill
+            'sZoomScaleMode' => 'mix' // width,height
+        )
+    )
 );
 
-//与用户交互的通道
+// 与用户交互的通道
 $G_CONFIG['view']['aResize']['/ipo\.com/']['interact'][] = array(
-	'iWidth' => 96,
-	'iHeight' => 72,
-	'aOption' => array(
-		'aDefault' => $aThumbnailCfg
-	)
+    'iWidth' => 96,
+    'iHeight' => 72,
+    'aOption' => array(
+        'aDefault' => $aThumbnailCfg
+    )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['interact'][] = array(
-	'iWidth' => 220,
-	'iHeight' => 165,
-	'aOption' => array(
-		'aDefault' => $aThumbnailCfg
-	)
+    'iWidth' => 220,
+    'iHeight' => 165,
+    'aOption' => array(
+        'aDefault' => $aThumbnailCfg
+    )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['interact'][] = array(
-	'iWidth' => 900,
-	'iHeight' => 675,
-	'aOption' => array(
-		'aDefault' => array(
-			'mWatermark' => array(
-				'sFilePath' => $sWaterMark_140x50,
-				'aEdge' => array(
-					'iRight' => 40,
-					'iDown' => 30
-				)
-			),
-			'bThumbnail' => true,
-			'sMode' => 'zoom', // cut
-			'sZoomMode' => 'scale', // fill
-			'sZoomScaleMode' => 'mix' // width,height
-		)
-	)
+    'iWidth' => 900,
+    'iHeight' => 675,
+    'aOption' => array(
+        'aDefault' => array(
+            'mWatermark' => array(
+                'sFilePath' => $sWaterMark_140x50,
+                'aEdge' => array(
+                    'iRight' => 40,
+                    'iDown' => 30
+                )
+            ),
+            'bThumbnail' => true,
+            'sMode' => 'zoom', // cut
+            'sZoomMode' => 'scale', // fill
+            'sZoomScaleMode' => 'mix' // width,height
+        )
+    )
 );
 $G_CONFIG['view']['aResize']['/unknown|localhost/'] = array();
 $G_CONFIG['view']['aResize']['/unknown|localhost/'] = $G_CONFIG['view']['aResize']['/ipo\.com/'];

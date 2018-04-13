@@ -8,9 +8,9 @@ $G_CONFIG['common']['aImageType'] = array(
 );
 
 $G_CONFIG['common']['aCrossDomain'] = array(
-	'*.ananzu.com',
-	'*.anhouse.com',
-	'*.anhouse.cn',
+    '*.ananzu.com',
+    '*.anhouse.com',
+    '*.anhouse.cn',
     '*.ipo.com',
     '*.pinganfang.com',
     '*.anhouse.com.cn',

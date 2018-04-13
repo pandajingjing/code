@@ -13,7 +13,7 @@ use app\controller\base;
  */
 class miss extends base
 {
-    
+
     function doRequest()
     {
         /* 开始获取外部数据 */

@@ -13,7 +13,9 @@ use panda\lib\sys\bll;
  */
 class photo extends bll
 {
-    function a(){
+
+    function a()
+    {
         $this->getConfig();
     }
 }

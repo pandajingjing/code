@@ -16,7 +16,7 @@ class controller_sudoku extends controller_base
     function doRequest()
     {
         $aData = [];
-        $aOriData = $this->getParam('d','get');
+        $aOriData = $this->getParam('d', 'get');
         if ('' == $aOriData) {
             $aOriData = [];
         }

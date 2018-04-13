@@ -16,9 +16,9 @@ class controller_file extends controller_base
     function doRequest()
     {
         $sRootDir = '/data/winserver_share'; // 根目录,不可见
-        $sRootDir='/data/backup';
+        $sRootDir = '/data/backup';
         $sVScanDir = '/tv/成长的烦恼'; // 虚拟管理目录,可见
-        $sVScanDir='';
+        $sVScanDir = '';
         $sScanDir = $sRootDir . $sVScanDir; // 真实管理目录,不可见
         
         $iRename = $this->getParam('rename', 'post');
@@ -37,7 +37,7 @@ class controller_file extends controller_base
         ];
         
         $sPattern = $aPatternList['temp'];
-        //$sPattern='/(.*)\.(web)\.tar\.gz/i';
+        // $sPattern='/(.*)\.(web)\.tar\.gz/i';
         $bFound = false;
         
         foreach ($aScanFileList as $sFileName) {

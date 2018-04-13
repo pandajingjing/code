@@ -65,26 +65,30 @@ class viewcontroller extends filecontroller
                 $bErrFnd = true;
                 $mResult = $sErrMsg;
             } else {
-				if (3 == count($aParams) && in_array($aParams[0], array('document', 'project', 'export'))) {
-					$bIE = true;
-					if(false !==strpos($this->getParam('HTTP_USER_AGENT', 'server'),'Firefox')){
-	        			$bIE = false;
-					}
-					$aInfo = dao_dfsinfodao::getDetail($aParams[1]);
-					$sFileName = $aParams[1] . '.' . $aParams[2];
-					if (isset($aInfo['sFileName']) && !empty($aInfo['sFileName'])) {
-						$sFileName = str_replace(' ', '', $aInfo['sFileName']);
-						if ($bIE) {
-							$sFileName = urlencode($aInfo['sFileName']);
-						}
-					}
-					$this->addHeader("Content-type: application/octet-stream"); 
-					$this->addHeader("Accept-Ranges: bytes"); 
-					$this->addHeader("Content-Disposition: attachment; filename=" . $sFileName);
-					$this->addHeader("Accept-Encoding: compress, gzip");
-				} else {
-					$this->addHeader('Content-type: ' . $sMimeType);
-				}
+                if (3 == count($aParams) && in_array($aParams[0], array(
+                    'document',
+                    'project',
+                    'export'
+                ))) {
+                    $bIE = true;
+                    if (false !== strpos($this->getParam('HTTP_USER_AGENT', 'server'), 'Firefox')) {
+                        $bIE = false;
+                    }
+                    $aInfo = dao_dfsinfodao::getDetail($aParams[1]);
+                    $sFileName = $aParams[1] . '.' . $aParams[2];
+                    if (isset($aInfo['sFileName']) && ! empty($aInfo['sFileName'])) {
+                        $sFileName = str_replace(' ', '', $aInfo['sFileName']);
+                        if ($bIE) {
+                            $sFileName = urlencode($aInfo['sFileName']);
+                        }
+                    }
+                    $this->addHeader("Content-type: application/octet-stream");
+                    $this->addHeader("Accept-Ranges: bytes");
+                    $this->addHeader("Content-Disposition: attachment; filename=" . $sFileName);
+                    $this->addHeader("Accept-Encoding: compress, gzip");
+                } else {
+                    $this->addHeader('Content-type: ' . $sMimeType);
+                }
                 $this->addHeader('Cache-Control: max-age=315360000');
                 // $this->addHeader('Expires: '.date('r',$this->getTime()+315360000));
                 // $this->addHeader('Last-Modified: ' . date('r', 1395891028));
@@ -95,7 +99,10 @@ class viewcontroller extends filecontroller
         if ($bErrFnd) {
             $this->addHeader('DFS-Info: ' . $mResult);
             $this->addHeader('HTTP/1.0 404 Not Found');
-            $this->addLog(array($mResult,$_SERVER),'unknown_404');
+            $this->addLog(array(
+                $mResult,
+                $_SERVER
+            ), 'unknown_404');
         }
         $this->setData('bErrFnd', $bErrFnd);
         $this->setData('oFile', $mResult);

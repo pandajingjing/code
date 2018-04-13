@@ -275,5 +275,4 @@ class bll_mq_domsg extends bll_mq_base
      */
     function sendWarningMail($p_sTitle, $p_sContent)
     {}
-    
 }

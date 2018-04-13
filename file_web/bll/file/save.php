@@ -65,7 +65,7 @@ class bll_file_save extends bll_file_base
                     return $this->returnErrors(util_error::getErrors());
                 }
                 
-                $sFileKey=md5($p_blFile).sha1($p_blFile);
+                $sFileKey = md5($p_blFile) . sha1($p_blFile);
             } else {
                 throw new Exception(__CLASS__ . ': configuration(' . $p_sDomainKey . '/' . $p_sBiz . ') lost.');
             }

@@ -28,11 +28,11 @@ class bll_file extends bll_bll
         'document',
         'idcard',
         'secret',
-		'ahb',
-    	'project',
-    	'export',
-    	'interact',
-    	'agreement'
+        'ahb',
+        'project',
+        'export',
+        'interact',
+        'agreement'
     );
 
     /**

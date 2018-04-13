@@ -14,6 +14,7 @@ use panda\util\error;
  */
 class wechat extends bll
 {
+
     // appid: wx409cd62da08d6c50
     // appsecret: 7b5da5c86bbf73a645b14d91dd90d0fa
     // EncodingAESKey: cCFX9C0rLb3IKtpitAAdUl0YRUKteTwiZcQ3AzSKj2x

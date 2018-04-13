@@ -1,4 +1,4 @@
 <?php
 return [
-    'sSelfSchemeDomain' => 'http://www.master.dev.jxulife.com',
+    'sSelfSchemeDomain' => 'http://www.master.dev.jxulife.com'
 ];

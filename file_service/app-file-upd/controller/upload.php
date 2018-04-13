@@ -53,15 +53,15 @@ class uploadcontroller extends filecontroller
         
         $sOrigin = '';
         if (isset($_SERVER['HTTP_ORIGIN'])) {
-        	$sOrigin = $_SERVER['HTTP_ORIGIN'];
+            $sOrigin = $_SERVER['HTTP_ORIGIN'];
         } else if (strlen($sFromURL) > 0) {
-        	$sOrigin = $sFromURL;
+            $sOrigin = $sFromURL;
         }
-        if (!empty($sOrigin)) {
-        	$aUrl = parse_url($sOrigin);
-        	if (is_array($aUrl) && isset($aUrl['host'])) {
-        		$this->addHeader(sprintf('Access-Control-Allow-Origin:%s://%s', $aUrl['scheme'], $aUrl['host']));
-        	}	
+        if (! empty($sOrigin)) {
+            $aUrl = parse_url($sOrigin);
+            if (is_array($aUrl) && isset($aUrl['host'])) {
+                $this->addHeader(sprintf('Access-Control-Allow-Origin:%s://%s', $aUrl['scheme'], $aUrl['host']));
+            }
         }
         $this->setData('sCrossDomain', $oBll->getCrossDomain($this->getParam('needjs', 'get')));
         $this->setData('jsonErrMsg', json_encode($aErrMsg));

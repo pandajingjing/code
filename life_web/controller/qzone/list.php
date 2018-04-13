@@ -15,7 +15,6 @@ class controller_qzone_list extends controller_qzone_base
 
     function doRequest()
     {
-        
         return 'home_home';
     }
 }

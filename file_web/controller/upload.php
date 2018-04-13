@@ -45,7 +45,7 @@ class controller_upload extends lib_controller_service
                 }
             }
         }
-        debug(util_crypt::enCrypt('jxulife','0fc613bdc6'));
+        debug(util_crypt::enCrypt('jxulife', '0fc613bdc6'));
         $aResult = bclient_file_save::chkAllowedDomain($sFromURL, $sAgent);
         if (1 === $aResult['iStatus']) {
             $sDomainKey = $aResult['mOne'];
@@ -54,7 +54,7 @@ class controller_upload extends lib_controller_service
             $sIp = $this->getParam('CLIENTIP', 'server');
             $iTime = $this->getVisitTime();
             $aUpdResult = [];
-            //debug($aFiles);
+            // debug($aFiles);
             foreach ($aFiles as $aFile) {
                 if ($aFile['error'] > 0) {
                     util_error::initError();

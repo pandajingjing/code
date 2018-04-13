@@ -1,9 +1,9 @@
 <?php
-if('' != $aData['sCrossDomain']){
-	echo '<script>document.domain="' . $aData['sCrossDomain'] . '"</script>';
+if ('' != $aData['sCrossDomain']) {
+    echo '<script>document.domain="' . $aData['sCrossDomain'] . '"</script>';
 }
-if($aData['bErrFnd']){
-	echo $aData['jsonErrMsg'];
-}else{
-	echo $aData['jsonCropFiles'];
+if ($aData['bErrFnd']) {
+    echo $aData['jsonErrMsg'];
+} else {
+    echo $aData['jsonCropFiles'];
 }

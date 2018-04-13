@@ -17,5 +17,4 @@ class Controller_Journal extends Controller_Base
     {
         return 'Journal';
     }
-
 }

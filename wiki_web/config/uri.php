@@ -23,6 +23,26 @@ return [
         'sHome' => [
             '/',
             []
+        ],
+        'sInfoEditBase' => [
+            '/info/edit/',
+            []
+        ],
+        'sInfoEditPwd' => [
+            '/info/editpwd/',
+            []
+        ],
+        'sInfoEditPwd' => [
+            '/',
+            []
+        ],
+        'sScoreHome' => [
+            '/score/home/',
+            []
+        ],
+        'sScoreListing' => [
+            '/score/listing/',
+            []
         ]
     ],
     'sPaySchemeDomain' => [

@@ -130,7 +130,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
@@ -157,7 +157,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
@@ -184,7 +184,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
@@ -204,7 +204,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/'][''][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 // 头像尺寸
@@ -437,7 +437,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
@@ -487,8 +487,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
-        ) // width,height
-,
+        ), // width,height
         'ananzu' => array(
             'mWatermark' => array(
                 'sFilePath' => $sWaterMark_140x50_ananzu,
@@ -500,8 +499,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sMode' => 'zoom', // cut
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
-        ) // width,height
-,
+        ), // width,height
         'ananzupz' => array(
             'mWatermark' => false,
             'bThumbnail' => true,
@@ -509,7 +507,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
@@ -529,7 +527,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['house'][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 // 身份证
@@ -544,7 +542,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
@@ -558,7 +556,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 
@@ -579,7 +577,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['idcard'][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 
@@ -615,7 +613,7 @@ $G_CONFIG['view']['aResize']['/ipo\.com/']['interact'][] = array(
             'sZoomMode' => 'scale', // fill
             'sZoomScaleMode' => 'mix'
         ) // width,height
-
+    
     )
 );
 $G_CONFIG['view']['aResize']['/unknown|localhost/'] = array();

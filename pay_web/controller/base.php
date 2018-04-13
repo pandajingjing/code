@@ -1,27 +1,20 @@
 <?php
 /**
  * base
- * 
+ *
  * @namespace app\controller
  */
 namespace app\controller;
 
 use panda\lib\controller\web;
 use panda\util\guid;
-use member_service\bll\session;
+use common_service\bll\session;
 
 /**
  * base
  */
 abstract class base extends web
 {
-
-    /**
-     * 脚本开始时间
-     *
-     * @var string
-     */
-    const DKEY_SCRIPT_STARTTIME = 'fScriptStartTime';
 
     /**
      * session数据
@@ -31,43 +24,61 @@ abstract class base extends web
     const DKEY_SESSION = 'oSession';
 
     /**
-     * 当前登陆用户ID
-     *
-     * @var int
-     */
-    const DKEY_MEMBER_ID = 'iMemberId';
-
-    /**
      * 在控制器开始时执行（调度使用）
      */
     function beforeRequest()
     {
         parent::beforeRequest();
         // do something
-        // 外界参数
+        /* 开始获取外部数据 */
         $sGuid = $this->getParam('guid', 'cookie');
-        // 本页参数
-        $this->setControllerData(self::DKEY_SCRIPT_STARTTIME, $this->getRealTime(true));
-        $aTopUrl = [
-            'sHome' => $this->createInUrl('\\app\\controller\\home\\home')
-        ];
-        // 代码参数
+        $iVisitTime = $this->getVisitTime();
+        /* 获取外部数据结束 */
+        
+        /* 开始生成当前控制器所需的变量 */
+        $aTopUrl = []; // 顶部菜单
+        $aTopUrl['sHome'] = $this->createInUrl('\\app\\controller\\home\\home'); // 当前首页
+        $aTopUrl['sWWW'] = $this->createOutUrl('sWwwSchemeDomain', 'sHome'); // www首页
+        $aTopUrl['sWiki'] = $this->createOutUrl('sWikiSchemeDomain', 'sHome'); // wiki首页
+        $aTopUrl['sMall'] = $this->createOutUrl('sMallSchemeDomain', 'sHome'); // 商城首页
+        $aTopUrl['aMember']['sHome'] = $this->createOutUrl('sMemberSchemeDomain', 'sHome'); // 用户中心-首页
+        /* 用户中心-账户与安全-开始 */
+        $aTopUrl['aMember']['aInfo']['sEditBase'] = $this->createOutUrl('sMemberSchemeDomain', 'sInfoEditBase'); // 修改基本信息
+        $aTopUrl['aMember']['aInfo']['sEditPwd'] = $this->createOutUrl('sMemberSchemeDomain', 'sInfoEditPwd'); // 修改密码
+        $aTopUrl['aMember']['aInfo']['sBindMobile'] = $this->createOutUrl('sMemberSchemeDomain', 'sInfoEditPwd'); // 绑定手机
+        /* 用户中心-账户与安全-结束 */
+        /* 用户中心-我的积分-开始 */
+        $aTopUrl['aMember']['aScore']['sHome'] = $this->createOutUrl('sMemberSchemeDomain', 'sScoreHome'); // 积分首页
+        $aTopUrl['aMember']['aScore']['sListing'] = $this->createOutUrl('sMemberSchemeDomain', 'sScoreListing'); // 积分明细
+        /* 用户中心-我的积分-结束 */
+        /* 生成当前控制器所需的变量结束 */
+        
+        /* 开始初始化业务逻辑代码所需的变量 */
+        /* 初始化业务逻辑代码所需的变量结束 */
+        
+        /* 控制器逻辑代码开始 */
         if ('' == $sGuid) {
             $sGuid = guid::getGuid();
         }
-        $this->setCookie('guid', $sGuid, 31536000);
-        // 加载session
-        $oBllSession = new session($sGuid, $this->getVisitTime());
+        $oBllSession = new session($sGuid, $iVisitTime); // 加载session
         $oBllSession->setClientIp($this->getParam('CLIENTIP', 'server'));
         $oBllSession->setUserAgent($this->getParam('HTTP_USER_AGENT', 'server'));
         $oBllSession->load();
-        // 外界参数
+        /* 控制器逻辑代码结束 */
+        
+        /* 开始设置外部数据 */
+        $this->setCookie('guid', $sGuid, 31536000);
         $this->setPageData('sRemoteIp', $this->getParam('CLIENTIP', 'server'));
-        // 本页参数
-        $this->setControllerData(self::DKEY_SESSION, $oBllSession);
-        $this->setPageData('iVisitTime', $this->getVisitTime());
+        /* 设置外部数据结束 */
+        
+        /* 开始设置当前控制器所生成的变量 */
         $this->setPageData('aTopUrl', $aTopUrl);
-        // 代码参数
+        $this->setPageData('iVisitTime', $iVisitTime);
+        /* 设置当前控制器所生成的变量结束 */
+        
+        /* 开始设置业务逻辑代码所生成的变量 */
+        $this->setControllerData(self::DKEY_SESSION, $oBllSession);
+        /* 设置业务逻辑代码所生成的变量结束 */
     }
 
     /**
@@ -76,17 +87,30 @@ abstract class base extends web
     function afterRequest()
     {
         // do something
-        // 外界参数
-        // 本页参数
-        $fScriptStartTime = $this->getControllerData(self::DKEY_SCRIPT_STARTTIME);
-        // 代码参数
+        /* 开始获取外部数据 */
+        /* 获取外部数据结束 */
+        
+        /* 开始生成当前控制器所需的变量 */
+        /* 生成当前控制器所需的变量结束 */
+        
+        /* 开始初始化业务逻辑代码所需的变量 */
         $oBllSession = $this->getControllerData(self::DKEY_SESSION);
+        /* 初始化业务逻辑代码所需的变量结束 */
+        
+        /* 控制器逻辑代码开始 */
         $oBllSession->save();
-        // 外界参数
-        // 本页参数
         $fScriptEndTime = $this->getRealTime(true);
-        $this->setPageData('fScriptTime', $fScriptEndTime - $fScriptStartTime);
-        // 代码参数
+        /* 控制器逻辑代码结束 */
+        
+        /* 开始设置外部数据 */
+        /* 设置外部数据结束 */
+        
+        /* 开始设置当前控制器所生成的变量 */
+        $this->setPageData('fScriptTime', $fScriptEndTime - PANDA_STARTTIME);
+        /* 设置当前控制器所生成的变量结束 */
+        
+        /* 开始设置业务逻辑代码所生成的变量 */
+        /* 设置业务逻辑代码所生成的变量结束 */
         parent::afterRequest();
     }
 

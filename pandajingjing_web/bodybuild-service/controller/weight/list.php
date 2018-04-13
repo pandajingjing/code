@@ -21,7 +21,8 @@ class Controller_Weight_List extends Controller_Sys_Service
 
     /**
      * 解析查询条件
-     * @param unknown $p_sSearchKey
+     *
+     * @param unknown $p_sSearchKey            
      * @return multitype:
      */
     private function _parseSearchKey($p_sSearchKey)
