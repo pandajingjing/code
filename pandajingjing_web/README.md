@@ -1,4 +1,4 @@
-# code-wolong-web
+# code-pandajingjing_web
 
 Web端业务频道逻辑
 
